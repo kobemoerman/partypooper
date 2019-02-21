@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/loginbg"
+    tools:context=".RegisterActivity">
+
+    <ImageView
+        android:id="@+id/logoViewReg"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:elevation="7dp"
+        app:srcCompat="@drawable/loginlogo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <View
+        android:id="@+id/lineTopReg"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@id/logoViewReg"
+        android:layout_marginLeft="75dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="75dp"
+        android:elevation="3dp"
+        android:background="@drawable/shadow_rect">
+    </View>
+
+    <EditText
+        android:id="@+id/usernameTextReg"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/lineTopReg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="#11000000"
+        android:hint="@string/usernameRegister"
+        android:inputType="textPersonName"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/ageTextReg"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/usernameTextReg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="#11000000"
+        android:hint="@string/birthdayRegister"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/mailTextReg"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/ageTextReg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="#11000000"
+        android:hint="@string/mailRegister"
+        android:inputType="textEmailAddress"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/keyTextReg"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/mailTextReg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="#11000000"
+        android:hint="@string/keyRegister"
+        android:inputType="textPassword"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/confirmTextReg"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/keyTextReg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="#11000000"
+        android:hint="@string/confirmRegister"
+        android:inputType="textPassword"
+        android:textSize="16sp" />
+
+    <View
+        android:id="@+id/lineBottomReg"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@id/confirmTextReg"
+        android:layout_marginLeft="75dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="75dp"
+        android:elevation="3dp"
+        android:background="@drawable/shadow_rect">
+    </View>
+
+    <TextView
+        android:id="@+id/termsOfService1TextReg"
+        android:layout_width="400dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/lineBottomReg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/termsOfService1Register"
+        android:textColor="@android:color/background_dark"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/termsOfService2TextReg"
+        android:layout_width="400dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/termsOfService1TextReg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-25dp"
+        android:gravity="center"
+        android:text="@string/termsOfService2Register"
+        android:textColor="@android:color/background_dark"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/registerButtonReg"
+        android:layout_width="275dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/termsOfService2TextReg"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:text="@string/signUpAcceptRegister"
+        android:background="@drawable/shadow_rect"
+        android:textColor="@android:color/background_light"
+        android:elevation="5dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBarReg"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/registerButtonReg"
+        android:layout_alignTop="@+id/registerButtonReg"
+        android:layout_alignEnd="@+id/registerButtonReg"
+        android:layout_alignBottom="@+id/registerButtonReg"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp" />
+
+</RelativeLayout>

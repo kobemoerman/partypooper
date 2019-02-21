@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "693872067870",
+    "firebase_url": "https://partypooperapp-d7ade.firebaseio.com",
+    "project_id": "partypooperapp-d7ade",
+    "storage_bucket": "partypooperapp-d7ade.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693872067870:android:929e0067300a9765",
+        "android_client_info": {
+          "package_name": "com.application.android.partypooper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693872067870-1meohin0kh57s3kr7scgj6q823c2dqa6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.application.android.partypooper",
+            "certificate_hash": "895f8a6b17e0bcf0a1e22bf09df63dab04fc1f22"
+          }
+        },
+        {
+          "client_id": "693872067870-s23djhdvgdirjll29f9rb0ni9mft5ffg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJSXkpD2dQbQyOKx5kINv2OZC434m4jZg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693872067870-s23djhdvgdirjll29f9rb0ni9mft5ffg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
