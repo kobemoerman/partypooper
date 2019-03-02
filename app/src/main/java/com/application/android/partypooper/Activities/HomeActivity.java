@@ -28,6 +28,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void navigationButtonListener() {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

@@ -110,7 +110,7 @@ public class RegisterActivity extends AppCompatActivity {
         HashMap userMap = new HashMap();
         userMap.put("username",username);
         userMap.put("status",status);
-        userMap.put("gender","none");
+        userMap.put("gender","");
         userMap.put("age",age);
 
         userRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
