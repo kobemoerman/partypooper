@@ -1,4 +1,4 @@
-package com.application.android.partypooper;
+package com.application.android.partypooper.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -16,13 +16,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.application.android.partypooper.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,6 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference userRef;
+    private String currentUserID;
 
     private TextView mDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
@@ -78,31 +83,55 @@ public class RegisterActivity extends AppCompatActivity {
                 String confirm = confirmationEditText.getText().toString();
 
                 if (!isEmailValid(email)){
-                    showMessage("Enter Valid E-mail",true);
+                    showMessage("Enter valid e-mail",true);
                     return;
                 }
 
                 if (TextUtils.isEmpty(password)) {
-                    showMessage("Enter Password",true);
+                    showMessage("Enter password",true);
                     return;
                 }
 
                 if (!password.equals(confirm) || TextUtils.isEmpty(confirm)) {
-                    showMessage("Different Password Confirmation",true);
+                    showMessage("Passwords don't match",true);
                     return;
                 }
-                createUserAccount(email,password);
+                createUserAccount(email,password,username,age);
             }
         });
     }
 
-    private void createUserAccount(String email, String password) {
+    private void saveUserInformation(String username, String age) {
+        String status = "Hi, I'm using PartyPooper!";
+
+        currentUserID = mAuth.getCurrentUser().getUid();
+        userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+
+        HashMap userMap = new HashMap();
+        userMap.put("username",username);
+        userMap.put("status",status);
+        userMap.put("gender","none");
+        userMap.put("age",age);
+
+        userRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if (task.isSuccessful()){
+                    showMessage("Account Created",false);
+                    updateUI();
+                } else {
+                    showMessage(task.getException().getMessage(),true);
+                }
+            }
+        });
+    }
+
+    private void createUserAccount(String email, String password, final String username, final String age) {
         mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    showMessage("Account Created",false);
-                    updateUI();
+                    saveUserInformation(username,age);
                 } else {
                     showMessage(task.getException().getMessage(),true);
                 }
@@ -142,7 +171,8 @@ public class RegisterActivity extends AppCompatActivity {
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                String date = day + "/" + month+1 + "/" + year;
+                month = month+1;
+                String date = day + "/" + month + "/" + year;
                 mDate.setText(date);
                 mDate.setTextColor(Color.BLACK);
             }

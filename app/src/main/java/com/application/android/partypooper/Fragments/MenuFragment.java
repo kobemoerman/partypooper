@@ -1,4 +1,4 @@
-package com.application.android.partypooper;
+package com.application.android.partypooper.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,11 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
-public class FriendsFragment extends Fragment {
+import com.application.android.partypooper.R;
+
+public class MenuFragment extends Fragment {
+
+    private Button loginButton;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_friends, container, false);
+        return inflater.inflate(R.layout.fragment_menu, container, false);
     }
 }

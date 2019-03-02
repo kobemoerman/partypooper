@@ -1,4 +1,4 @@
-package com.application.android.partypooper;
+package com.application.android.partypooper.Activities;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -6,6 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import com.application.android.partypooper.Fragments.EventsFragment;
+import com.application.android.partypooper.Fragments.FriendsFragment;
+import com.application.android.partypooper.Fragments.HomeFragment;
+import com.application.android.partypooper.Fragments.MenuFragment;
+import com.application.android.partypooper.R;
 
 public class HomeActivity extends AppCompatActivity {
 
