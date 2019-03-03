@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/loginbg"
-    tools:context=".Activities.RegisterActivity">
+    tools:context=".Activitie.RegisterActivity">
 
     <ImageView
         android:id="@+id/logoViewReg"
@@ -112,7 +112,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="@string/termsOfService1Register"
-        android:textColor="@android:color/background_dark"
+        android:textColor="@color/black_light"
         android:textSize="12sp" />
 
     <TextView
@@ -124,7 +124,7 @@
         android:layout_marginTop="-25dp"
         android:gravity="center"
         android:text="@string/termsOfService2Register"
-        android:textColor="@android:color/background_dark"
+        android:textColor="@color/black"
         android:textSize="12sp" />
 
     <Button

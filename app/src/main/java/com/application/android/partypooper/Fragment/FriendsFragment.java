@@ -1,0 +1,118 @@
+package com.application.android.partypooper.Fragment;
+
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.application.android.partypooper.Adapter.UserAdapter;
+import com.application.android.partypooper.Model.User;
+import com.application.android.partypooper.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class FriendsFragment extends Fragment {
+
+    private EditText searchBar;
+
+    private RecyclerView recyclerView;
+    private UserAdapter userAdapter;
+    private List<User> mUsers;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_friends, container, false);
+
+        recyclerView = view.findViewById(R.id.friends_recycler);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        searchBar = view.findViewById(R.id.searchBar);
+
+        mUsers = new ArrayList<>();
+        userAdapter = new UserAdapter(getContext(),mUsers);
+        recyclerView.setAdapter(userAdapter);
+
+        readUsers();
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchQuery(s.toString().toLowerCase());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        return view;
+    }
+
+    private void searchQuery (String s) {
+        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username").startAt(s).endAt(s+"\uf8ff");
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mUsers.clear();
+                for (DataSnapshot snp : dataSnapshot.getChildren()) {
+                    User user = snp.getValue(User.class);
+                    mUsers.add(user);
+                }
+                userAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void readUsers () {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (searchBar.getText().toString().equals("")) {
+                    mUsers.clear();
+
+                    for (DataSnapshot snp : dataSnapshot.getChildren()) {
+                        User user = snp.getValue(User.class);
+                        System.out.println("User id " + user.getId() + " username " + user.getUsername() + " age " + user.getAge() + " gender " + user.getGender() + " status " + user.getStatus());
+                        mUsers.add(user);
+                    }
+
+                    userAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+}

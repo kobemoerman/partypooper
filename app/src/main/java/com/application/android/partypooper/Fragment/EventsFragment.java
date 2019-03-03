@@ -1,4 +1,4 @@
-package com.application.android.partypooper.Fragments;
+package com.application.android.partypooper.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

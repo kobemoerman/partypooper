@@ -1,4 +1,4 @@
-package com.application.android.partypooper.Fragments;
+package com.application.android.partypooper.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 import com.application.android.partypooper.R;
 
-public class FriendsFragment extends Fragment {
+public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_friends, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 }

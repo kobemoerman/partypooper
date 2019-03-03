@@ -1,4 +1,4 @@
-package com.application.android.partypooper.Activities;
+package com.application.android.partypooper.Activitie;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -102,12 +102,13 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void saveUserInformation(String username, String age) {
-        String status = "Hi, I'm using PartyPooper!";
+        final String status = "Hi, I'm using PartyPooper!";
 
         currentUserID = mAuth.getCurrentUser().getUid();
         userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
 
         HashMap userMap = new HashMap();
+        userMap.put("id",currentUserID);
         userMap.put("username",username);
         userMap.put("status",status);
         userMap.put("gender","");
