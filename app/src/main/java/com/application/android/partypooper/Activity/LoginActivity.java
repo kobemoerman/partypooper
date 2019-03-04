@@ -1,4 +1,4 @@
-package com.application.android.partypooper.Activitie;
+package com.application.android.partypooper.Activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;

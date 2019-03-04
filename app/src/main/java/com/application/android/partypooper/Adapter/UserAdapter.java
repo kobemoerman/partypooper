@@ -54,23 +54,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         //Glide.with(mContext).load(user.getImgURL()).into(viewHolder.icon);
         isFriends(user.getId(), viewHolder.followBtn);
 
-        if (user.getId().equals(firebaseUser.getUid())) {
-            viewHolder.followBtn.setVisibility(View.GONE);
-        }
-
         viewHolder.followBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (viewHolder.followBtn.getText().toString().equals("Add")) {
                     FirebaseDatabase.getInstance().getReference().child("Friends").child(firebaseUser.getUid())
-                            .child("following").child(user.getId()).setValue(true);
-                    FirebaseDatabase.getInstance().getReference().child("Friends").child(user.getId())
-                            .child("followers").child(firebaseUser.getUid()).setValue(true);
+                            .child(user.getId()).setValue(true);
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Friends").child(firebaseUser.getUid())
-                            .child("following").child(user.getId()).removeValue();
-                    FirebaseDatabase.getInstance().getReference().child("Friends").child(user.getId())
-                            .child("followers").child(firebaseUser.getUid()).removeValue();
+                            .child(user.getId()).removeValue();
                 }
             }
         });
@@ -82,13 +74,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     private void isFriends(final String userid, final Button button) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Friends").
-                child(firebaseUser.getUid()).child("following");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Friends")
+                .child(firebaseUser.getUid());
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(userid).exists()) {
-                    button.setText("Friends");
+                    button.setText("Remove");
                 } else {
                     button.setText("Add");
                 }

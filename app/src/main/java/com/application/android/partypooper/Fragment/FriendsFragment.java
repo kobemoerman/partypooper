@@ -16,6 +16,8 @@ import android.widget.EditText;
 import com.application.android.partypooper.Adapter.UserAdapter;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +32,7 @@ public class FriendsFragment extends Fragment {
 
     private EditText searchBar;
 
+    private FirebaseUser firebaseUser;
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private List<User> mUsers;
@@ -38,6 +41,8 @@ public class FriendsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         recyclerView = view.findViewById(R.id.friends_recycler);
         recyclerView.setHasFixedSize(true);
@@ -49,7 +54,14 @@ public class FriendsFragment extends Fragment {
         userAdapter = new UserAdapter(getContext(),mUsers);
         recyclerView.setAdapter(userAdapter);
 
-        readUsers();
+        friendsQueryDatabase();
+
+        return view;
+    }
+
+    private void friendsQueryDatabase() {
+        displayUsers(searchQuery(false,""));
+
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -58,7 +70,7 @@ public class FriendsFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                searchQuery(s.toString().toLowerCase());
+                displayUsers(searchQuery(true,s.toString().toLowerCase()));
             }
 
             @Override
@@ -66,20 +78,18 @@ public class FriendsFragment extends Fragment {
 
             }
         });
-
-        return view;
     }
 
-    private void searchQuery (String s) {
-        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username").startAt(s).endAt(s+"\uf8ff");
-
-        query.addValueEventListener(new ValueEventListener() {
+    private void displayUsers (Query mQuery) {
+        mQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {
                     User user = snp.getValue(User.class);
-                    mUsers.add(user);
+                    if (!user.getId().equals(firebaseUser.getUid())) {
+                        mUsers.add(user);
+                    }
                 }
                 userAdapter.notifyDataSetChanged();
             }
@@ -91,28 +101,15 @@ public class FriendsFragment extends Fragment {
         });
     }
 
-    private void readUsers () {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (searchBar.getText().toString().equals("")) {
-                    mUsers.clear();
+    private Query searchQuery (Boolean onTextChange, String s) {
+        Query mQuery;
 
-                    for (DataSnapshot snp : dataSnapshot.getChildren()) {
-                        User user = snp.getValue(User.class);
-                        System.out.println("User id " + user.getId() + " username " + user.getUsername() + " age " + user.getAge() + " gender " + user.getGender() + " status " + user.getStatus());
-                        mUsers.add(user);
-                    }
+        if (onTextChange) {
+            mQuery = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username").startAt(s).endAt(s + "\uf8ff");
+        } else {
+            mQuery = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username");
+        }
 
-                    userAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        return mQuery;
     }
 }

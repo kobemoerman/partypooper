@@ -1,4 +1,4 @@
-package com.application.android.partypooper.Activitie;
+package com.application.android.partypooper.Activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;

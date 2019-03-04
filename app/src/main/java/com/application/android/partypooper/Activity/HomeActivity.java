@@ -1,4 +1,4 @@
-package com.application.android.partypooper.Activitie;
+package com.application.android.partypooper.Activity;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
