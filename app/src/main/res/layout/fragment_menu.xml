@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginTop="20dp">
+        android:layout_height="250dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="237dp"
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/userImg"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
-                tools:srcCompat="@android:drawable/sym_def_app_icon"/>
+                android:src="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/profUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
+                android:text="Username"
                 android:textColor="@color/black"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:text="Username"/>
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/userStatus"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
-                android:textAlignment="center"
                 android:layout_marginTop="15dp"
+                android:maxLines="3"
+                android:text="&quot;Hi, I'm using PartyPooper!&quot;"
+                android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="13dp"
-                android:text="&quot;Hi, I'm using PartyPooper!&quot;" />
+                android:textSize="13dp" />
 
         </LinearLayout>
 
@@ -50,15 +57,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:orientation="horizontal"
         android:weightSum="2">
 
         <LinearLayout
-            android:layout_height="match_parent"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -66,23 +73,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Friends"
                 android:textSize="18dp"
-                android:textStyle="bold"
-                android:text="Friends"/>
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/userFriends"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="0"
                 android:textColor="@color/colorPrimary"
                 android:textSize="25dp"
-                android:textStyle="bold"
-                android:paddingTop="10dp"
-                android:text="0"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_height="match_parent"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -90,17 +99,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Age"
                 android:textSize="18dp"
-                android:textStyle="bold"
-                android:text="Age"/>
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/userAge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="0"
                 android:textColor="@color/colorPrimary"
                 android:textSize="25dp"
-                android:textStyle="bold"
-                android:paddingTop="10dp"
-                android:text="0"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -110,42 +121,64 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="35dp"
-        android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
         <Button
+            android:id="@+id/updateProfileButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Update Profile"
-            android:background="@drawable/border_light"/>
+            android:background="@drawable/border_light"
+            android:text="Update Profile" />
+
         <Button
+            android:id="@+id/friendsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Friends"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/border_light"/>
+            android:background="@drawable/border_light"
+            android:text="Friends" />
+
         <Button
+            android:id="@+id/eventsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Events"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/border_light"/>
+            android:background="@drawable/border_light"
+            android:text="Events" />
+
         <Button
+            android:id="@+id/settingsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Settings"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/border_light"/>
+            android:background="@drawable/border_light"
+            android:text="Settings" />
+
         <Button
+            android:id="@+id/logOutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Log Out"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/border_light"/>
+            android:background="@drawable/border_light"
+            android:text="Log Out" />
+
+        <ImageView
+            android:id="@+id/logoMenuFragment"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="35dp"
+            android:layout_gravity="center"
+            android:src="@drawable/loginlogo"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:text="PartyPooper Application!"/>
 
     </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
