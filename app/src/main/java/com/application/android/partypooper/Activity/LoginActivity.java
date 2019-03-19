@@ -49,10 +49,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginClickListener() {
-        userMail = findViewById(R.id.usernameText);
-        userPassword = findViewById(R.id.passwordText);
-        loginButton = findViewById(R.id.loginButton);
-        progressBar = findViewById(R.id.progressBarLogin);
+        userMail = findViewById(R.id.login_username);
+        userPassword = findViewById(R.id.login_password);
+        loginButton = findViewById(R.id.login_login_button);
+        progressBar = findViewById(R.id.login_progress_bar);
 
         progressBar.setVisibility(View.INVISIBLE);
 

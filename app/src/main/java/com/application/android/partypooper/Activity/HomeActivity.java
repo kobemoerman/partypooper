@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void navigationButtonListener() {
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        BottomNavigationView bottomNav = findViewById(R.id.home_bottom_nav);
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -56,6 +56,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void updateFragment (Fragment selected) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container, selected).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.home_fragement_container, selected).commit();
     }
 }

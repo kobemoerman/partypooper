@@ -1,6 +1,8 @@
 package com.application.android.partypooper.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -51,7 +53,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         viewHolder.followBtn.setVisibility(View.VISIBLE);
         viewHolder.username.setText(user.getUsername());
         viewHolder.status.setText(user.getStatus());
-        //Glide.with(mContext).load(user.getImgURL()).into(viewHolder.icon);
+
         isFriends(user.getId(), viewHolder.followBtn);
 
         viewHolder.followBtn.setOnClickListener(new View.OnClickListener() {

@@ -9,7 +9,7 @@
     tools:context=".Activity.RegisterActivity">
 
     <ImageView
-        android:id="@+id/logoViewReg"
+        android:id="@+id/resgister_logo_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerInParent="true"
@@ -20,10 +20,10 @@
         android:layout_centerHorizontal="true" />
 
     <View
-        android:id="@+id/lineTopReg"
+        android:id="@+id/register_line_top"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:layout_below="@id/logoViewReg"
+        android:layout_below="@id/resgister_logo_image"
         android:layout_marginLeft="75dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="75dp"
@@ -32,10 +32,10 @@
     </View>
 
     <EditText
-        android:id="@+id/usernameTextReg"
+        android:id="@+id/register_username"
         android:layout_width="225dp"
         android:layout_height="40dp"
-        android:layout_below="@+id/lineTopReg"
+        android:layout_below="@+id/register_line_top"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:background="#11000000"
@@ -44,11 +44,11 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/ageTextReg"
+        android:id="@+id/register_age"
         android:layout_width="225dp"
         android:layout_height="40dp"
         android:gravity="center_vertical"
-        android:layout_below="@+id/usernameTextReg"
+        android:layout_below="@+id/register_username"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:background="#11000000"
@@ -56,10 +56,10 @@
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/mailTextReg"
+        android:id="@+id/register_email"
         android:layout_width="225dp"
         android:layout_height="40dp"
-        android:layout_below="@+id/ageTextReg"
+        android:layout_below="@+id/register_age"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:background="#11000000"
@@ -68,10 +68,10 @@
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/keyTextReg"
+        android:id="@+id/register_password"
         android:layout_width="225dp"
         android:layout_height="40dp"
-        android:layout_below="@+id/mailTextReg"
+        android:layout_below="@+id/register_email"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:background="#11000000"
@@ -80,10 +80,10 @@
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/confirmTextReg"
+        android:id="@+id/register_password_confirm"
         android:layout_width="225dp"
         android:layout_height="40dp"
-        android:layout_below="@+id/keyTextReg"
+        android:layout_below="@+id/register_password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:background="#11000000"
@@ -92,10 +92,10 @@
         android:textSize="16sp" />
 
     <View
-        android:id="@+id/lineBottomReg"
+        android:id="@+id/register_line_bottom"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:layout_below="@id/confirmTextReg"
+        android:layout_below="@id/register_password_confirm"
         android:layout_marginLeft="75dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="75dp"
@@ -104,10 +104,10 @@
     </View>
 
     <TextView
-        android:id="@+id/termsOfService1TextReg"
+        android:id="@+id/register_terms_of_service_1"
         android:layout_width="400dp"
         android:layout_height="40dp"
-        android:layout_below="@+id/lineBottomReg"
+        android:layout_below="@+id/register_line_bottom"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:gravity="center"
@@ -116,10 +116,10 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/termsOfService2TextReg"
+        android:id="@+id/register_terms_of_service_2"
         android:layout_width="400dp"
         android:layout_height="40dp"
-        android:layout_below="@+id/termsOfService1TextReg"
+        android:layout_below="@+id/register_terms_of_service_1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-25dp"
         android:gravity="center"
@@ -128,11 +128,11 @@
         android:textSize="12sp" />
 
     <Button
-        android:id="@+id/registerButtonReg"
+        android:id="@+id/register_register_button"
         android:layout_width="275dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/termsOfService2TextReg"
+        android:layout_below="@id/register_terms_of_service_2"
         android:layout_centerHorizontal="true"
         android:textSize="20sp"
         android:text="@string/signUpAcceptRegister"
@@ -141,14 +141,14 @@
         android:elevation="5dp" />
 
     <ProgressBar
-        android:id="@+id/progressBarReg"
+        android:id="@+id/register_progress_bar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/registerButtonReg"
-        android:layout_alignTop="@+id/registerButtonReg"
-        android:layout_alignEnd="@+id/registerButtonReg"
-        android:layout_alignBottom="@+id/registerButtonReg"
+        android:layout_alignStart="@+id/register_register_button"
+        android:layout_alignTop="@+id/register_register_button"
+        android:layout_alignEnd="@+id/register_register_button"
+        android:layout_alignBottom="@+id/register_register_button"
         android:layout_centerInParent="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"

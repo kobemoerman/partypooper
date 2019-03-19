@@ -6,13 +6,13 @@
     tools:context=".Fragment.FriendsFragment">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBar"
+        android:id="@+id/frag_friends_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground">
         
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolBar"
+            android:id="@+id/frag_friends_tool_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?android:attr/windowBackground">
@@ -23,7 +23,7 @@
             android:src="@drawable/ic_search_black_24dp"/>
 
         <EditText
-            android:id="@+id/searchBar"
+            android:id="@+id/frag_friends_search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -35,9 +35,9 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/friends_recycler"
+        android:id="@+id/frag_friends_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/appBar"/>
+        android:layout_below="@id/frag_friends_app_bar"/>
 
 </RelativeLayout>

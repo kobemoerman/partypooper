@@ -1,7 +1,5 @@
 package com.application.android.partypooper.Fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -58,7 +56,6 @@ public class MenuFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 long friends = dataSnapshot.getChildrenCount();
-
                 userFriends.setText(String.valueOf(friends));
             }
 
@@ -78,16 +75,11 @@ public class MenuFragment extends Fragment {
                     return;
                 }
 
-                System.out.println("CURRENT USER = " + currentUser.getUid());
-
                 User user = dataSnapshot.getValue(User.class);
 
-                System.out.println("USER INFO = " + user.getUsername());
-                System.out.println("USER INFO = " + user.getStatus());
-                System.out.println("USER INFO = " + user.getAge());
-
+                assert user != null;
                 profUsername.setText(user.getUsername());
-                userStatus.setText("\"" + user.getStatus() + "\"");
+                userStatus.setText(String.format("\"%s\"", user.getStatus()));
                 userAge.setText(getAge(user.getAge()));
             }
 
@@ -116,22 +108,21 @@ public class MenuFragment extends Fragment {
             age--;
         }
 
-        Integer ageInt = new Integer(age);
-        String ageS = ageInt.toString();
+        int ageInt = age;
 
-        return ageS;
+        return Integer.toString(ageInt);
     }
 
     private void findFragmentElements(View view) {
-        userImg = view.findViewById(R.id.userImg);
-        profUsername = view.findViewById(R.id.profUsername);
-        userStatus = view.findViewById(R.id.userStatus);
-        userFriends = view.findViewById(R.id.userFriends);
-        userAge = view.findViewById(R.id.userAge);
-        updateProfileButton = view.findViewById(R.id.updateProfileButton);
-        friendsButton = view.findViewById(R.id.friendsButton);
-        eventsButton = view.findViewById(R.id.eventsButton);
-        settingsButton = view.findViewById(R.id.settingsButton);
-        logOutButton = view.findViewById(R.id.logOutButton);
+        userImg = view.findViewById(R.id.frag_menu_user_image);
+        profUsername = view.findViewById(R.id.frag_menu_user_username);
+        userStatus = view.findViewById(R.id.frag_menu_user_status);
+        userFriends = view.findViewById(R.id.frag_menu_user_friends);
+        userAge = view.findViewById(R.id.frag_menu_user_age);
+        updateProfileButton = view.findViewById(R.id.frag_menu_update_profile);
+        friendsButton = view.findViewById(R.id.frag_menu_friends);
+        eventsButton = view.findViewById(R.id.frag_menu_events);
+        settingsButton = view.findViewById(R.id.frag_menu_settings);
+        logOutButton = view.findViewById(R.id.frag_menu_log_out);
     }
 }

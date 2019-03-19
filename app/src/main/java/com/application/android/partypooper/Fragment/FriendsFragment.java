@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -44,11 +43,11 @@ public class FriendsFragment extends Fragment {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        recyclerView = view.findViewById(R.id.friends_recycler);
+        recyclerView = view.findViewById(R.id.frag_friends_recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        searchBar = view.findViewById(R.id.searchBar);
+        searchBar = view.findViewById(R.id.frag_friends_search_bar);
 
         mUsers = new ArrayList<>();
         userAdapter = new UserAdapter(getContext(),mUsers);
@@ -87,6 +86,8 @@ public class FriendsFragment extends Fragment {
                 mUsers.clear();
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {
                     User user = snp.getValue(User.class);
+
+                    assert user != null;
                     if (!user.getId().equals(firebaseUser.getUid())) {
                         mUsers.add(user);
                     }

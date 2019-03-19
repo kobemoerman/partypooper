@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,13 +59,13 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerClickListener() {
-        registerButton = findViewById(R.id.registerButtonReg);
-        usernameEditText = findViewById(R.id.usernameTextReg);
-        birthdayTextView = findViewById(R.id.ageTextReg);
-        emailEditText = findViewById(R.id.mailTextReg);
-        passwordEditText = findViewById(R.id.keyTextReg);
-        confirmationEditText = findViewById(R.id.confirmTextReg);
-        progressBar = findViewById(R.id.progressBarReg);
+        registerButton = findViewById(R.id.register_register_button);
+        usernameEditText = findViewById(R.id.register_username);
+        birthdayTextView = findViewById(R.id.register_age);
+        emailEditText = findViewById(R.id.register_email);
+        passwordEditText = findViewById(R.id.register_password);
+        confirmationEditText = findViewById(R.id.register_password_confirm);
+        progressBar = findViewById(R.id.register_progress_bar);
 
         progressBar.setVisibility(View.INVISIBLE);
 
@@ -104,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void saveUserInformation(String username, String age) {
         final String status = "Hi, I'm using PartyPooper!";
 
-        currentUserID = mAuth.getCurrentUser().getUid();
+        currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
 
         HashMap userMap = new HashMap();
@@ -121,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
                     showMessage("Account Created",false);
                     updateUI();
                 } else {
-                    showMessage(task.getException().getMessage(),true);
+                    showMessage(Objects.requireNonNull(task.getException()).getMessage(),true);
                 }
             }
         });
@@ -134,7 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     saveUserInformation(username,age);
                 } else {
-                    showMessage(task.getException().getMessage(),true);
+                    showMessage(Objects.requireNonNull(task.getException()).getMessage(),true);
                 }
             }
         });
@@ -148,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void birthdayClickListener() {
-        mDate = findViewById(R.id.ageTextReg);
+        mDate = findViewById(R.id.register_age);
 
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +165,7 @@ public class RegisterActivity extends AppCompatActivity {
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener, year, month, day);
 
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
