@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -53,6 +54,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         viewHolder.followBtn.setVisibility(View.VISIBLE);
         viewHolder.username.setText(user.getUsername());
         viewHolder.status.setText(user.getStatus());
+        if (user.getImgURL() != null) Glide.with(viewHolder.icon.getContext()).load(user.getImgURL()).into(viewHolder.icon);
 
         isFriends(user.getId(), viewHolder.followBtn);
 

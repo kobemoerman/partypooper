@@ -1,5 +1,6 @@
 package com.application.android.partypooper.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,8 +12,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.application.android.partypooper.Activity.UpdateProfileActivity;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,12 +48,23 @@ public class MenuFragment extends Fragment {
         findFragmentElements(view);
 
         userDataBaseInfo();
-        userFriendsCountInfor();
+        userFriendsCountInfo();
+
+        updateProfileListener();
 
         return view;
     }
 
-    private void userFriendsCountInfor() {
+    private void updateProfileListener() {
+        updateProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), UpdateProfileActivity.class));
+            }
+        });
+    }
+
+    private void userFriendsCountInfo() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Friends").child(currentUser.getUid());
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -81,6 +95,7 @@ public class MenuFragment extends Fragment {
                 profUsername.setText(user.getUsername());
                 userStatus.setText(String.format("\"%s\"", user.getStatus()));
                 userAge.setText(getAge(user.getAge()));
+                if (user.getImgURL() != null) Glide.with(userImg.getContext()).load(user.getImgURL()).into(userImg);
             }
 
             @Override
