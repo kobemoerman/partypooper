@@ -74,7 +74,6 @@ public class FriendsFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }

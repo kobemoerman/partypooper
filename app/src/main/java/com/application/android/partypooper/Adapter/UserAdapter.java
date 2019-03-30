@@ -84,9 +84,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(userid).exists()) {
-                    button.setText("Remove");
+                    button.setText("Friends");
+                    button.setBackgroundResource(R.drawable.border_light);
+                    button.setTextColor(Color.BLACK);
                 } else {
                     button.setText("Add");
+                    button.setBackgroundResource(R.drawable.button_background_green);
+                    button.setTextColor(Color.WHITE);
                 }
             }
 

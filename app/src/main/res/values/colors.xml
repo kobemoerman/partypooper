@@ -7,8 +7,9 @@
 
     -dark colors
     <color name="black">#000000</color>
-    <color name="black_light">#363636</color>
-    <color name="white_dark">#C7C7C7</color>
+    <color name="black_light">#747474</color>
+    <color name="white_dark">#BBBBBB</color>
+    <color name="white_light">#E4E4E4</color>
     <color name="white">#ffff</color>
 
     -bright colors

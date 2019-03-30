@@ -4,7 +4,7 @@
     //login strings
     <string name="mailLogin">\u00A0E-MAIL</string>
     <string name="keyLogin">\u00A0PASSWORD</string>
-    <string name="registerLogin"><u>Register Here</u></string>
+    <string name="registerLogin"><u>Don\'t have an account? Register Here</u></string>
     <string name="loginLogin">Login</string>
 
     //register strings
