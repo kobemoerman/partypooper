@@ -12,7 +12,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="250dp"
+        android:background="@color/background_white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,111 +55,278 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:layout_height="90dp"
+        android:background="@color/background_white">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Friends"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/frag_menu_user_friends"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:text="0"
-                android:textColor="@color/colorPrimary"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Friends"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/frag_menu_user_friends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="0"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Age"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/frag_menu_user_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="0"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
         </LinearLayout>
+    </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+    <Button
+        android:id="@+id/frag_menu_edit_profile"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/border_light"
+        android:textAllCaps="false"
+        android:text="Edit profile"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Age"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/frag_menu_user_age"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:text="0"
-                android:textColor="@color/colorPrimary"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="13dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:text="Private Information:"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:orientation="vertical">
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:background="@color/white">
 
-        <Button
-            android:id="@+id/frag_menu_update_profile"
+        <ImageView
+            android:id="@+id/frag_menu_line1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_light"
-            android:text="Update Profile" />
+            android:layout_height="2dp"
+            android:background="@drawable/button_background_light"/>
 
-        <Button
-            android:id="@+id/frag_menu_friends"
+        <RelativeLayout
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_light"
-            android:text="Friends" />
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/frag_menu_events"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_light"
-            android:text="Events" />
+            <ImageView
+                android:id="@+id/frag_menu_ic_people"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/ic_people"/>
 
-        <Button
-            android:id="@+id/frag_menu_settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_light"
-            android:text="Settings" />
+            <TextView
+                android:id="@+id/frag_menu_friends"
+                android:layout_width="match_parent"
+                android:layout_alignLeft="@+id/frag_menu_ic_people"
+                android:layout_height="25dp"
+                android:layout_marginStart="40dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                android:text="Friends"/>
 
-        <Button
-            android:id="@+id/frag_menu_log_out"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/ic_navigate_next"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/frag_menu_line2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_light"
-            android:text="Log Out" />
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/button_background_light"/>
+
+        <RelativeLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/frag_menu_ic_events"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/ic_apps"/>
+
+            <TextView
+                android:id="@+id/frag_menu_events"
+                android:layout_width="match_parent"
+                android:layout_alignLeft="@+id/frag_menu_ic_events"
+                android:layout_height="25dp"
+                android:layout_marginStart="40dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                android:text="Events"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/ic_navigate_next"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/frag_menu_line3"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/button_background_light"/>
+
+        <RelativeLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/frag_menu_ic_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/ic_settings"/>
+
+            <TextView
+                android:id="@+id/frag_menu_settings"
+                android:layout_width="match_parent"
+                android:layout_alignLeft="@+id/frag_menu_ic_settings"
+                android:layout_height="25dp"
+                android:layout_marginStart="40dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                android:text="Settings"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/ic_navigate_next"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/frag_menu_line4"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/button_background_light"/>
+
+        <RelativeLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/frag_menu_ic_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/ic_cancel"/>
+
+            <TextView
+                android:id="@+id/frag_menu_log_out"
+                android:layout_width="match_parent"
+                android:layout_alignLeft="@+id/frag_menu_ic_cancel"
+                android:layout_height="25dp"
+                android:layout_marginStart="40dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                android:text="Log out"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/ic_navigate_next"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/frag_menu_line5"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_background_light"/>
 
         <ImageView
             android:id="@+id/frag_menu_logo"

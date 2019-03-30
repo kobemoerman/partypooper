@@ -30,7 +30,8 @@ public class MenuFragment extends Fragment {
 
     private ImageView userImg;
     private TextView profUsername, userStatus, userFriends, userAge;
-    private Button updateProfileButton, friendsButton, eventsButton, settingsButton, logOutButton;
+    private TextView friendsButton, eventsButton, settingsButton, logOutButton;
+    private Button editProfileButton;
 
 
     private FirebaseUser currentUser;
@@ -56,7 +57,7 @@ public class MenuFragment extends Fragment {
     }
 
     private void updateProfileListener() {
-        updateProfileButton.setOnClickListener(new View.OnClickListener() {
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), UpdateProfileActivity.class));
@@ -134,7 +135,7 @@ public class MenuFragment extends Fragment {
         userStatus = view.findViewById(R.id.frag_menu_user_status);
         userFriends = view.findViewById(R.id.frag_menu_user_friends);
         userAge = view.findViewById(R.id.frag_menu_user_age);
-        updateProfileButton = view.findViewById(R.id.frag_menu_update_profile);
+        editProfileButton = view.findViewById(R.id.frag_menu_edit_profile);
         friendsButton = view.findViewById(R.id.frag_menu_friends);
         eventsButton = view.findViewById(R.id.frag_menu_events);
         settingsButton = view.findViewById(R.id.frag_menu_settings);
