@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.application.android.partypooper.Fragment.EventsFragment;
-import com.application.android.partypooper.Fragment.FriendsFragment;
+import com.application.android.partypooper.Fragment.SearchFragment;
 import com.application.android.partypooper.Fragment.HomeFragment;
 import com.application.android.partypooper.Fragment.MenuFragment;
 import com.application.android.partypooper.R;
@@ -38,8 +38,8 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.nav_home:
                         selectedFragment = new HomeFragment();
                         break;
-                    case R.id.nav_friends:
-                        selectedFragment = new FriendsFragment();
+                    case R.id.nav_search:
+                        selectedFragment = new SearchFragment();
                         break;
                     case R.id.nav_calendar:
                         selectedFragment = new EventsFragment();

@@ -27,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendsFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
     private EditText searchBar;
 
@@ -39,15 +39,15 @@ public class FriendsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_friends, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        recyclerView = view.findViewById(R.id.frag_friends_recycler);
+        recyclerView = view.findViewById(R.id.frag_search_recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        searchBar = view.findViewById(R.id.frag_friends_search_bar);
+        searchBar = view.findViewById(R.id.frag_search_search_bar);
 
         mUsers = new ArrayList<>();
         userAdapter = new UserAdapter(getContext(),mUsers);
@@ -102,14 +102,11 @@ public class FriendsFragment extends Fragment {
     }
 
     private Query searchQuery (Boolean onTextChange, String s) {
-        Query mQuery;
-
         if (onTextChange) {
-            mQuery = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username").startAt(s).endAt(s + "\uf8ff");
+            return FirebaseDatabase.getInstance().getReference("Users").orderByChild("username")
+                    .startAt(s).endAt(s + "\uf8ff");
         } else {
-            mQuery = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username");
+            return FirebaseDatabase.getInstance().getReference("Users").orderByChild("username");
         }
-
-        return mQuery;
     }
 }

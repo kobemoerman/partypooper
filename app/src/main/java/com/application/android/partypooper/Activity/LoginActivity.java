@@ -97,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI() {
         Intent homeIntent = new Intent(getApplicationContext(),HomeActivity.class);
         startActivity(homeIntent);
+        finish();
     }
 
     private void showMessage(String s, boolean failed) {

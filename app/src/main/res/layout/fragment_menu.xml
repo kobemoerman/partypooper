@@ -328,6 +328,8 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/button_background_light"/>
 
+    </LinearLayout>
+
         <ImageView
             android:id="@+id/frag_menu_logo"
             android:layout_width="75dp"
@@ -348,8 +350,6 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="25dp"/>
-
-    </LinearLayout>
 
     </LinearLayout>
 

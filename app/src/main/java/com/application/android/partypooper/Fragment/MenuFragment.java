@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.application.android.partypooper.Activity.UpdateProfileActivity;
+import com.application.android.partypooper.Activity.EditProfileActivity;
+import com.application.android.partypooper.Activity.HomeActivity;
+import com.application.android.partypooper.Activity.LoginActivity;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
 import com.bumptech.glide.Glide;
@@ -34,33 +36,50 @@ public class MenuFragment extends Fragment {
     private Button editProfileButton;
 
 
+    private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private String userID;
 
-
+    private HomeActivity homeActivity;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
-
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
         findFragmentElements(view);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         userDataBaseInfo();
         userFriendsCountInfo();
 
-        updateProfileListener();
+        editProfileListener();
+        logOutListener();
 
         return view;
     }
 
-    private void updateProfileListener() {
+    private void logOutListener() {
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    mAuth.signOut();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                getActivity().finish();
+            }
+        });
+    }
+
+    private void editProfileListener() {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), UpdateProfileActivity.class));
+                startActivity(new Intent(getContext(), EditProfileActivity.class));
             }
         });
     }

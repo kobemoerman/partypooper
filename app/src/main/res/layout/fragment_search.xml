@@ -3,21 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Fragment.FriendsFragment">
+    tools:context=".Fragment.SearchFragment">
 
     <RelativeLayout
-        android:id="@+id/frag_friends_search_layout"
+        android:id="@+id/frag_search_search_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp">
 
         <android.support.design.widget.AppBarLayout
-            android:id="@+id/frag_friends_app_bar"
+            android:id="@+id/frag_search_app_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?android:attr/windowBackground">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/frag_friends_tool_bar"
+                android:id="@+id/frag_search_tool_bar"
                 android:layout_width="match_parent"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
@@ -29,11 +29,11 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.4"
+                android:alpha="0.5"
                 android:src="@drawable/ic_search"/>
 
             <EditText
-                android:id="@+id/frag_friends_search_bar"
+                android:id="@+id/frag_search_search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -44,10 +44,17 @@
         </android.support.design.widget.AppBarLayout>
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/frag_search_separator"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/frag_search_search_layout"
+        android:layout_height="1dp"
+        android:background="@color/black_light"/>
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/frag_friends_recycler"
+        android:id="@+id/frag_search_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/frag_friends_search_layout"/>
+        android:layout_below="@id/frag_search_separator"/>
 
 </RelativeLayout>

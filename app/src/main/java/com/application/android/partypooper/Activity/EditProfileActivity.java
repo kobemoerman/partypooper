@@ -38,7 +38,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
 
-public class UpdateProfileActivity extends AppCompatActivity{
+public class EditProfileActivity extends AppCompatActivity{
 
     private ImageView close, userImage;
     private TextView updateImg, save;
@@ -53,7 +53,7 @@ public class UpdateProfileActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_profile);
+        setContentView(R.layout.activity_edit_profile);
 
         findActivityElements();
 
@@ -88,7 +88,7 @@ public class UpdateProfileActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 CropImage.activity().setAspectRatio(1,1).
-                        setCropShape(CropImageView.CropShape.OVAL).start(UpdateProfileActivity.this);
+                        setCropShape(CropImageView.CropShape.OVAL).start(EditProfileActivity.this);
             }
         });
 
@@ -96,7 +96,7 @@ public class UpdateProfileActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 updateProfile(username.getText().toString(),gender.getText().toString(),status.getText().toString());
-                Toast.makeText(UpdateProfileActivity.this,"All Changes Saved",Toast.LENGTH_LONG).show();
+                Toast.makeText(EditProfileActivity.this,"All Changes Saved",Toast.LENGTH_LONG).show();
                 finish();
             }
         });
@@ -179,7 +179,7 @@ public class UpdateProfileActivity extends AppCompatActivity{
     }
 
     private void displayToastToUser (String msg) {
-        Toast.makeText(UpdateProfileActivity.this,msg,Toast.LENGTH_LONG).show();
+        Toast.makeText(EditProfileActivity.this,msg,Toast.LENGTH_LONG).show();
     }
 
     private void findActivityElements() {
