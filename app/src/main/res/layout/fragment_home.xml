@@ -4,11 +4,66 @@
     android:layout_height="match_parent"
     android:background="@android:color/holo_red_light">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home Fragment"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/frag_home_house"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="House Party"/>
+
+        <Button
+            android:id="@+id/frag_home_birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/frag_home_house"
+            android:text="Birthday Party" />
+
+        <Button
+            android:id="@+id/frag_home_get_together"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/frag_home_birthday"
+            android:text="Get Together" />
+
+        <Button
+            android:id="@+id/frag_home_bbq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/frag_home_get_together"
+            android:text="Barbecue" />
+
+        <Button
+            android:id="@+id/frag_home_pool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/frag_home_bbq"
+            android:text="Pool Party" />
+
+        <Button
+            android:id="@+id/frag_home_bachelor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/frag_home_pool"
+            android:text="Bachelor Party" />
+
+        <Button
+            android:id="@+id/frag_home_wedding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/frag_home_bachelor"
+            android:text="Wedding Party" />
+
+        <Button
+            android:id="@+id/frag_home_baby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/frag_home_wedding"
+            android:text="Baby Shower" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
