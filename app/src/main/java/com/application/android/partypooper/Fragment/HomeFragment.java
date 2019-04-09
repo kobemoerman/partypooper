@@ -11,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.application.android.partypooper.R;
 
 public class HomeFragment extends Fragment {
 
+  ImageView closeDialog;
   Button houseParty, birthdayParty, getTogether, bbq, poolParty, bachelorParty, weddingParty, babyParty, randomBtn;
 
   Dialog dialog;
@@ -41,6 +43,14 @@ public class HomeFragment extends Fragment {
 
   private void showDialogPopup() {
     dialog.setContentView(R.layout.popup_window);
+
+    closeDialog = dialog.findViewById(R.id.popup_close);
+    closeDialog.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        dialog.dismiss();
+      }
+    });
 
     randomBtn = dialog.findViewById(R.id.random_button);
     randomBtn.setOnClickListener(new View.OnClickListener() {
