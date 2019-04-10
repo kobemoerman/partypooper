@@ -36,7 +36,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Username"
                 android:textColor="@color/black"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -141,7 +141,7 @@
         android:layout_marginStart="13dp"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:text="Private Information:"/>
 
     <LinearLayout
@@ -175,12 +175,12 @@
             <TextView
                 android:id="@+id/frag_menu_friends"
                 android:layout_width="match_parent"
-                android:layout_alignLeft="@+id/frag_menu_ic_people"
+                android:layout_alignStart="@+id/frag_menu_ic_people"
                 android:layout_height="25dp"
                 android:layout_marginStart="40dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/black"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:text="Friends"/>
 
             <ImageView
@@ -218,12 +218,12 @@
             <TextView
                 android:id="@+id/frag_menu_events"
                 android:layout_width="match_parent"
-                android:layout_alignLeft="@+id/frag_menu_ic_events"
+                android:layout_alignStart="@+id/frag_menu_ic_events"
                 android:layout_height="25dp"
                 android:layout_marginStart="40dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/black"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:text="Events"/>
 
             <ImageView
@@ -261,12 +261,12 @@
             <TextView
                 android:id="@+id/frag_menu_settings"
                 android:layout_width="match_parent"
-                android:layout_alignLeft="@+id/frag_menu_ic_settings"
+                android:layout_alignStart="@+id/frag_menu_ic_settings"
                 android:layout_height="25dp"
                 android:layout_marginStart="40dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/black"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:text="Settings"/>
 
             <ImageView
@@ -304,12 +304,12 @@
             <TextView
                 android:id="@+id/frag_menu_log_out"
                 android:layout_width="match_parent"
-                android:layout_alignLeft="@+id/frag_menu_ic_cancel"
+                android:layout_alignStart="@+id/frag_menu_ic_cancel"
                 android:layout_height="25dp"
                 android:layout_marginStart="40dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/black"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:text="Log out"/>
 
             <ImageView
@@ -336,8 +336,7 @@
             android:layout_height="75dp"
             android:layout_marginTop="35dp"
             android:layout_gravity="center"
-            android:src="@drawable/loginlogo"
-            android:layout_centerHorizontal="true"/>
+            android:src="@drawable/loginlogo" />
 
         <TextView
             android:layout_width="match_parent"

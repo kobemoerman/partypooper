@@ -12,13 +12,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.application.android.partypooper.R;
 
-public class HomeFragment extends Fragment {
+import static com.application.android.partypooper.Model.Events.BABY_SHOWER;
+import static com.application.android.partypooper.Model.Events.BACHELOR_PARTY;
+import static com.application.android.partypooper.Model.Events.BBQ;
+import static com.application.android.partypooper.Model.Events.BIRTHDAY_PARTY;
+import static com.application.android.partypooper.Model.Events.GET_TOGETHER;
+import static com.application.android.partypooper.Model.Events.HOUSE_PARTY;
+import static com.application.android.partypooper.Model.Events.POOL_PARTY;
+import static com.application.android.partypooper.Model.Events.WEDDING_PARTY;
 
+public class HomeFragment extends Fragment implements View.OnClickListener{
+
+  TextView header;
   ImageView closeDialog;
-  Button houseParty, birthdayParty, getTogether, bbq, poolParty, bachelorParty, weddingParty, babyParty, randomBtn;
+  Button houseParty, birthdayParty, getTogether, bbq, poolParty, bachelorParty, weddingParty, babyParty;
 
   Dialog dialog;
 
@@ -31,29 +42,60 @@ public class HomeFragment extends Fragment {
 
     findFragmentElements(view);
 
-    houseParty.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        showDialogPopup();
-      }
-    });
+    houseParty.setOnClickListener(this);
+    birthdayParty.setOnClickListener(this);
+    getTogether.setOnClickListener(this);
+    bbq.setOnClickListener(this);
+    poolParty.setOnClickListener(this);
+    bachelorParty.setOnClickListener(this);
+    weddingParty.setOnClickListener(this);
+    babyParty.setOnClickListener(this);
 
     return view;
   }
 
-  private void showDialogPopup() {
+
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.frag_home_house:
+        showDialogPopup(HOUSE_PARTY);
+        break;
+      case R.id.frag_home_birthday:
+        showDialogPopup(BIRTHDAY_PARTY);
+        break;
+      case R.id.frag_home_get_together:
+        showDialogPopup(GET_TOGETHER);
+        break;
+      case R.id.frag_home_bbq:
+        showDialogPopup(BBQ);
+        break;
+      case R.id.frag_home_pool:
+        showDialogPopup(POOL_PARTY);
+        break;
+      case R.id.frag_home_bachelor:
+        showDialogPopup(BACHELOR_PARTY);
+        break;
+      case R.id.frag_home_wedding:
+        showDialogPopup(WEDDING_PARTY);
+        break;
+      case R.id.frag_home_baby:
+        showDialogPopup(BABY_SHOWER);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  private void showDialogPopup(String event) {
     dialog.setContentView(R.layout.popup_window);
+
+    header = dialog.findViewById(R.id.popup_header_text);
+    header.setText(event);
 
     closeDialog = dialog.findViewById(R.id.popup_close);
     closeDialog.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        dialog.dismiss();
-      }
-    });
-
-    randomBtn = dialog.findViewById(R.id.random_button);
-    randomBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         dialog.dismiss();
