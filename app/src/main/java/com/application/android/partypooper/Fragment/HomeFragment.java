@@ -28,17 +28,19 @@ import static com.application.android.partypooper.Model.Events.WEDDING_PARTY;
 public class HomeFragment extends Fragment implements View.OnClickListener{
 
   TextView header;
-  ImageView closeDialog;
+  ImageView closeCreate, closeFriends;
+  Button nextCreate, backCreate, nextFriends, backFriends;
   Button houseParty, birthdayParty, getTogether, bbq, poolParty, bachelorParty, weddingParty, babyParty;
 
-  Dialog dialog;
+  Dialog event, friends;
 
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-    dialog = new Dialog(getActivity());
+    event = new Dialog(getActivity());
+    friends = new Dialog(getActivity());
 
     findFragmentElements(view);
 
@@ -59,28 +61,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.frag_home_house:
-        showDialogPopup(HOUSE_PARTY);
+        createEventDialogPopup(HOUSE_PARTY);
         break;
       case R.id.frag_home_birthday:
-        showDialogPopup(BIRTHDAY_PARTY);
+        createEventDialogPopup(BIRTHDAY_PARTY);
         break;
       case R.id.frag_home_get_together:
-        showDialogPopup(GET_TOGETHER);
+        createEventDialogPopup(GET_TOGETHER);
         break;
       case R.id.frag_home_bbq:
-        showDialogPopup(BBQ);
+        createEventDialogPopup(BBQ);
         break;
       case R.id.frag_home_pool:
-        showDialogPopup(POOL_PARTY);
+        createEventDialogPopup(POOL_PARTY);
         break;
       case R.id.frag_home_bachelor:
-        showDialogPopup(BACHELOR_PARTY);
+        createEventDialogPopup(BACHELOR_PARTY);
         break;
       case R.id.frag_home_wedding:
-        showDialogPopup(WEDDING_PARTY);
+        createEventDialogPopup(WEDDING_PARTY);
         break;
       case R.id.frag_home_baby:
-        showDialogPopup(BABY_SHOWER);
+        createEventDialogPopup(BABY_SHOWER);
         break;
 
       default:
@@ -88,22 +90,55 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     }
   }
 
-  private void showDialogPopup(String event) {
-    dialog.setContentView(R.layout.popup_window);
+  private void createEventDialogPopup(String event) {
+    this.event.setContentView(R.layout.popup_create_event);
 
-    header = dialog.findViewById(R.id.popup_header_text);
+    header = this.event.findViewById(R.id.popup_event_header_text);
     header.setText(event);
 
-    closeDialog = dialog.findViewById(R.id.popup_close);
-    closeDialog.setOnClickListener(new View.OnClickListener() {
+    closeCreate = this.event.findViewById(R.id.popup_event_close);
+    closeCreate.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        dialog.dismiss();
+        HomeFragment.this.event.dismiss();
       }
     });
 
-    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    dialog.show();
+    nextCreate = this.event.findViewById(R.id.popup_event_next);
+    nextCreate.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        friendsDialogPopup();
+      }
+    });
+
+
+    this.event.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    this.event.show();
+  }
+
+  private void friendsDialogPopup () {
+    this.friends.setContentView(R.layout.popup_invite_friends);
+
+    closeFriends = this.friends.findViewById(R.id.popup_friends_close);
+    closeFriends.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        HomeFragment.this.friends.dismiss();
+        HomeFragment.this.event.dismiss();
+      }
+    });
+
+    backFriends = this.friends.findViewById(R.id.popup_friends_back);
+    backFriends.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        HomeFragment.this.friends.dismiss();
+      }
+    });
+
+    this.friends.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    this.friends.show();
   }
 
   private void findFragmentElements(View view) {

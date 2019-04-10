@@ -2,7 +2,6 @@ package com.application.android.partypooper.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,7 +40,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.user_item, viewGroup,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.user_search, viewGroup,false);
         return new UserAdapter.ViewHolder(view);
     }
 

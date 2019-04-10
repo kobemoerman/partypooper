@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center">
 
     <ImageView
-        android:id="@+id/popup_close"
+        android:id="@+id/popup_event_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_close"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:elevation="5dp"
-        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_close"
         android:clickable="true"
         android:focusable="true" />
 
     <android.support.v7.widget.CardView
+        app:cardCornerRadius="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" >
@@ -30,13 +31,13 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/popup_header"
+                android:id="@+id/popup_event_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/background_white">
 
                 <TextView
-                    android:id="@+id/popup_header_text"
+                    android:id="@+id/popup_event_header_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -49,17 +50,17 @@
             </RelativeLayout>
 
             <ImageView
-                android:id="@+id/popup_search_separator_top"
+                android:id="@+id/popup_event_separator_top"
                 android:layout_width="match_parent"
-                android:layout_below="@id/popup_header"
+                android:layout_below="@id/popup_event_header"
                 android:layout_height="1dp"
                 android:background="@color/black_light"/>
 
             <RelativeLayout
-                android:id="@+id/popup_create_event"
+                android:id="@+id/popup_event_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/popup_search_separator_top"
+                android:layout_below="@+id/popup_event_separator_top"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/white">
@@ -99,21 +100,21 @@
             </RelativeLayout>
 
             <ImageView
-                android:id="@+id/popup_search_separator_bottom"
+                android:id="@+id/popup_event_separator_bottom"
                 android:layout_width="match_parent"
-                android:layout_below="@id/popup_create_event"
+                android:layout_below="@id/popup_event_info"
                 android:layout_height="1dp"
                 android:background="@color/black_light"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/popup_search_separator_bottom"
+                android:layout_below="@+id/popup_event_separator_bottom"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp">
 
                 <Button
-                    android:id="@+id/popup_back"
+                    android:id="@+id/popup_event_back"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:background="@drawable/border_red"
@@ -124,7 +125,7 @@
                     android:layout_centerVertical="true" />
 
                 <Button
-                    android:id="@+id/popup_next"
+                    android:id="@+id/popup_event_next"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:background="@drawable/border_green"
