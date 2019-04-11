@@ -1,69 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_red_light">
+    android:background="@color/background_white"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
+        android:layout_marginBottom="50dp">
 
-        <Button
-            android:id="@+id/frag_home_house"
+        <ImageView
+            android:id="@+id/frag_home_logo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/loginlogo"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/frag_home_welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="House Party"/>
+            android:layout_below="@+id/frag_home_logo"
+            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"
+            android:text="Welcome to PartyPooper"
+            android:textSize="25dp"
+            android:textColor="@color/black"/>
 
-        <Button
-            android:id="@+id/frag_home_birthday"
+        <TextView
+            android:id="@+id/frag_home_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/frag_home_house"
-            android:text="Birthday Party" />
+            android:layout_below="@id/frag_home_welcome"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+            android:text="The best event-planning application in the world."/>
 
         <Button
-            android:id="@+id/frag_home_get_together"
-            android:layout_width="wrap_content"
+            android:id="@+id/frag_home_create_event"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/frag_home_birthday"
-            android:text="Get Together" />
+            android:layout_below="@id/frag_home_desc"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/border_light"
+            android:text="Create event"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:textAllCaps="false"/>
 
-        <Button
-            android:id="@+id/frag_home_bbq"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/frag_home_invitations"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/frag_home_get_together"
-            android:text="Barbecue" />
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="15dp"
+            android:layout_below="@+id/frag_home_create_event"
+            android:text="Invitations:"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
-        <Button
-            android:id="@+id/frag_home_pool"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/frag_home_linear_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/frag_home_bbq"
-            android:text="Pool Party" />
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/frag_home_invitations"
+            android:orientation="vertical"
+            android:background="@color/white">
 
-        <Button
-            android:id="@+id/frag_home_bachelor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/frag_home_pool"
-            android:text="Bachelor Party" />
+            <ImageView
+                android:id="@+id/frag_home_separator_top"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black_light"/>
 
-        <Button
-            android:id="@+id/frag_home_wedding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/frag_home_bachelor"
-            android:text="Wedding Party" />
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/frag_home_baby"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/frag_home_wedding"
-            android:text="Baby Shower" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/frag_home_event_image1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/loginlogo"/>
+
+                <TextView
+                    android:id="@+id/frag_home_event_invite1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignStart="@+id/frag_home_event_image1"
+                    android:layout_marginStart="50dp"
+                    android:text="'Username' has invited you to 'Party Name'"
+                    android:textColor="@color/black"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/frag_home_separator_invitation1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/black_light"/>
+
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/frag_home_event_image2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/loginlogo"/>
+
+                <TextView
+                    android:id="@+id/frag_home_event_invite2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignStart="@+id/frag_home_event_image2"
+                    android:layout_marginStart="50dp"
+                    android:text="'Username' has invited you to 'Party Name'"
+                    android:textColor="@color/black"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/frag_home_separator_invitation2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/black_light"/>
+
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/frag_home_event_image3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/loginlogo"/>
+
+                <TextView
+                    android:id="@+id/frag_home_event_invite3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignStart="@+id/frag_home_event_image3"
+                    android:layout_marginStart="50dp"
+                    android:text="'Username' has invited you to 'Party Name'"
+                    android:textColor="@color/black"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/frag_home_separator_invitation3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/black_light"/>
+
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/frag_home_event_image4"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/loginlogo"/>
+
+                <TextView
+                    android:id="@+id/frag_home_event_invite4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignStart="@+id/frag_home_event_image4"
+                    android:layout_marginStart="50dp"
+                    android:text="'Username' has invited you to 'Party Name'"
+                    android:textColor="@color/black"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/frag_home_separator_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black_light"/>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/frag_home_linear_layout"/>
 
     </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>

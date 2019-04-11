@@ -25,42 +25,42 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.SearchViewHolder> {
 
     private Context mContext;
     private List<User> mUsers;
 
     private FirebaseUser firebaseUser;
 
-    public UserAdapter(Context mContext, List<User> mUsers) {
+    public SearchUserAdapter(Context mContext, List<User> mUsers) {
         this.mContext = mContext;
         this.mUsers = mUsers;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.user_search, viewGroup,false);
-        return new UserAdapter.ViewHolder(view);
+        return new SearchViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final SearchViewHolder searchViewHolder, int i) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         final User user = mUsers.get(i);
 
-        viewHolder.followBtn.setVisibility(View.VISIBLE);
-        viewHolder.username.setText(user.getUsername());
-        viewHolder.status.setText(user.getStatus());
-        if (user.getImgURL() != null) Glide.with(viewHolder.icon.getContext()).load(user.getImgURL()).into(viewHolder.icon);
+        searchViewHolder.followBtn.setVisibility(View.VISIBLE);
+        searchViewHolder.username.setText(user.getUsername());
+        searchViewHolder.status.setText(user.getStatus());
+        if (user.getImgURL() != null) Glide.with(searchViewHolder.icon.getContext()).load(user.getImgURL()).into(searchViewHolder.icon);
 
-        isFriends(user.getId(), viewHolder.followBtn);
+        isFriends(user.getId(), searchViewHolder.followBtn);
 
-        viewHolder.followBtn.setOnClickListener(new View.OnClickListener() {
+        searchViewHolder.followBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (viewHolder.followBtn.getText().toString().equals("Add")) {
+                if (searchViewHolder.followBtn.getText().toString().equals("Add")) {
                     FirebaseDatabase.getInstance().getReference().child("Friends").child(firebaseUser.getUid())
                             .child(user.getId()).setValue(true);
                 } else {
@@ -100,16 +100,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         });
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class SearchViewHolder extends RecyclerView.ViewHolder {
 
         public TextView username;
         public TextView status;
         public CircleImageView icon;
         public Button followBtn;
 
-        public ViewHolder(@NonNull View itemView) {
+        public SearchViewHolder(@NonNull View itemView) {
             super(itemView);
-
             username = itemView.findViewById(R.id.usernameUser);
             status = itemView.findViewById(R.id.statusUser);
             icon = itemView.findViewById(R.id.img_profile);

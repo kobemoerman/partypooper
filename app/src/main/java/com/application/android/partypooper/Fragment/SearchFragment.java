@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.application.android.partypooper.Adapter.UserAdapter;
+import com.application.android.partypooper.Adapter.SearchUserAdapter;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +33,7 @@ public class SearchFragment extends Fragment {
 
     private FirebaseUser firebaseUser;
     private RecyclerView recyclerView;
-    private UserAdapter userAdapter;
+    private SearchUserAdapter searchUserAdapter;
     private List<User> mUsers;
 
     @Nullable
@@ -50,8 +50,8 @@ public class SearchFragment extends Fragment {
         searchBar = view.findViewById(R.id.frag_search_search_bar);
 
         mUsers = new ArrayList<>();
-        userAdapter = new UserAdapter(getContext(),mUsers);
-        recyclerView.setAdapter(userAdapter);
+        searchUserAdapter = new SearchUserAdapter(getContext(),mUsers);
+        recyclerView.setAdapter(searchUserAdapter);
 
         friendsQueryDatabase();
 
@@ -91,7 +91,7 @@ public class SearchFragment extends Fragment {
                         mUsers.add(user);
                     }
                 }
-                userAdapter.notifyDataSetChanged();
+                searchUserAdapter.notifyDataSetChanged();
             }
 
             @Override
