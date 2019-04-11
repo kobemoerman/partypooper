@@ -56,6 +56,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void updateFragment (Fragment selected) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.home_fragement_container, selected).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, selected).commit();
     }
 }
