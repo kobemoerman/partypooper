@@ -5,16 +5,118 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.CreateEventFragment"
-    android:background="@color/white">
+    android:background="@color/background_white">
+
+    <RelativeLayout
+        android:id="@+id/frag_Event_layout_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/frag_event_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:hint="Event Name"
+            android:background="@null"
+            android:maxLines="1"
+            android:textSize="25sp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/frag_event_name"
+            android:background="@color/black_light"/>
+
+    </RelativeLayout>
 
     <TextView
-        android:id="@+id/theme_text"
+        android:id="@+id/frag_event_upload_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/frag_Event_layout_name"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorPrimary"
+        android:text="Upload picture"
+        android:textSize="16sp" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/hello_blank_fragment"
-        android:textColor="@color/black"
-        android:textSize="25sp"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/frag_event_upload_photo"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/frag_event_separator"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/black_light"/>
+
+        <TextView
+            android:id="@+id/frag_event_date_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/frag_event_separator"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:text="date, at time"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@+id/frag_event_date_time"
+            android:background="@color/black_light"/>
+
+        <EditText
+            android:id="@+id/frag_event_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_below="@id/frag_event_date_time"
+            android:hint="Location"
+            android:background="@null"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@+id/frag_event_location"
+            android:background="@color/black_light"/>
+
+        <EditText
+            android:id="@+id/frag_event_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_below="@id/frag_event_location"
+            android:hint="Description"
+            android:background="@null"
+            android:maxLines="8"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/frag_event_description"
+            android:background="@color/black_light"/>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

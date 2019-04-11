@@ -17,14 +17,7 @@ import com.application.android.partypooper.R;
 @SuppressLint("ValidFragment")
 public class CreateEventFragment extends Fragment implements Events {
 
-  private String theme;
-
-  public CreateEventFragment(String theme) {
-    this.theme = theme;
-  }
-
-  TextView text;
-  Button next, back;
+  private Button next, back;
 
   @Nullable
   @Override
@@ -39,7 +32,6 @@ public class CreateEventFragment extends Fragment implements Events {
   }
 
   private void navigationListener () {
-    text.setText(theme);
 
     next.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -63,6 +55,5 @@ public class CreateEventFragment extends Fragment implements Events {
   private void findFragmentElements(View view) {
     next = view.findViewById(R.id.frag_event_next);
     back = view.findViewById(R.id.frag_event_back);
-    text = view.findViewById(R.id.theme_text);
   }
 }

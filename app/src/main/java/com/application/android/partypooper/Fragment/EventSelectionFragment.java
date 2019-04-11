@@ -32,28 +32,28 @@ public class EventSelectionFragment extends Fragment implements Events {
     house.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        openCreateEventFragment(new CreateEventFragment(HOUSE_PARTY));
+        openCreateEventFragment(new CreateEventFragment());
       }
     });
 
     birthday.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        openCreateEventFragment(new CreateEventFragment(BIRTHDAY_PARTY));
+        openCreateEventFragment(new CreateEventFragment());
       }
     });
 
     dinner.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        openCreateEventFragment(new CreateEventFragment(DINNER_PARTY));
+        openCreateEventFragment(new CreateEventFragment());
       }
     });
 
     other.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        openCreateEventFragment(new CreateEventFragment(OTHER));
+        openCreateEventFragment(new CreateEventFragment());
       }
     });
   }
