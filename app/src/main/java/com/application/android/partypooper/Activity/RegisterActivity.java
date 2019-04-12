@@ -1,5 +1,6 @@
 package com.application.android.partypooper.Activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -162,10 +163,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                 DatePickerDialog dialog = new DatePickerDialog(
                         RegisterActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        AlertDialog.THEME_HOLO_LIGHT,
                         mDateSetListener, year, month, day);
 
-                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(
+                        new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
