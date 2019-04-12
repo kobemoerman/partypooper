@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.application.android.partypooper.Activity.RegisterActivity;
 import com.application.android.partypooper.Model.Events;
 import com.application.android.partypooper.R;
 
@@ -48,12 +47,12 @@ public class CreateEventFragment extends Fragment implements Events {
 
     navigationListener();
 
-    dateListener();
+    dateTimeListener();
 
     return view;
   }
 
-  private void dateListener() {
+  private void dateTimeListener() {
     cal = Calendar.getInstance();
 
     year = cal.get(Calendar.YEAR);
