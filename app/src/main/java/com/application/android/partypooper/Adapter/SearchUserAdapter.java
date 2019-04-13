@@ -40,10 +40,11 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
     @NonNull
     @Override
     public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        System.out.println("HELLO YOU NOTIFIED YOUR ADAPTER KOBE");
         View view = LayoutInflater.from(mContext).inflate(R.layout.user_search, viewGroup,false);
         return new SearchViewHolder(view);
     }
-
+    
     @Override
     public void onBindViewHolder(@NonNull final SearchViewHolder searchViewHolder, int i) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();

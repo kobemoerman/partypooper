@@ -1,0 +1,154 @@
+package com.application.android.partypooper.Fragment;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.application.android.partypooper.Activity.EventActivity;
+import com.application.android.partypooper.Activity.HomeActivity;
+import com.application.android.partypooper.Adapter.EventUserAdapter;
+import com.application.android.partypooper.Model.Event;
+import com.application.android.partypooper.Model.User;
+import com.application.android.partypooper.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class InviteFriendsFragment extends Fragment {
+
+	private EditText searchBar;
+	private Button back, next;
+		
+	private FirebaseUser firebaseUser;
+	private RecyclerView recyclerView;
+	private EventUserAdapter eventUserAdapter;
+	private List<User> mUsers;
+
+
+  	@Override
+  	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    	View view = inflater.inflate(R.layout.fragment_invite_friends, container, false);
+
+    	initView(view);
+
+    	friendsQueryDatabase();
+
+    	navigationListener();
+
+    	return view;
+  	}
+
+    private void initView(View view) {
+    	firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+    	recyclerView = view.findViewById(R.id.frag_invite_recycler);
+    	recyclerView.setHasFixedSize(true);
+    	recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+    	searchBar = view.findViewById(R.id.frag_invite_search_bar);
+
+    	mUsers = new ArrayList<>();
+    	eventUserAdapter = new EventUserAdapter(getContext(),mUsers);
+    	recyclerView.setAdapter(eventUserAdapter);
+
+    	back = view.findViewById(R.id.frag_invite_back);
+    	next = view.findViewById(R.id.frag_invite_next);
+  	}
+
+  	private void friendsQueryDatabase() {
+        Query friends = FirebaseDatabase.getInstance().getReference("Friends").child(firebaseUser.getUid()).orderByValue();
+
+        displayFriends(friends);
+
+    	searchBar.addTextChangedListener(new TextWatcher() {
+      	@Override
+      	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      	}
+
+      	@Override
+      	public void onTextChanged(CharSequence s, int start, int before, int count) {
+        	Query custom = FirebaseDatabase.getInstance().getReference("Friends").child(firebaseUser.getUid()).orderByValue()
+                    .startAt(s.toString()).endAt(s.toString() + "\uf8ff");
+      	    displayFriends(custom);
+      	}
+
+      	@Override
+      	public void afterTextChanged(Editable s) {
+      	}
+    	});
+  	}
+
+  	private void displayFriends(Query friends) {
+		friends.addValueEventListener(new ValueEventListener() {
+		    @Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+			    mUsers.clear();
+
+				for (DataSnapshot snp : dataSnapshot.getChildren()) {
+
+				    Query users = FirebaseDatabase.getInstance().getReference("Users").child(snp.getKey());
+
+					users.addValueEventListener(new ValueEventListener() {
+					    @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+					        User user = dataSnapshot.getValue(User.class);
+
+					        assert user != null;
+					        mUsers.add(user);
+
+					        eventUserAdapter.notifyDataSetChanged();
+					    }
+					    @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+					    }
+					});
+				}
+				eventUserAdapter.notifyDataSetChanged();
+		    }
+		    @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+		    }
+		});
+  	}
+
+    private void openCreateEventFragment(Fragment frag) {
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(
+                R.id.event_fragment_container, frag).commit();
+    }
+
+    private void navigationListener() {
+  	    back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCreateEventFragment(new CreateEventFragment());
+            }
+        });
+  	    next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent homeIntent = new Intent(getActivity().getApplicationContext(), EventActivity.class);
+                startActivity(homeIntent);
+                getActivity().finish();
+            }
+        });
+    }
+}

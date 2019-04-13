@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -53,174 +53,20 @@
             android:textColor="@color/black"
             android:textAllCaps="false"/>
 
-        <TextView
-            android:id="@+id/frag_home_invitations"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="15dp"
-            android:layout_below="@+id/frag_home_create_event"
-            android:text="Invitations:"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"/>
-
-        <LinearLayout
-            android:id="@+id/frag_home_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/frag_home_invitations"
-            android:orientation="vertical"
-            android:background="@color/white">
-
-            <ImageView
-                android:id="@+id/frag_home_separator_top"
+        <Button
+                android:id="@+id/frag_home_add_friend"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black_light"/>
-
-            <RelativeLayout
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/frag_home_event_image1"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/loginlogo"/>
-
-                <TextView
-                    android:id="@+id/frag_home_event_invite1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignStart="@+id/frag_home_event_image1"
-                    android:layout_marginStart="50dp"
-                    android:text="'Username' has invited you to 'Party Name'"
-                    android:textColor="@color/black"/>
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/frag_home_separator_invitation1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="15dp"
-                android:background="@color/black_light"/>
-
-            <RelativeLayout
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/frag_home_event_image2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/loginlogo"/>
-
-                <TextView
-                    android:id="@+id/frag_home_event_invite2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignStart="@+id/frag_home_event_image2"
-                    android:layout_marginStart="50dp"
-                    android:text="'Username' has invited you to 'Party Name'"
-                    android:textColor="@color/black"/>
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/frag_home_separator_invitation2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="15dp"
-                android:background="@color/black_light"/>
-
-            <RelativeLayout
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/frag_home_event_image3"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/loginlogo"/>
-
-                <TextView
-                    android:id="@+id/frag_home_event_invite3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignStart="@+id/frag_home_event_image3"
-                    android:layout_marginStart="50dp"
-                    android:text="'Username' has invited you to 'Party Name'"
-                    android:textColor="@color/black"/>
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/frag_home_separator_invitation3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="15dp"
-                android:background="@color/black_light"/>
-
-            <RelativeLayout
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/frag_home_event_image4"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/loginlogo"/>
-
-                <TextView
-                    android:id="@+id/frag_home_event_invite4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignStart="@+id/frag_home_event_image4"
-                    android:layout_marginStart="50dp"
-                    android:text="'Username' has invited you to 'Party Name'"
-                    android:textColor="@color/black"/>
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/frag_home_separator_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black_light"/>
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@id/frag_home_linear_layout"/>
+                android:layout_height="wrap_content"
+                android:layout_below="@id/frag_home_create_event"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border_light"
+                android:text="Add friend"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textAllCaps="false"/>
 
     </RelativeLayout>
 
-</ScrollView>
+</RelativeLayout>

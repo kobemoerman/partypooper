@@ -58,6 +58,8 @@ public class CreateEventActivity extends AppCompatActivity {
 
     dbRef.updateChildren(event);
 
+    //dbRef.removeValue();
+
     super.onStop();
   }
 

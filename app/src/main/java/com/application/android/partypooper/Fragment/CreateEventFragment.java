@@ -212,6 +212,8 @@ public class CreateEventFragment extends Fragment implements Events {
         String time = hour + ":" + min;
 
         saveEventInformation(date,time);
+
+        openInviteFriendsFragment(new InviteFriendsFragment());
       }
     });
 
@@ -221,6 +223,11 @@ public class CreateEventFragment extends Fragment implements Events {
         openCreateEventFragment(new EventSelectionFragment());
       }
     });
+  }
+
+  private void openInviteFriendsFragment(Fragment frag) {
+    String TAG = "InviteFriendsFragment";
+    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.event_fragment_container, frag, TAG).commit();
   }
 
   private void saveEventInformation(String date, String time) {
