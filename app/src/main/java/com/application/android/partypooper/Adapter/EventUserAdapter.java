@@ -24,18 +24,28 @@ public class EventUserAdapter extends RecyclerView.Adapter<EventUserAdapter.Even
 	private List<User> mUsers;
 		
 	private FirebaseUser firebaseUser;
+
+	private onItemClickListener mListener;
 		
 	public EventUserAdapter(Context mContext, List<User> mUsers) {
 		this.mContext = mContext;
 		this.mUsers = mUsers;
 	}
+
+	public interface onItemClickListener {
+	    void onItemClick(int pos);
+    }
+
+    public void setOnItemClickListener (onItemClickListener listener) {
+        mListener = listener;
+    }
 		
 	@NonNull
 	@Override
 	public EventViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 		View view = LayoutInflater.from(mContext).inflate(R.layout.user_event, viewGroup, false);
 
-		return new EventViewHolder(view);
+		return new EventViewHolder(view, mListener);
 	}
 
 	@Override
@@ -60,11 +70,26 @@ public class EventUserAdapter extends RecyclerView.Adapter<EventUserAdapter.Even
 		public ImageView check;
 		public CircleImageView icon;
 				
-		public EventViewHolder(@NonNull View itemView) {
+		public EventViewHolder(@NonNull View itemView, final onItemClickListener listner) {
 			super(itemView);
 			username = itemView.findViewById(R.id.user_event_name);
 			icon = itemView.findViewById(R.id.user_event_image);
 	    	check = itemView.findViewById(R.id.user_event_check);
-			}
+
+	    	itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listner != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            //TODO: change radio button to a check and change alpha
+                            check.setBackgroundResource(R.drawable.ic_check_circle);
+                            check.setAlpha(1);
+                            listner.onItemClick(position);
+                        }
+                    }
+                }
+            });
+		}
 	}
 }

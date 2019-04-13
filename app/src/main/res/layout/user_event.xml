@@ -12,11 +12,9 @@
         android:id="@+id/user_event_check"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/ic_radio_button_unchecked"
+        android:src="@drawable/ic_radio_button"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="22dp"
-        android:alpha="0.5"
-        />
+        android:layout_marginTop="22dp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_event_image"

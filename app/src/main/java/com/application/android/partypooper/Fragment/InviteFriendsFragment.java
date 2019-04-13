@@ -15,9 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.application.android.partypooper.Activity.EventActivity;
-import com.application.android.partypooper.Activity.HomeActivity;
 import com.application.android.partypooper.Adapter.EventUserAdapter;
-import com.application.android.partypooper.Model.Event;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +37,7 @@ public class InviteFriendsFragment extends Fragment {
 		
 	private FirebaseUser firebaseUser;
 	private RecyclerView recyclerView;
-	private EventUserAdapter eventUserAdapter;
+	private EventUserAdapter mAdapter;
 	private List<User> mUsers;
 
 
@@ -66,8 +64,15 @@ public class InviteFriendsFragment extends Fragment {
     	searchBar = view.findViewById(R.id.frag_invite_search_bar);
 
     	mUsers = new ArrayList<>();
-    	eventUserAdapter = new EventUserAdapter(getContext(),mUsers);
-    	recyclerView.setAdapter(eventUserAdapter);
+    	mAdapter = new EventUserAdapter(getContext(),mUsers);
+    	recyclerView.setAdapter(mAdapter);
+
+    	mAdapter.setOnItemClickListener(new EventUserAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                //TODO:get user id from click
+            }
+        });
 
     	back = view.findViewById(R.id.frag_invite_back);
     	next = view.findViewById(R.id.frag_invite_next);
@@ -115,14 +120,14 @@ public class InviteFriendsFragment extends Fragment {
 					        assert user != null;
 					        mUsers.add(user);
 
-					        eventUserAdapter.notifyDataSetChanged();
+					        mAdapter.notifyDataSetChanged();
 					    }
 					    @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
 					    }
 					});
 				}
-				eventUserAdapter.notifyDataSetChanged();
+				mAdapter.notifyDataSetChanged();
 		    }
 		    @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
