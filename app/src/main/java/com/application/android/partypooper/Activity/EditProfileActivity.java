@@ -58,7 +58,7 @@ public class EditProfileActivity extends AppCompatActivity{
         findActivityElements();
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        storageRef = FirebaseStorage.getInstance().getReference("uploads");
+        storageRef = FirebaseStorage.getInstance().getReference("profile_picture");
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
         ref.addValueEventListener(new ValueEventListener() {
@@ -147,7 +147,7 @@ public class EditProfileActivity extends AppCompatActivity{
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
 
                         HashMap<String, Object> img = new HashMap<>();
-                        img.put("imgURL", "" + imgURL);
+                        img.put("imgURL", ""+imgURL);
 
                         ref.updateChildren(img);
                         progress.dismiss();

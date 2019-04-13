@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/fragment_create_event"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,10 +9,39 @@
     android:background="@color/background_white">
 
     <RelativeLayout
-        android:id="@+id/frag_Event_layout_name"
+        android:id="@+id/frag_event_image"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/background_white">
+
+        <ImageView
+            android:id="@+id/frag_event_image1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_image"/>
+
+        <ImageView
+            android:id="@+id/frag_event_image2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@color/colorPrimary"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/frag_event_layout_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/frag_event_image"
         android:background="@color/white">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black_light"/>
 
         <EditText
             android:id="@+id/frag_event_name"
@@ -38,10 +68,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/frag_Event_layout_name"
+        android:layout_below="@id/frag_event_layout_name"
         android:layout_centerHorizontal="true"
         android:textColor="@color/colorPrimary"
-        android:text="Upload picture"
+        android:text="Upload image"
         android:textSize="16sp" />
 
     <RelativeLayout

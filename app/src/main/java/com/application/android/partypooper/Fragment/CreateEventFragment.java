@@ -3,9 +3,13 @@ package com.application.android.partypooper.Fragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,27 +17,62 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.application.android.partypooper.Activity.CreateEventActivity;
+import com.application.android.partypooper.Activity.EditProfileActivity;
+import com.application.android.partypooper.Model.Event;
 import com.application.android.partypooper.Model.Events;
+import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Objects;
+
+import static android.app.Activity.RESULT_OK;
 
 @SuppressLint("ValidFragment")
 public class CreateEventFragment extends Fragment implements Events {
 
-  private Button next, back;
-  private TextView date_time;
-  private EditText name, location, description;
+  private Boolean picInPlace;
 
-  private Calendar cal;
+  private Button mNext, mBack;
+  private RelativeLayout imageContainer;
+  private ImageView tempImage, eventImage;
+  private TextView date_time, mImage;
+  private EditText mName, mLocation, mDescription;
+
   private int year, month, day, hour, min;
   private DatePickerDialog.OnDateSetListener mDateSetListener;
   private TimePickerDialog.OnTimeSetListener mTimeSetListener;
@@ -43,23 +82,76 @@ public class CreateEventFragment extends Fragment implements Events {
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_create_event, container, false);
 
+    picInPlace = false;
+
     findFragmentElements(view);
+
+    eventImage.setVisibility(View.INVISIBLE);
 
     navigationListener();
 
     dateTimeListener();
 
+    uploadImageListener();
+
+    setImageListener();
+
     return view;
   }
 
+  private void setImageListener() {
+    FirebaseUser mUser = ((CreateEventActivity)getActivity()).getmUser();
+    String timeStamp = ((CreateEventActivity)getActivity()).getTimeStamp();
+
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Events").
+            child(timeStamp + "?" + mUser.getUid());
+
+    ref.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+        Event event = dataSnapshot.getValue(Event.class);
+
+        if (event.getImageURL() != null && !picInPlace) {
+          tempImage.setVisibility(View.INVISIBLE);
+          eventImage.setVisibility(View.VISIBLE);
+          Glide.with(eventImage.getContext()).load(event.getImageURL()).into(eventImage);
+          picInPlace = true;
+        }
+      }
+
+      @Override
+      public void onCancelled(@NonNull DatabaseError databaseError) {
+
+      }
+    });
+  }
+
+  private void uploadImageListener() {
+    imageContainer.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        CropImage.activity().setAspectRatio(1280,720).
+                setCropShape(CropImageView.CropShape.RECTANGLE).start(getActivity());
+      }
+    });
+    mImage.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        CropImage.activity().setAspectRatio(1280,720).
+                setCropShape(CropImageView.CropShape.RECTANGLE).start(getActivity());
+      }
+    });
+  }
+
   private void dateTimeListener() {
-    cal = Calendar.getInstance();
+    Calendar cal = Calendar.getInstance();
 
     year = cal.get(Calendar.YEAR);
     month = cal.get(Calendar.MONTH);
     day = cal.get(Calendar.DAY_OF_MONTH);
 
-    hour = cal.get(Calendar.HOUR)+1;
+    hour = cal.get(Calendar.HOUR_OF_DAY)+1;
     min = 0;
 
     String date = day + " " + getMonth(month) + ", at " + hour + ":00";
@@ -113,15 +205,17 @@ public class CreateEventFragment extends Fragment implements Events {
   }
 
   private void navigationListener () {
-
-    next.setOnClickListener(new View.OnClickListener() {
+    mNext.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        //TODO: send the user to next fragment.
+        String date = day + "/" + month + "/" + year;
+        String time = hour + ":" + min;
+
+        saveEventInformation(date,time);
       }
     });
 
-    back.setOnClickListener(new View.OnClickListener() {
+    mBack.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         openCreateEventFragment(new EventSelectionFragment());
@@ -129,16 +223,33 @@ public class CreateEventFragment extends Fragment implements Events {
     });
   }
 
+  private void saveEventInformation(String date, String time) {
+    ((CreateEventActivity)getActivity()).addValueDatabase("date",date);
+    ((CreateEventActivity)getActivity()).addValueDatabase("time",time);
+
+    ((CreateEventActivity)getActivity()).addValueDatabase("name",
+            mName.getText().toString());
+    ((CreateEventActivity)getActivity()).addValueDatabase("location",
+            mLocation.getText().toString());
+    ((CreateEventActivity)getActivity()).addValueDatabase("description",
+            mDescription.getText().toString());
+  }
+
   private void openCreateEventFragment(Fragment frag) {
-    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.event_fragment_container, frag).commit();
+    Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(
+            R.id.event_fragment_container, frag).commit();
   }
 
   private void findFragmentElements(View view) {
-    next = view.findViewById(R.id.frag_event_next);
-    back = view.findViewById(R.id.frag_event_back);
+    mNext = view.findViewById(R.id.frag_event_next);
+    mBack = view.findViewById(R.id.frag_event_back);
     date_time = view.findViewById(R.id.frag_event_date_time);
-    name = view.findViewById(R.id.frag_event_name);
-    location = view.findViewById(R.id.frag_event_location);
-    description = view.findViewById(R.id.frag_event_description);
+    mName = view.findViewById(R.id.frag_event_name);
+    mLocation = view.findViewById(R.id.frag_event_location);
+    mDescription = view.findViewById(R.id.frag_event_description);
+    mImage = view.findViewById(R.id.frag_event_upload_photo);
+    eventImage = view.findViewById(R.id.frag_event_image2);
+    tempImage = view.findViewById(R.id.frag_event_image1);
+    imageContainer = view.findViewById(R.id.frag_event_image);
   }
 }

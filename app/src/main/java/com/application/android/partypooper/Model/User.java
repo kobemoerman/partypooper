@@ -18,8 +18,7 @@ public class User {
         this.imgURL = imgURL;
     }
 
-    public User () {
-    }
+    public User () {}
 
     public String getId() {
         return id;

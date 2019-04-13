@@ -38,9 +38,6 @@ public class MenuFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private String userID;
-
-    private HomeActivity homeActivity;
 
     @Nullable
     @Override
@@ -111,7 +108,6 @@ public class MenuFragment extends Fragment {
 
                 User user = dataSnapshot.getValue(User.class);
 
-                assert user != null;
                 profUsername.setText(user.getUsername());
                 userStatus.setText(String.format("\"%s\"", user.getStatus()));
                 userAge.setText(getAge(user.getAge()));
