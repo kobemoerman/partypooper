@@ -62,7 +62,7 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         initView(view);
-        friendsQueryDatabase();
+        usersQueryDatabase();
 
         return view;
     }
@@ -73,6 +73,7 @@ public class SearchFragment extends Fragment {
      */
     private void initView(View view) {
         act = (HomeActivity) getActivity();
+        assert act != null;
         mUser = act.getmUser();
         qUsers = act.getqUsers();
 
@@ -90,7 +91,7 @@ public class SearchFragment extends Fragment {
     /**
      * Displays the users depending on the query.
      */
-    private void friendsQueryDatabase() {
+    private void usersQueryDatabase() {
         displayUsers(qUsers);
 
         searchBar.addTextChangedListener(new TextWatcher() {

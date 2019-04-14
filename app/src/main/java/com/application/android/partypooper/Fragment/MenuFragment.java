@@ -1,6 +1,5 @@
 package com.application.android.partypooper.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.application.android.partypooper.Activity.EditProfileActivity;
 import com.application.android.partypooper.Activity.HomeActivity;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
@@ -39,15 +37,6 @@ public class MenuFragment extends Fragment {
 
     /** Text view items on click listeners */
     private TextView bFriends, bEvents, bSettings, bLogOut;
-
-    /** Button to edit user profile */
-    private Button bEditProfile;
-
-    /** Firebase authentication */
-    private FirebaseAuth mAuth;
-
-    /** Firebase current user */
-    private FirebaseUser mUser;
 
     /** Firebase reference to user info */
     private DatabaseReference refUserInfo;
@@ -81,8 +70,7 @@ public class MenuFragment extends Fragment {
      */
     private void initView(View view) {
         act = (HomeActivity) getActivity();
-        mAuth = act.getmAuth();
-        mUser = act.getmUser();
+        assert act != null;
         refFriendsCount = act.getRefFriendsCount();
         refUserInfo = act.getRefUserInfo();
 
@@ -91,7 +79,6 @@ public class MenuFragment extends Fragment {
         userStatus = view.findViewById(R.id.frag_menu_user_status);
         userFriends = view.findViewById(R.id.frag_menu_user_friends);
         userAge = view.findViewById(R.id.frag_menu_user_age);
-        bEditProfile = view.findViewById(R.id.frag_menu_edit_profile);
         bFriends = view.findViewById(R.id.frag_menu_friends);
         bEvents = view.findViewById(R.id.frag_menu_events);
         bSettings = view.findViewById(R.id.frag_menu_settings);
@@ -139,8 +126,8 @@ public class MenuFragment extends Fragment {
     }
 
     /**
-     * Returns the age from a given string date
-     * @param str date in string form
+     * Returns the int age from a given string date
+     * @param str (string) date
      * @return (int) age
      */
     private String getAge(String str){

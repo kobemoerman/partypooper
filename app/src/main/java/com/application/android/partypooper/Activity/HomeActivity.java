@@ -42,7 +42,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         initFirebase();
-        updateFragment(new HomeFragment());
     }
     /**
      * On create method of the activity.
@@ -54,6 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         navigationButtonListener();
+        updateFragment(new HomeFragment());
     }
 
     /**
@@ -125,7 +125,16 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     /**
-     * Replace the current fragment with the parameter.
+     * On click listener for the create event button.
+     * Launches the CreateEventActivity.
+     * @param view view of this activity
+     */
+    public void onClickCreateEventHome(View view) {
+        startActivity(new Intent(this, CreateEventActivity.class));
+    }
+
+    /**
+     * Replace the current fragment with the one to be displayed.
      * @param selected fragment to be displayed
      */
     private void updateFragment (Fragment selected) {
