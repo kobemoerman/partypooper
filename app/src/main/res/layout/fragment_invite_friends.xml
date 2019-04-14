@@ -23,16 +23,18 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:alpha="0.5"
-                    android:src="@drawable/ic_search"/>
+                    android:src="@drawable/ic_search"
+                    android:alpha="0.6"
+                />
 
                 <EditText
                     android:id="@+id/frag_invite_search_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
                     android:background="@android:color/transparent"
                     android:hint="Search"
-                    android:layout_marginStart="30dp"/>
+                />
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
@@ -42,26 +44,29 @@
     <ImageView
         android:id="@+id/frag_invite_separator_top"
         android:layout_width="match_parent"
-        android:layout_below="@+id/frag_invite_search_layout"
         android:layout_height="0.5dp"
-        android:background="@color/black_light"/>
+        android:layout_below="@+id/frag_invite_search_layout"
+        android:background="@color/black_light"
+    />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/frag_invite_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/frag_invite_separator_top"
-        android:layout_above="@id/frag_invite_separator_bottom"/>
+        android:layout_above="@id/frag_invite_separator_bottom"
+    />
 
-    <ImageView
-            android:id="@+id/frag_invite_separator_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginBottom="75dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/black_light"/>
+    <View
+        android:id="@+id/frag_invite_separator_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@id/frag_invite_nav"
+        android:background="@color/black_light"
+    />
 
     <LinearLayout
+            android:id="@+id/frag_invite_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -70,8 +75,7 @@
         <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginBottom="20dp">
+                android:padding="15dp">
 
             <Button
                     android:id="@+id/frag_invite_back"
@@ -79,17 +83,10 @@
                     android:layout_height="40dp"
                     android:layout_alignParentStart="true"
                     android:background="@drawable/button_background_red"
-                    android:textAllCaps="false"
+                    android:text="Back"
                     android:textColor="@color/white"
-                    android:text="Back"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="40dp"
-                android:layout_marginBottom="20dp">
+                    android:textAllCaps="false"
+            />
 
             <Button
                     android:id="@+id/frag_invite_next"
@@ -97,9 +94,10 @@
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
                     android:background="@drawable/button_background_green"
-                    android:textAllCaps="false"
+                    android:text="Next"
                     android:textColor="@color/white"
-                    android:text="Next"/>
+                    android:textAllCaps="false"
+            />
 
         </RelativeLayout>
 
@@ -116,19 +114,22 @@
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/circle_not_active"/>
+                android:src="@drawable/circle_not_active"
+        />
 
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
                 android:layout_marginRight="7dp"
-                android:src="@drawable/circle_not_active" />
+                android:src="@drawable/circle_active"
+        />
 
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/circle_active"/>
+                android:src="@drawable/circle_not_active"
+        />
 
     </LinearLayout>
 

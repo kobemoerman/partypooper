@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/fragment_create_event"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_create_event"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.CreateEventFragment"
     android:background="@color/background_white">
 
     <RelativeLayout
@@ -16,10 +14,11 @@
 
         <ImageView
             android:id="@+id/frag_event_image1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_image"/>
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_image"
+        />
 
         <ImageView
             android:id="@+id/frag_event_image2"
@@ -27,7 +26,8 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@color/colorPrimary"/>
+            android:src="@color/colorPrimary"
+        />
 
     </RelativeLayout>
 
@@ -38,10 +38,11 @@
         android:layout_below="@+id/frag_event_image"
         android:background="@color/white">
 
-        <ImageView
+        <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/black_light"/>
+            android:background="@color/black_light"
+        />
 
         <EditText
             android:id="@+id/frag_event_name"
@@ -52,15 +53,17 @@
             android:layout_marginBottom="15dp"
             android:hint="Event Name"
             android:background="@null"
-            android:maxLines="1"
-            android:maxLength="30"
-            android:textSize="25sp"/>
+            android:maxLines="2"
+            android:maxLength="60"
+            android:textSize="25sp"
+        />
 
-        <ImageView
+        <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/frag_event_name"
-            android:background="@color/black_light"/>
+            android:background="@color/black_light"
+        />
 
     </RelativeLayout>
 
@@ -73,7 +76,8 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/colorPrimary"
         android:text="Upload image"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+    />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -82,70 +86,79 @@
         android:layout_below="@+id/frag_event_upload_photo"
         android:background="@color/white">
 
-        <ImageView
-            android:id="@+id/frag_event_separator"
+        <View
+            android:id="@+id/frag_event_1"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/black_light"/>
+            android:layout_marginBottom="7dp"
+            android:background="@color/black_light"
+        />
 
         <TextView
             android:id="@+id/frag_event_date_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/frag_event_separator"
+            android:layout_below="@id/frag_event_1"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
             android:text="date, at time"
             android:textSize="16sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+        />
 
-        <ImageView
+        <View
+            android:id="@+id/frag_event_2"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginStart="30dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
             android:layout_below="@+id/frag_event_date_time"
-            android:background="@color/black_light"/>
+            android:background="@color/black_light"
+        />
 
         <EditText
             android:id="@+id/frag_event_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_below="@id/frag_event_date_time"
-            android:hint="Location"
+            android:layout_below="@id/frag_event_2"
             android:background="@null"
+            android:hint="Location"
             android:maxLines="1"
             android:textSize="16sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+        />
 
-        <ImageView
+        <View
+            android:id="@+id/frag_event_3"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginStart="30dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
             android:layout_below="@+id/frag_event_location"
-            android:background="@color/black_light"/>
+            android:background="@color/black_light"
+        />
 
         <EditText
             android:id="@+id/frag_event_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_below="@id/frag_event_location"
-            android:hint="Description"
+            android:layout_below="@id/frag_event_3"
             android:background="@null"
+            android:hint="Description"
             android:maxLines="7"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+        />
 
-        <ImageView
+        <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginTop="7dp"
             android:layout_below="@+id/frag_event_description"
-            android:background="@color/black_light"/>
+            android:background="@color/black_light"
+        />
 
     </RelativeLayout>
 
@@ -158,8 +171,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginBottom="20dp">
+            android:padding="15dp">
 
             <Button
                 android:id="@+id/frag_event_back"
@@ -167,17 +179,10 @@
                 android:layout_height="40dp"
                 android:layout_alignParentStart="true"
                 android:background="@drawable/button_background_red"
-                android:textAllCaps="false"
+                android:text="Back"
                 android:textColor="@color/white"
-                android:text="Back"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="20dp">
+                android:textAllCaps="false"
+            />
 
             <Button
                 android:id="@+id/frag_event_next"
@@ -185,9 +190,10 @@
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/button_background_green"
-                android:textAllCaps="false"
+                android:text="Next"
                 android:textColor="@color/white"
-                android:text="Next"/>
+                android:textAllCaps="false"
+            />
 
         </RelativeLayout>
 
@@ -204,19 +210,22 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/circle_not_active"/>
+            android:src="@drawable/circle_not_active"
+        />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
-            android:src="@drawable/circle_active" />
+            android:src="@drawable/circle_active"
+        />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/circle_not_active"/>
+            android:src="@drawable/circle_not_active"
+        />
 
     </LinearLayout>
 

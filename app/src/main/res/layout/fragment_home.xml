@@ -8,16 +8,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/frag_home_logo"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"
             android:src="@drawable/logo"
-            android:layout_centerHorizontal="true"/>
+        />
 
         <TextView
             android:id="@+id/frag_home_welcome"
@@ -27,8 +27,9 @@
             android:layout_marginTop="40dp"
             android:layout_centerHorizontal="true"
             android:text="Welcome to PartyPooper"
+            android:textColor="@color/black"
             android:textSize="25sp"
-            android:textColor="@color/black"/>
+        />
 
         <TextView
             android:id="@+id/frag_home_desc"
@@ -37,7 +38,10 @@
             android:layout_below="@id/frag_home_welcome"
             android:layout_marginTop="15dp"
             android:layout_centerHorizontal="true"
-            android:text="The best event-planning application in the world."/>
+            android:text="The best event-planning application in the world."
+            android:textColor="@color/black_light"
+            android:textSize="14sp"
+        />
 
         <Button
             android:id="@+id/frag_home_create_event"
@@ -49,23 +53,19 @@
             android:layout_marginEnd="20dp"
             android:background="@drawable/border_light"
             android:text="Create event"
-            android:textSize="18sp"
             android:textColor="@color/black"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false"
+            android:textSize="18sp"
+        />
 
-        <Button
-                android:id="@+id/frag_home_add_friend"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/frag_home_create_event"
-                android:layout_marginTop="40dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/border_light"
-                android:text="Add friend"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:textAllCaps="false"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_below="@+id/frag_home_create_event"
+            android:background="@color/black_light"
+        />
 
     </RelativeLayout>
 

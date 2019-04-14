@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Fragment.SearchFragment">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/frag_search_search_layout"
@@ -14,31 +13,30 @@
             android:id="@+id/frag_search_app_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?android:attr/windowBackground">
+            android:background="?android:attr/windowBackground"
+            android:padding="10dp">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/frag_search_tool_bar"
                 android:layout_width="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_height="40dp"
                 android:background="@drawable/button_background_light">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_search"
                 android:alpha="0.5"
-                android:src="@drawable/ic_search"/>
+            />
 
             <EditText
                 android:id="@+id/frag_search_search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:background="@android:color/transparent"
                 android:hint="Search"
-                android:layout_marginStart="30dp"/>
+            />
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
@@ -47,14 +45,16 @@
     <ImageView
         android:id="@+id/frag_search_separator"
         android:layout_width="match_parent"
-        android:layout_below="@+id/frag_search_search_layout"
         android:layout_height="1dp"
-        android:background="@color/black_light"/>
+        android:layout_below="@+id/frag_search_search_layout"
+        android:background="@color/black_light"
+    />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/frag_search_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/frag_search_separator"/>
+        android:layout_below="@id/frag_search_separator"
+    />
 
 </RelativeLayout>

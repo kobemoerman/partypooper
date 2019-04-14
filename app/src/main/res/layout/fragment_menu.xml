@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,16 +8,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/background_white">
+        android:background="@color/background_white"
+        android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="237dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -26,7 +26,8 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
-                android:src="@drawable/ic_account_circle" />
+                android:src="@drawable/ic_account_circle"
+            />
 
             <TextView
                 android:id="@+id/frag_menu_user_username"
@@ -36,20 +37,23 @@
                 android:layout_marginTop="10dp"
                 android:text="Username"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+            />
 
             <TextView
                 android:id="@+id/frag_menu_user_status"
                 android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:maxLines="3"
+                android:layout_marginBottom="15dp"
+                android:layout_gravity="center_horizontal"
                 android:text="&quot;Hi, I'm using PartyPooper!&quot;"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:maxLines="3"
+            />
 
         </LinearLayout>
 
@@ -57,8 +61,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@color/background_white">
+        android:layout_height="90dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,18 +83,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Friends"
+                    android:textColor="@color/black_light"
+                    android:textStyle="bold"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                />
 
                 <TextView
                     android:id="@+id/frag_menu_user_friends"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="0"
                     android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
                     android:textSize="25sp"
-                    android:textStyle="bold" />
+                />
 
             </LinearLayout>
 
@@ -106,18 +112,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Age"
+                    android:textColor="@color/black_light"
+                    android:textStyle="bold"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                />
 
                 <TextView
                     android:id="@+id/frag_menu_user_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="0"
                     android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
                     android:textSize="25sp"
-                    android:textStyle="bold" />
+                />
 
             </LinearLayout>
 
@@ -132,31 +141,36 @@
         android:layout_marginEnd="10dp"
         android:background="@drawable/border_light"
         android:textAllCaps="false"
-        android:text="Edit profile"/>
+        android:text="Edit profile"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+    />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginStart="13dp"
+        android:text="Private Information:"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:text="Private Information:"/>
+    />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:orientation="vertical"
         android:background="@color/white">
 
-        <ImageView
-            android:id="@+id/frag_menu_line1"
+        <View
+            android:id="@+id/frag_menu_1"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@drawable/button_background_light"/>
+            android:background="@drawable/button_background_light"
+        />
 
         <RelativeLayout
             android:layout_marginTop="5dp"
@@ -170,36 +184,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
-                android:background="@drawable/ic_people"/>
+                android:background="@drawable/ic_people"
+            />
 
             <TextView
                 android:id="@+id/frag_menu_friends"
                 android:layout_width="match_parent"
-                android:layout_alignStart="@+id/frag_menu_ic_people"
                 android:layout_height="25dp"
                 android:layout_marginStart="40dp"
+                android:layout_alignStart="@+id/frag_menu_ic_people"
                 android:gravity="center_vertical"
+                android:text="Friends"
                 android:textColor="@color/black"
                 android:textSize="17sp"
-                android:text="Friends"/>
+            />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="10dp"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/ic_navigate_next"/>
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_navigate_next"
+            />
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/frag_menu_line2"
+        <View
+            android:id="@+id/frag_menu_2"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/button_background_light"/>
+            android:background="@drawable/button_background_light"
+        />
 
         <RelativeLayout
             android:layout_marginTop="5dp"
@@ -213,36 +231,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
-                android:background="@drawable/ic_apps"/>
+                android:background="@drawable/ic_apps"
+            />
 
             <TextView
                 android:id="@+id/frag_menu_events"
                 android:layout_width="match_parent"
-                android:layout_alignStart="@+id/frag_menu_ic_events"
                 android:layout_height="25dp"
+                android:layout_alignStart="@+id/frag_menu_ic_events"
                 android:layout_marginStart="40dp"
                 android:gravity="center_vertical"
+                android:text="Events"
                 android:textColor="@color/black"
                 android:textSize="17sp"
-                android:text="Events"/>
+            />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="10dp"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/ic_navigate_next"/>
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_navigate_next"
+            />
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/frag_menu_line3"
+        <View
+            android:id="@+id/frag_menu_3"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/button_background_light"/>
+            android:background="@drawable/button_background_light"
+        />
 
         <RelativeLayout
             android:layout_marginTop="5dp"
@@ -256,36 +278,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
-                android:background="@drawable/ic_settings"/>
+                android:background="@drawable/ic_settings"
+            />
 
             <TextView
                 android:id="@+id/frag_menu_settings"
                 android:layout_width="match_parent"
-                android:layout_alignStart="@+id/frag_menu_ic_settings"
                 android:layout_height="25dp"
+                android:layout_alignStart="@+id/frag_menu_ic_settings"
                 android:layout_marginStart="40dp"
                 android:gravity="center_vertical"
+                android:text="Settings"
                 android:textColor="@color/black"
                 android:textSize="17sp"
-                android:text="Settings"/>
+            />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="10dp"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/ic_navigate_next"/>
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_navigate_next"
+            />
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/frag_menu_line4"
+        <View
+            android:id="@+id/frag_menu_4"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/button_background_light"/>
+            android:background="@drawable/button_background_light"
+        />
 
         <RelativeLayout
             android:layout_marginTop="5dp"
@@ -299,34 +325,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
-                android:background="@drawable/ic_cancel"/>
+                android:background="@drawable/ic_cancel"
+            />
 
             <TextView
                 android:id="@+id/frag_menu_log_out"
                 android:layout_width="match_parent"
-                android:layout_alignStart="@+id/frag_menu_ic_cancel"
                 android:layout_height="25dp"
+                android:layout_alignStart="@+id/frag_menu_ic_cancel"
                 android:layout_marginStart="40dp"
                 android:gravity="center_vertical"
+                android:text="Log out"
                 android:textColor="@color/black"
                 android:textSize="17sp"
-                android:text="Log out"/>
+            />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="10dp"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/ic_navigate_next"/>
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_navigate_next"
+            />
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/frag_menu_line5"
+        <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/button_background_light"/>
+            android:background="@drawable/button_background_light"
+        />
 
     </LinearLayout>
 
@@ -336,19 +365,23 @@
             android:layout_height="75dp"
             android:layout_marginTop="35dp"
             android:layout_gravity="center"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo"
+        />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
-            android:textColor="@color/black"
             android:textAlignment="center"
-            android:text="PartyPooper Application!"/>
+            android:text="PartyPooper Application!"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+        />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="25dp"/>
+            android:layout_height="25dp"
+        />
 
     </LinearLayout>
 
