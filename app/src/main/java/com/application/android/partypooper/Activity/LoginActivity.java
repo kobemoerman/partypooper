@@ -19,9 +19,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class LoginActivity extends AppCompatActivity {
 
     /** view edit text items */
@@ -86,7 +83,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    showMessage("Logged In",false);
                     updateActivity();
                 } else {
                     showMessage(task.getException().getMessage(),true);
@@ -98,9 +94,10 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * On click listener for the login button.
+     * Launches the Home Activity if successful and kills the current one.
      * @param view view of the activity
      */
-    public void onClickLogin(View view) {
+    public void onClickLoginLogin(View view) {
         progressBar.setVisibility(View.VISIBLE);
         loginButton.setVisibility(View.INVISIBLE);
 
@@ -124,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
      * Launches the Register Activity but doesn't kill the current one.
      * @param view view of the activity
      */
-    public void onClickRegister(View view) {
+    public void onClickLoginRegister(View view) {
         Intent registerIntent = new Intent(getApplicationContext(),RegisterActivity.class);
         startActivity(registerIntent);
     }

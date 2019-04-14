@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -33,125 +34,144 @@ import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    /** view button to register */
     private Button registerButton;
-    private EditText usernameEditText;
-    private TextView birthdayTextView;
-    private EditText emailEditText;
-    private EditText passwordEditText;
-    private EditText confirmationEditText;
 
+    /** view text view updated by DatePicker */
+    private TextView userDate;
+
+    /** view progress bar after pressing the button */
     private ProgressBar progressBar;
 
-    private FirebaseAuth mAuth;
-    private DatabaseReference userRef;
-    private String currentUserID;
+    /** view edit text items */
+    private EditText userUsername, userPassword, passwordConfirmation, userMail;
 
-    private TextView mDate;
+    /** Firebase authentication */
+    private FirebaseAuth mAuth;
+
+    /** Dialog to pick a date */
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
+    /**
+     * On create method of the activity.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        registerClickListener();
-
-        birthdayClickListener();
+        initView();
+        onClickRegisterBirthday();
     }
 
-    private void registerClickListener() {
+    /**
+     * Initializes the view of the activity and Firebase.
+     */
+    private void initView() {
+        mAuth = FirebaseAuth.getInstance();
+
         registerButton = findViewById(R.id.register_register_button);
-        usernameEditText = findViewById(R.id.register_username);
-        birthdayTextView = findViewById(R.id.register_age);
-        emailEditText = findViewById(R.id.register_email);
-        passwordEditText = findViewById(R.id.register_password);
-        confirmationEditText = findViewById(R.id.register_confirmation);
+        userUsername = findViewById(R.id.register_username);
+        userDate = findViewById(R.id.register_age);
+        userMail = findViewById(R.id.register_email);
+        userPassword = findViewById(R.id.register_password);
+        passwordConfirmation = findViewById(R.id.register_confirmation);
         progressBar = findViewById(R.id.register_progress_bar);
 
         progressBar.setVisibility(View.INVISIBLE);
-
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerButton.setVisibility(View.INVISIBLE);
-                progressBar.setVisibility(View.VISIBLE);
-
-                mAuth = FirebaseAuth.getInstance();
-
-                String username = usernameEditText.getText().toString();
-                String age = birthdayTextView.getText().toString();
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                String confirm = confirmationEditText.getText().toString();
-
-                if (!isEmailValid(email)){
-                    showMessage("Enter valid e-mail",true);
-                    return;
-                }
-
-                if (TextUtils.isEmpty(password)) {
-                    showMessage("Enter password",true);
-                    return;
-                }
-
-                if (!password.equals(confirm) || TextUtils.isEmpty(confirm)) {
-                    showMessage("Passwords don't match",true);
-                    return;
-                }
-                createUserAccount(email,password,username,age);
-            }
-        });
     }
 
-    private void saveUserInformation(String username, String age) {
-        final String status = "Hi, I'm using PartyPooper!";
-
-        currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
-
-        HashMap userMap = new HashMap();
-        userMap.put("id",currentUserID);
-        userMap.put("username",username);
-        userMap.put("status",status);
-        userMap.put("gender","");
-        userMap.put("age",age);
-
-        userRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                if (task.isSuccessful()){
-                    updateUI();
-                } else {
-                    showMessage(Objects.requireNonNull(task.getException()).getMessage(),true);
-                }
-            }
-        });
-    }
-
+    /**
+     * Authenticate a new user with a given email and password.
+     *
+     * @param email    used to sign in.
+     * @param password used to sign in.
+     * @param username the user will be displayed by.
+     * @param age      the user is.
+     */
     private void createUserAccount(String email, String password, final String username, final String age) {
-        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    saveUserInformation(username,age);
-                } else {
-                    showMessage(Objects.requireNonNull(task.getException()).getMessage(),true);
-                }
+                if (task.isSuccessful()) saveUserInformation(username, age);
+
+                else showMessage(Objects.requireNonNull(task.getException()).getMessage(), true);
             }
         });
-
     }
 
-    private void updateUI() {
-        Intent homeIntent = new Intent(getApplicationContext(),HomeActivity.class);
-        startActivity(homeIntent);
-        finish();
+    /**
+     * Create a new node in the Users root.
+     *
+     * @param username to be saved.
+     * @param age      to be saved.
+     */
+    private void saveUserInformation(String username, String age) {
+        final String status = "Hi, I'm using PartyPooper!";
+        final String gender = "";
+
+        String mUser = mAuth.getCurrentUser().getUid();
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mUser);
+
+        HashMap userMap = new HashMap();
+        userMap.put("id", mUser);
+        userMap.put("username", username);
+        userMap.put("status", status);
+        userMap.put("gender", gender);
+        userMap.put("age", age);
+
+        mRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if (task.isSuccessful()) updateUI();
+
+                else showMessage(Objects.requireNonNull(task.getException()).getMessage(), true);
+            }
+        });
     }
 
-    private void birthdayClickListener() {
-        mDate = findViewById(R.id.register_age);
+    /**
+     * On click listener for the sign up button.
+     * Launches the Home Activity if successful and kills the current one.
+     *
+     * @param view view of the activity
+     */
+    public void onClickRegisterSignUp(View view) {
+        registerButton.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
 
-        mDate.setOnClickListener(new View.OnClickListener() {
+        String email = userMail.getText().toString();
+        if (!checkEmail(email)) {
+            showMessage("Enter valid e-mail", true);
+            return;
+        }
+
+        String password = userPassword.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            showMessage("Enter password", true);
+            return;
+        }
+
+        String confirm = passwordConfirmation.getText().toString();
+        if (!password.equals(confirm) || TextUtils.isEmpty(confirm)) {
+            showMessage("Passwords don't match", true);
+            return;
+        }
+
+        String username = userUsername.getText().toString();
+        String age = userDate.getText().toString();
+
+        createUserAccount(email, password, username, age);
+    }
+
+    /**
+     * On click listener for the birth date text view.
+     * Opens a DatePicker dialog.
+     */
+    private void onClickRegisterBirthday() {
+        userDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar cal = Calendar.getInstance();
@@ -176,24 +196,40 @@ public class RegisterActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 month = month+1;
                 String date = day + "/" + month + "/" + year;
-                mDate.setText(date);
-                mDate.setTextColor(Color.BLACK);
+                userDate.setText(date);
+                userDate.setTextColor(Color.BLACK);
             }
         };
     }
 
+    /**
+     * Launches the Home Activity and kills the current one.
+     */
+    private void updateUI() {
+        Intent homeIntent = new Intent(getApplicationContext(),HomeActivity.class);
+        startActivity(homeIntent);
+        finish();
+    }
+
+    /**
+     * Checks if the input email is valid.
+     * @param email string from the edit text
+     * @return false if email is valid
+     */
+    public static boolean checkEmail(CharSequence email) {
+        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+    }
+
+    /**
+     * Displays a toast on the screen.
+     * @param s text to display
+     * @param failed resets progress bar
+     */
     private void showMessage(String s, boolean failed) {
         Toast.makeText(this,s, Toast.LENGTH_LONG).show();
         if (failed) {
             registerButton.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.INVISIBLE);
         }
-    }
-
-    public static boolean isEmailValid(String email) {
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
     }
 }
