@@ -1,5 +1,6 @@
 package com.application.android.partypooper.Activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import android.view.View;
 import com.application.android.partypooper.Fragment.EventsFragment;
 import com.application.android.partypooper.Fragment.SearchFragment;
 import com.application.android.partypooper.Fragment.HomeFragment;
@@ -96,6 +98,30 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    /**
+     * On click listener for the log out text view.
+     * Launches the LoginActivity and kills the current one.
+     * @param view view of this activity
+     */
+    public void onClickLogOutHome(View view) {
+        try {
+            mAuth.signOut();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
+
+    /**
+     * On click listener for the edit profile button.
+     * Launches the EditProfileActivity.
+     * @param view view of this activity
+     */
+    public void onClickEditProfileHome(View view) {
+        startActivity(new Intent(this, EditProfileActivity.class));
     }
 
     /**

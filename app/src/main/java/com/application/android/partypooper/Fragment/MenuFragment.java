@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.application.android.partypooper.Activity.EditProfileActivity;
 import com.application.android.partypooper.Activity.HomeActivity;
-import com.application.android.partypooper.Activity.LoginActivity;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
 import com.bumptech.glide.Glide;
@@ -23,67 +22,87 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
 public class MenuFragment extends Fragment {
 
-    private ImageView userImg;
-    private TextView profUsername, userStatus, userFriends, userAge;
-    private TextView friendsButton, eventsButton, settingsButton, logOutButton;
-    private Button editProfileButton;
+    /** Reference to the Home Activity */
+    private HomeActivity act;
 
+    /** Image view for the user profile picture */
+    private ImageView userImage;
 
+    /** Text view items containing user info */
+    private TextView userUsername, userStatus, userFriends, userAge;
+
+    /** Text view items on click listeners */
+    private TextView bFriends, bEvents, bSettings, bLogOut;
+
+    /** Button to edit user profile */
+    private Button bEditProfile;
+
+    /** Firebase authentication */
     private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
 
+    /** Firebase current user */
+    private FirebaseUser mUser;
+
+    /** Firebase reference to user info */
+    private DatabaseReference refUserInfo;
+
+    /** Firebase reference to user friends */
+    private DatabaseReference refFriendsCount;
+
+    /**
+     * On create method of the fragment.
+     * @param inflater inflate any views in the fragment
+     * @param container parent view that the fragment's UI should be attached to
+     * @param savedInstanceState this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
-        findFragmentElements(view);
 
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        initView(view);
 
         userDataBaseInfo();
         userFriendsCountInfo();
 
-        editProfileListener();
-        logOutListener();
-
         return view;
     }
 
-    private void logOutListener() {
-        logOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    mAuth.signOut();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                startActivity(new Intent(getContext(), LoginActivity.class));
-                getActivity().finish();
-            }
-        });
+    /**
+     * Initialises the fragment view.
+     * @param view fragment_menu
+     */
+    private void initView(View view) {
+        act = (HomeActivity) getActivity();
+        mAuth = act.getmAuth();
+        mUser = act.getmUser();
+        refFriendsCount = act.getRefFriendsCount();
+        refUserInfo = act.getRefUserInfo();
+
+        userImage = view.findViewById(R.id.frag_menu_user_image);
+        userUsername = view.findViewById(R.id.frag_menu_user_username);
+        userStatus = view.findViewById(R.id.frag_menu_user_status);
+        userFriends = view.findViewById(R.id.frag_menu_user_friends);
+        userAge = view.findViewById(R.id.frag_menu_user_age);
+        bEditProfile = view.findViewById(R.id.frag_menu_edit_profile);
+        bFriends = view.findViewById(R.id.frag_menu_friends);
+        bEvents = view.findViewById(R.id.frag_menu_events);
+        bSettings = view.findViewById(R.id.frag_menu_settings);
+        bLogOut = view.findViewById(R.id.frag_menu_log_out);
     }
 
-    private void editProfileListener() {
-        editProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), EditProfileActivity.class));
-            }
-        });
-    }
-
+    /**
+     * Updates userFriends view to the user friend count
+     */
     private void userFriendsCountInfo() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Friends").child(currentUser.getUid());
-        ref.addValueEventListener(new ValueEventListener() {
+        refFriendsCount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 long friends = dataSnapshot.getChildrenCount();
@@ -97,21 +116,19 @@ public class MenuFragment extends Fragment {
         });
     }
 
+    /**
+     * Updates userUsername, userStatus, userAge to the user data
+     */
     private void userDataBaseInfo() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
-        ref.addValueEventListener(new ValueEventListener() {
+        refUserInfo.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (getContext() == null) {
-                    return;
-                }
-
                 User user = dataSnapshot.getValue(User.class);
 
-                profUsername.setText(user.getUsername());
+                userUsername.setText(user.getUsername());
                 userStatus.setText(String.format("\"%s\"", user.getStatus()));
                 userAge.setText(getAge(user.getAge()));
-                if (user.getImgURL() != null) Glide.with(userImg.getContext()).load(user.getImgURL()).into(userImg);
+                if (user.getImgURL() != null) Glide.with(userImage.getContext()).load(user.getImgURL()).into(userImage);
             }
 
             @Override
@@ -121,6 +138,11 @@ public class MenuFragment extends Fragment {
         });
     }
 
+    /**
+     * Returns the age from a given string date
+     * @param str date in string form
+     * @return (int) age
+     */
     private String getAge(String str){
         String date[] = str.split("/");
 
@@ -139,21 +161,6 @@ public class MenuFragment extends Fragment {
             age--;
         }
 
-        int ageInt = age;
-
-        return Integer.toString(ageInt);
-    }
-
-    private void findFragmentElements(View view) {
-        userImg = view.findViewById(R.id.frag_menu_user_image);
-        profUsername = view.findViewById(R.id.frag_menu_user_username);
-        userStatus = view.findViewById(R.id.frag_menu_user_status);
-        userFriends = view.findViewById(R.id.frag_menu_user_friends);
-        userAge = view.findViewById(R.id.frag_menu_user_age);
-        editProfileButton = view.findViewById(R.id.frag_menu_edit_profile);
-        friendsButton = view.findViewById(R.id.frag_menu_friends);
-        eventsButton = view.findViewById(R.id.frag_menu_events);
-        settingsButton = view.findViewById(R.id.frag_menu_settings);
-        logOutButton = view.findViewById(R.id.frag_menu_log_out);
+        return Integer.toString(age);
     }
 }
