@@ -18,6 +18,9 @@ import com.google.firebase.database.*;
 
 public class HomeActivity extends AppCompatActivity {
 
+    /** Query of all users */
+    private Query qUsers;
+
     /** Firebase authentication */
     private FirebaseAuth mAuth;
 
@@ -36,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        initFirebase();
         updateFragment(new HomeFragment());
     }
     /**
@@ -47,9 +51,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        initFirebase();
         navigationButtonListener();
     }
+
     /**
      * Initialises the Firebase information.
      */
@@ -59,6 +63,8 @@ public class HomeActivity extends AppCompatActivity {
 
         refFriendsCount = FirebaseDatabase.getInstance().getReference("Friends").child(mUser.getUid());
         refUserInfo = FirebaseDatabase.getInstance().getReference("Users").child(mUser.getUid());
+
+        qUsers = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username");
     }
 
     /**
@@ -98,5 +104,53 @@ public class HomeActivity extends AppCompatActivity {
      */
     private void updateFragment (Fragment selected) {
         getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, selected).commit();
+    }
+
+    /**
+     * The Firebase authentication of the user.
+     * @return mAuth
+     */
+    public FirebaseAuth getmAuth() {
+        return mAuth;
+    }
+
+    /**
+     * The current user.
+     * @return mUser
+     */
+    public FirebaseUser getmUser() {
+        return mUser;
+    }
+
+    /**
+     * Reference to current user data.
+     * @return refUserInfo
+     */
+    public DatabaseReference getRefUserInfo() {
+        return refUserInfo;
+    }
+
+    /**
+     * Reference to get friend count of user.
+     * @return refFriendsCount
+     */
+    public DatabaseReference getRefFriendsCount() {
+        return refFriendsCount;
+    }
+
+    /**
+     * Query of all users in the Firebase.
+     * @return
+     */
+    public Query getqUsers() {
+        return qUsers;
+    }
+
+    /**
+     * Query of all users in a string interval
+     * @return
+     */
+    public Query getUsersCustom(String s) {
+        return qUsers.startAt(s).endAt(s+"\uf8ff");
     }
 }

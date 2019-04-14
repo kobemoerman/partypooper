@@ -13,14 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.application.android.partypooper.Activity.HomeActivity;
 import com.application.android.partypooper.Adapter.SearchUserAdapter;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -29,19 +28,54 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
 
+    /** List of all users to display */
+    private List<User> userList;
+
+    /** Reference to the Home Activity */
+    private HomeActivity act;
+
+    /** Edit Text to search users */
     private EditText searchBar;
 
-    private FirebaseUser firebaseUser;
+    /** Recycler View to display users */
     private RecyclerView recyclerView;
-    private SearchUserAdapter searchUserAdapter;
-    private List<User> mUsers;
 
+    /** Query to all users in the database */
+    private Query qUsers;
+
+    /** Firebase current user */
+    private FirebaseUser mUser;
+
+    /** Adapter to display data in the recycler view */
+    private SearchUserAdapter mAdapter;
+
+    /**
+     * n create method of the fragment.
+     * @param inflater fragment_search
+     * @param container
+     * @param savedInstanceState
+     * @return the fragment view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        initView(view);
+
+        friendsQueryDatabase();
+
+        return view;
+    }
+
+    /**
+     * Initialises the fragment view.
+     * @param view fragment_search
+     */
+    private void initView(View view) {
+        act = ((HomeActivity)getActivity());
+        mUser = act.getmUser();
+        qUsers = act.getqUsers();
 
         recyclerView = view.findViewById(R.id.frag_search_recycler);
         recyclerView.setHasFixedSize(true);
@@ -49,49 +83,50 @@ public class SearchFragment extends Fragment {
 
         searchBar = view.findViewById(R.id.frag_search_search_bar);
 
-        mUsers = new ArrayList<>();
-        searchUserAdapter = new SearchUserAdapter(getContext(),mUsers);
-        recyclerView.setAdapter(searchUserAdapter);
-
-        friendsQueryDatabase();
-
-        return view;
+        userList = new ArrayList<>();
+        mAdapter = new SearchUserAdapter(getContext(), userList);
+        recyclerView.setAdapter(mAdapter);
     }
 
+    /**
+     * Displays the users depending on the query.
+     */
     private void friendsQueryDatabase() {
-        displayUsers(searchQuery(false,""));
+        displayUsers(qUsers);
 
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                displayUsers(searchQuery(true,s.toString().toLowerCase()));
+                Query qCustom = act.getUsersCustom(s.toString());
+                displayUsers(qCustom);
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) { }
         });
     }
 
+    /**
+     * Displays the users with the help of the adapter.
+     * @param mQuery populates the user list
+     */
     private void displayUsers (Query mQuery) {
         mQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mUsers.clear();
+                userList.clear();
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {
                     User user = snp.getValue(User.class);
 
                     assert user != null;
-                    if (!user.getId().equals(firebaseUser.getUid())) {
-                        mUsers.add(user);
+                    if (!user.getId().equals(mUser.getUid())) {
+                        userList.add(user);
                     }
                 }
-                searchUserAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -99,14 +134,5 @@ public class SearchFragment extends Fragment {
 
             }
         });
-    }
-
-    private Query searchQuery (Boolean onTextChange, String s) {
-        if (onTextChange) {
-            return FirebaseDatabase.getInstance().getReference("Users").orderByChild("username")
-                    .startAt(s).endAt(s + "\uf8ff");
-        } else {
-            return FirebaseDatabase.getInstance().getReference("Users").orderByChild("username");
-        }
     }
 }
