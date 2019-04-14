@@ -40,21 +40,26 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
     @NonNull
     @Override
     public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        System.out.println("HELLO YOU NOTIFIED YOUR ADAPTER KOBE");
         View view = LayoutInflater.from(mContext).inflate(R.layout.user_search, viewGroup,false);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
         return new SearchViewHolder(view);
     }
     
     @Override
     public void onBindViewHolder(@NonNull final SearchViewHolder searchViewHolder, int i) {
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         final User user = mUsers.get(i);
 
         searchViewHolder.followBtn.setVisibility(View.VISIBLE);
         searchViewHolder.username.setText(user.getUsername());
         searchViewHolder.status.setText(user.getStatus());
-        if (user.getImgURL() != null) Glide.with(searchViewHolder.icon.getContext()).load(user.getImgURL()).into(searchViewHolder.icon);
+        if (user.getImgURL() != null) {
+            Glide.with(searchViewHolder.icon.getContext()).load(user.getImgURL()).into(searchViewHolder.icon);
+        } else {
+            Glide.with(searchViewHolder.icon.getContext()).load(R.drawable.loginlogo).into(searchViewHolder.icon);
+        }
 
         isFriends(user.getId(), searchViewHolder.followBtn);
 
@@ -63,7 +68,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
             public void onClick(View v) {
                 if (searchViewHolder.followBtn.getText().toString().equals("Add")) {
                     FirebaseDatabase.getInstance().getReference().child("Friends").child(firebaseUser.getUid())
-                            .child(user.getId()).setValue(true);
+                            .child(user.getId()).setValue(user.getUsername());
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Friends").child(firebaseUser.getUid())
                             .child(user.getId()).removeValue();
@@ -77,13 +82,13 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
         return mUsers.size();
     }
 
-    private void isFriends(final String userid, final Button button) {
+    private void isFriends(final String userID, final Button button) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Friends")
                 .child(firebaseUser.getUid());
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(userid).exists()) {
+                if (dataSnapshot.child(userID).exists()) {
                     button.setText("Friends");
                     button.setBackgroundResource(R.drawable.border_light);
                     button.setTextColor(Color.BLACK);

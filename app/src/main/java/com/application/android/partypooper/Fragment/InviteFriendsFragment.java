@@ -20,11 +20,7 @@ import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +35,7 @@ public class InviteFriendsFragment extends Fragment {
 	private RecyclerView recyclerView;
 	private EventUserAdapter mAdapter;
 	private List<User> mUsers;
+	private List<String> mFriends;
 
 
   	@Override
@@ -47,7 +44,7 @@ public class InviteFriendsFragment extends Fragment {
 
     	initView(view);
 
-    	friendsQueryDatabase();
+		friendsQueryDatabase();
 
     	navigationListener();
 
@@ -64,6 +61,7 @@ public class InviteFriendsFragment extends Fragment {
     	searchBar = view.findViewById(R.id.frag_invite_search_bar);
 
     	mUsers = new ArrayList<>();
+    	mFriends = new ArrayList<>();
     	mAdapter = new EventUserAdapter(getContext(),mUsers);
     	recyclerView.setAdapter(mAdapter);
 
@@ -78,62 +76,68 @@ public class InviteFriendsFragment extends Fragment {
     	next = view.findViewById(R.id.frag_invite_next);
   	}
 
-  	private void friendsQueryDatabase() {
-        Query friends = FirebaseDatabase.getInstance().getReference("Friends").child(firebaseUser.getUid()).orderByValue();
+	private void friendsQueryDatabase() {
+		Query ref = FirebaseDatabase.getInstance().getReference("Friends").child(firebaseUser.getUid());
+		displayFriends(ref);
 
-        displayFriends(friends);
+		searchBar.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    	searchBar.addTextChangedListener(new TextWatcher() {
-      	@Override
-      	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
 
-      	}
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				Query custom = FirebaseDatabase.getInstance().getReference("Friends").child(firebaseUser.getUid()).orderByValue()
+						.startAt(s.toString().toLowerCase()).endAt(s.toString().toLowerCase() + "\uf8ff");
+				displayFriends(custom);
+			}
 
-      	@Override
-      	public void onTextChanged(CharSequence s, int start, int before, int count) {
-        	Query custom = FirebaseDatabase.getInstance().getReference("Friends").child(firebaseUser.getUid()).orderByValue()
-                    .startAt(s.toString()).endAt(s.toString() + "\uf8ff");
-      	    displayFriends(custom);
-      	}
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+		});
+	}
 
-      	@Override
-      	public void afterTextChanged(Editable s) {
-      	}
-    	});
-  	}
-
-  	private void displayFriends(Query friends) {
-		friends.addValueEventListener(new ValueEventListener() {
-		    @Override
+	private void displayFriends(Query ref) {
+		ref.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-			    mUsers.clear();
-
+				mFriends.clear();
 				for (DataSnapshot snp : dataSnapshot.getChildren()) {
+					mFriends.add(snp.getKey());
+				}
+				showUsers();
+			}
 
-				    Query users = FirebaseDatabase.getInstance().getReference("Users").child(snp.getKey());
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
 
-					users.addValueEventListener(new ValueEventListener() {
-					    @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-					        User user = dataSnapshot.getValue(User.class);
+			}
+		});
+	}
 
-					        assert user != null;
-					        mUsers.add(user);
-
-					        mAdapter.notifyDataSetChanged();
-					    }
-					    @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-					    }
-					});
+	private void showUsers() {
+  		Query ref = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username");
+  		ref.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				mUsers.clear();
+				for (DataSnapshot snp : dataSnapshot.getChildren()) {
+					User user = snp.getValue(User.class);
+					for (String id : mFriends) {
+						if (user.getId().equals(id)) mUsers.add(user);
+					}
 				}
 				mAdapter.notifyDataSetChanged();
-		    }
-		    @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-		    }
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+
+			}
 		});
-  	}
+	}
 
     private void openCreateEventFragment(Fragment frag) {
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(

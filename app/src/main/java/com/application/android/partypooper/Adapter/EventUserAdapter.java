@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -45,17 +46,22 @@ public class EventUserAdapter extends RecyclerView.Adapter<EventUserAdapter.Even
 	public EventViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 		View view = LayoutInflater.from(mContext).inflate(R.layout.user_event, viewGroup, false);
 
+		firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
 		return new EventViewHolder(view, mListener);
 	}
 
 	@Override
 	public void onBindViewHolder(@NonNull EventViewHolder eventViewHolder, int i) {
-		firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
 		final User user = mUsers.get(i);
 
 		eventViewHolder.username.setText(user.getUsername());
-		//if (user.getImgURL() != null) Glide.with(eventViewHolder.icon.getContext()).load(user.getImgURL()).into(eventViewHolder.icon);
+		if (user.getImgURL() != null) {
+			Glide.with(eventViewHolder.icon.getContext()).load(user.getImgURL()).into(eventViewHolder.icon);
+		} else {
+			Glide.with(eventViewHolder.icon.getContext()).load(R.drawable.loginlogo).into(eventViewHolder.icon);
+		}
 
 	}
 
@@ -79,15 +85,11 @@ public class EventUserAdapter extends RecyclerView.Adapter<EventUserAdapter.Even
 	    	itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (listner != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            //TODO: change radio button to a check and change alpha
-                            check.setBackgroundResource(R.drawable.ic_check_circle);
-                            check.setAlpha(1);
-                            listner.onItemClick(position);
-                        }
-                    }
+                	int position = getAdapterPosition();
+                   	if (position != RecyclerView.NO_POSITION) {
+                   		check.setBackgroundResource(R.drawable.ic_check_circle);
+                   		listner.onItemClick(position);
+                   	}
                 }
             });
 		}
