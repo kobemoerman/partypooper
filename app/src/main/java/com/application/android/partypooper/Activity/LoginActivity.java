@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -105,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         final String mail = userMail.getText().toString();
         final String password = userPassword.getText().toString();
 
-        if (checkEmail(mail) && mail.isEmpty()) {
+        if (!checkEmail(mail)) {
             showMessage("Enter Valid E-mail",true);
             return;
         }
@@ -152,12 +154,9 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Checks if the input email is valid.
      * @param email string from the edit text
-     * @return true if email is valid
+     * @return false if email is valid
      */
-    public static boolean checkEmail(String email) {
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
+    public static boolean checkEmail(CharSequence email) {
+        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 }
