@@ -22,70 +22,70 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText userMail;
-    private EditText userPassword;
+    /** view edit text items */
+    private EditText userMail, userPassword;
+
+    /** view button to sign in*/
     private Button loginButton;
+
+    /** view progress bar after pressing the button*/
     private ProgressBar progressBar;
 
+    /** Firebase authentication */
     private FirebaseAuth mAuth;
 
+    /** Firebase user */
+    private FirebaseUser mUser;
+
+    /**
+     * Checks if device is already logged in.
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mUser = mAuth.getCurrentUser();
+
+        if (mUser != null) updateActivity();
+    }
+
+    /**
+     * On create method of the activity.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        loginClickListener();
+        initView();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    /**
+     * Initializes the view of the activity and Firebase.
+     */
+    private void initView() {
+        mAuth = FirebaseAuth.getInstance();
 
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        if (user != null) {
-            updateUI();
-        }
-    }
-
-    private void loginClickListener() {
         userMail = findViewById(R.id.login_email);
         userPassword = findViewById(R.id.login_password);
         loginButton = findViewById(R.id.login_login_button);
         progressBar = findViewById(R.id.login_progress_bar);
 
         progressBar.setVisibility(View.INVISIBLE);
-
-        mAuth = FirebaseAuth.getInstance();
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                loginButton.setVisibility(View.INVISIBLE);
-
-                final String mail = userMail.getText().toString();
-                final String password = userPassword.getText().toString();
-
-                if (isEmailValid(mail) && mail.isEmpty()) {
-                    showMessage("Enter Valid E-mail",true);
-                }
-                
-                if (password.isEmpty()) {
-                    showMessage("Enter Password",true);
-                }
-                signUserIn(mail,password);
-            }
-        });
     }
 
+    /**
+     * Signs in user and updates the UI accordingly
+     * @param mail from the edit text
+     * @param password from the edit text
+     */
     private void signUserIn(String mail, String password) {
         mAuth.signInWithEmailAndPassword(mail,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     showMessage("Logged In",false);
-                    updateUI();
+                    updateActivity();
                 } else {
                     showMessage(task.getException().getMessage(),true);
                 }
@@ -94,12 +94,53 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void updateUI() {
+    /**
+     * On click listener for the login button.
+     * @param view view of the activity
+     */
+    public void onClickLogin(View view) {
+        progressBar.setVisibility(View.VISIBLE);
+        loginButton.setVisibility(View.INVISIBLE);
+
+        final String mail = userMail.getText().toString();
+        final String password = userPassword.getText().toString();
+
+        if (checkEmail(mail) && mail.isEmpty()) {
+            showMessage("Enter Valid E-mail",true);
+            return;
+        }
+
+        if (password.isEmpty()) {
+            showMessage("Enter Password",true);
+            return;
+        }
+        signUserIn(mail,password);
+    }
+
+    /**
+     * On click listener for the register text.
+     * Launches the Register Activity but doesn't kill the current one.
+     * @param view view of the activity
+     */
+    public void onClickRegister(View view) {
+        Intent registerIntent = new Intent(getApplicationContext(),RegisterActivity.class);
+        startActivity(registerIntent);
+    }
+
+    /**
+     * Launches the Home Activity and kills the current one.
+     */
+    private void updateActivity() {
         Intent homeIntent = new Intent(getApplicationContext(),HomeActivity.class);
         startActivity(homeIntent);
         finish();
     }
 
+    /**
+     * Displays a toast on the screen.
+     * @param s text to display
+     * @param failed resets progress bar
+     */
     private void showMessage(String s, boolean failed) {
         Toast.makeText(this,s, Toast.LENGTH_LONG).show();
         if (failed) {
@@ -108,15 +149,15 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public static boolean isEmailValid(String email) {
+    /**
+     * Checks if the input email is valid.
+     * @param email string from the edit text
+     * @return true if email is valid
+     */
+    public static boolean checkEmail(String email) {
         String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
-    }
-
-    public void onClickLogin(View view) {
-        Intent registerIntent = new Intent(getApplicationContext(),RegisterActivity.class);
-        startActivity(registerIntent);
     }
 }

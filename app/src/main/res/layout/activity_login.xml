@@ -63,6 +63,7 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             android:elevation="5dp"
+            android:onClick="onClickLogin"
         />
 
         <ProgressBar
@@ -85,7 +86,7 @@
         android:text="@string/registerLogin"
         android:textColor="@color/black"
         android:textSize="14sp"
-        android:onClick="onClickLogin"
+        android:onClick="onClickRegister"
     />
 
 </RelativeLayout>
