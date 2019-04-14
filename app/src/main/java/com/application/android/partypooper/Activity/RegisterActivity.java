@@ -29,21 +29,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    /** view button to register */
+    /** View button to register */
     private Button registerButton;
 
-    /** view text view updated by DatePicker */
+    /** View text view updated by DatePicker */
     private TextView userDate;
 
-    /** view progress bar after pressing the button */
+    /** View progress bar after pressing the button */
     private ProgressBar progressBar;
 
-    /** view edit text items */
+    /** View edit text items */
     private EditText userUsername, userPassword, passwordConfirmation, userMail;
 
     /** Firebase authentication */
@@ -67,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
-     * Initializes the view of the activity and Firebase.
+     * Initialises the view of the activity and Firebase.
      */
     private void initView() {
         mAuth = FirebaseAuth.getInstance();

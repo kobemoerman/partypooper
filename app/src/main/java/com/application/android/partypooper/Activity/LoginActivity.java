@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Initializes the view of the activity and Firebase.
+     * Initialises the view of the activity and Firebase.
      */
     private void initView() {
         mAuth = FirebaseAuth.getInstance();
