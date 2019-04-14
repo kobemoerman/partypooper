@@ -58,7 +58,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
         if (user.getImgURL() != null) {
             Glide.with(searchViewHolder.icon.getContext()).load(user.getImgURL()).into(searchViewHolder.icon);
         } else {
-            Glide.with(searchViewHolder.icon.getContext()).load(R.drawable.loginlogo).into(searchViewHolder.icon);
+            Glide.with(searchViewHolder.icon.getContext()).load(R.drawable.logo).into(searchViewHolder.icon);
         }
 
         isFriends(user.getId(), searchViewHolder.followBtn);

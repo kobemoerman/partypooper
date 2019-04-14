@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginClickListener() {
-        userMail = findViewById(R.id.login_username);
+        userMail = findViewById(R.id.login_email);
         userPassword = findViewById(R.id.login_password);
         loginButton = findViewById(R.id.login_login_button);
         progressBar = findViewById(R.id.login_progress_bar);
@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
-    public void onClick(View view) {
+    public void onClickLogin(View view) {
         Intent registerIntent = new Intent(getApplicationContext(),RegisterActivity.class);
         startActivity(registerIntent);
     }

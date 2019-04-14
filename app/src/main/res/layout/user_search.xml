@@ -9,7 +9,7 @@
         android:id="@+id/img_profile"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/loginlogo"/>
+        android:src="@drawable/logo"/>
 
     <LinearLayout
         android:layout_toEndOf="@+id/img_profile"

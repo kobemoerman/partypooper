@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.application.android.partypooper.Activity.CreateEventActivity;
 import com.application.android.partypooper.Activity.EventActivity;
 import com.application.android.partypooper.Adapter.EventUserAdapter;
 import com.application.android.partypooper.Model.User;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,7 +38,6 @@ public class InviteFriendsFragment extends Fragment {
 	private EventUserAdapter mAdapter;
 	private List<User> mUsers;
 	private List<String> mFriends;
-
 
   	@Override
   	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -118,15 +119,23 @@ public class InviteFriendsFragment extends Fragment {
 	}
 
 	private void showUsers() {
-  		Query ref = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username");
-  		ref.addListenerForSingleValueEvent(new ValueEventListener() {
+  		final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+  		Query users = ref.orderByChild("username");
+  		users.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				mUsers.clear();
 				for (DataSnapshot snp : dataSnapshot.getChildren()) {
 					User user = snp.getValue(User.class);
+
 					for (String id : mFriends) {
-						if (user.getId().equals(id)) mUsers.add(user);
+						if (user.getId().equals(id)) {
+							mUsers.add(user);
+							HashMap event = new HashMap();
+							String eventID = ((CreateEventActivity)getActivity()).getTimeStamp() + "?" + firebaseUser.getUid();
+							event.put(eventID,false);
+							ref.child(user.getId()).child("events").updateChildren(event);
+						}
 					}
 				}
 				mAdapter.notifyDataSetChanged();

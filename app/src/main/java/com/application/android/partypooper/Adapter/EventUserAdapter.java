@@ -60,7 +60,7 @@ public class EventUserAdapter extends RecyclerView.Adapter<EventUserAdapter.Even
 		if (user.getImgURL() != null) {
 			Glide.with(eventViewHolder.icon.getContext()).load(user.getImgURL()).into(eventViewHolder.icon);
 		} else {
-			Glide.with(eventViewHolder.icon.getContext()).load(R.drawable.loginlogo).into(eventViewHolder.icon);
+			Glide.with(eventViewHolder.icon.getContext()).load(R.drawable.logo).into(eventViewHolder.icon);
 		}
 
 	}

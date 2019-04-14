@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
         birthdayTextView = findViewById(R.id.register_age);
         emailEditText = findViewById(R.id.register_email);
         passwordEditText = findViewById(R.id.register_password);
-        confirmationEditText = findViewById(R.id.register_password_confirm);
+        confirmationEditText = findViewById(R.id.register_confirmation);
         progressBar = findViewById(R.id.register_progress_bar);
 
         progressBar.setVisibility(View.INVISIBLE);
@@ -120,7 +120,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task task) {
                 if (task.isSuccessful()){
-                    showMessage("Account Created",false);
                     updateUI();
                 } else {
                     showMessage(Objects.requireNonNull(task.getException()).getMessage(),true);

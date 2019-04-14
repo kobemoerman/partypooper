@@ -183,12 +183,12 @@ public class EditProfileActivity extends AppCompatActivity{
     }
 
     private void findActivityElements() {
-        close = findViewById(R.id.update_profile_close);
-        save = findViewById(R.id.update_profile_save);
-        updateImg = findViewById(R.id.update_profile_change_image);
-        username = findViewById(R.id.update_profile_username);
-        gender = findViewById(R.id.update_profile_gender);
-        status = findViewById(R.id.update_profile_status);
-        userImage = findViewById(R.id.update_profile_image);
+        close = findViewById(R.id.edit_profile_back);
+        save = findViewById(R.id.edit_profile_save);
+        updateImg = findViewById(R.id.edit_profile_change_image);
+        username = findViewById(R.id.edit_profile_username);
+        gender = findViewById(R.id.edit_profile_gender);
+        status = findViewById(R.id.edit_profile_status);
+        userImage = findViewById(R.id.edit_profile_image);
     }
 }
