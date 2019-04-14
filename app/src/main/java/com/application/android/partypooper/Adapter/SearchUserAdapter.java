@@ -115,7 +115,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
 
         public SearchViewHolder(@NonNull View itemView) {
             super(itemView);
-            username = itemView.findViewById(R.id.usernameUser);
+            username = itemView.findViewById(R.id.search_username);
             status = itemView.findViewById(R.id.statusUser);
             icon = itemView.findViewById(R.id.img_profile);
             followBtn = itemView.findViewById(R.id.followButton);
