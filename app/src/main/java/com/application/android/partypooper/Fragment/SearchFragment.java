@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.application.android.partypooper.Activity.HomeActivity;
-import com.application.android.partypooper.Adapter.SearchUserAdapter;
+import com.application.android.partypooper.Adapter.SearchAdapter;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,7 +47,7 @@ public class SearchFragment extends Fragment {
     private FirebaseUser mUser;
 
     /** Adapter to display data in the recycler view */
-    private SearchUserAdapter mAdapter;
+    private SearchAdapter mAdapter;
 
     /**
      * On create method of the fragment.
@@ -84,7 +84,7 @@ public class SearchFragment extends Fragment {
         searchBar = view.findViewById(R.id.frag_search_search_bar);
 
         userList = new ArrayList<>();
-        mAdapter = new SearchUserAdapter(getContext(), userList);
+        mAdapter = new SearchAdapter(getContext(),userList);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -126,7 +126,7 @@ public class SearchFragment extends Fragment {
                         userList.add(user);
                     }
                 }
-                mAdapter.notifyDataSetChanged();
+                mAdapter.setItems(userList);
             }
 
             @Override

@@ -16,7 +16,7 @@ import android.widget.EditText;
 
 import com.application.android.partypooper.Activity.CreateEventActivity;
 import com.application.android.partypooper.Activity.EventActivity;
-import com.application.android.partypooper.Adapter.EventUserAdapter;
+import com.application.android.partypooper.Adapter.EventAdapter;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +35,7 @@ public class InviteFriendsFragment extends Fragment {
 		
 	private FirebaseUser firebaseUser;
 	private RecyclerView recyclerView;
-	private EventUserAdapter mAdapter;
+	private EventAdapter mAdapter;
 	private List<User> mUsers;
 	private List<String> mFriends;
 
@@ -63,10 +63,10 @@ public class InviteFriendsFragment extends Fragment {
 
     	mUsers = new ArrayList<>();
     	mFriends = new ArrayList<>();
-    	mAdapter = new EventUserAdapter(getContext(),mUsers);
+    	mAdapter = new EventAdapter(getContext(),mUsers);
     	recyclerView.setAdapter(mAdapter);
 
-    	mAdapter.setOnItemClickListener(new EventUserAdapter.onItemClickListener() {
+    	mAdapter.setOnItemClickListener(new EventAdapter.onItemClickListener() {
             @Override
             public void onItemClick(int pos) {
                 //TODO:get user id from click
@@ -138,7 +138,7 @@ public class InviteFriendsFragment extends Fragment {
 						}
 					}
 				}
-				mAdapter.notifyDataSetChanged();
+				mAdapter.setItems(mUsers);
 			}
 
 			@Override
