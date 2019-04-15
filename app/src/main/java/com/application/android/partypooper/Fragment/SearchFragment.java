@@ -117,16 +117,15 @@ public class SearchFragment extends Fragment {
         mQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userList.clear();
+                mAdapter.clear();
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {
                     User user = snp.getValue(User.class);
 
                     assert user != null;
                     if (!user.getId().equals(mUser.getUid())) {
-                        userList.add(user);
+                        mAdapter.add(user);
                     }
                 }
-                mAdapter.setItems(userList);
             }
 
             @Override

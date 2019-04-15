@@ -23,9 +23,17 @@ public class EventAdapter extends RecyclerAdapter<User, EventViewHolder> {
     }
 
     public interface onItemClickListener {
+        /**
+         * On click listener.
+         * @param pos item position from the recycler view
+         */
         void onItemClick(int pos);
     }
 
+    /**
+     * Update the listener from the InviteFriendsFragment class.
+     * @param listener item position
+     */
     public void setOnItemClickListener (onItemClickListener listener) {
         mListener = listener;
     }

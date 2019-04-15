@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.application.android.partypooper.Adapter.RecyclerAdapter.ViewHolder;
-import com.application.android.partypooper.Model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.List;
  * @param <T>  type of objects, which will be used by the adapter
  * @param <VH> ViewHolder {@link ViewHolder}
  */
-public abstract class RecyclerAdapter<T extends User, VH extends ViewHolder> extends RecyclerView.Adapter<VH> {
+public abstract class RecyclerAdapter<T, VH extends ViewHolder> extends RecyclerView.Adapter<VH> {
 
     /** List of items to be displayed in the adapter */
     private List<T> items;
@@ -53,7 +52,7 @@ public abstract class RecyclerAdapter<T extends User, VH extends ViewHolder> ext
          *
          * @param item     object, associated with the item.
          */
-        public abstract void onBind(User item);
+        public abstract void onBind(T item);
     }
 
     /**
@@ -67,7 +66,7 @@ public abstract class RecyclerAdapter<T extends User, VH extends ViewHolder> ext
      */
     @Override
     public void onBindViewHolder(@NonNull final VH holder, int pos) {
-        User item = items.get(pos);
+        T item = items.get(pos);
         holder.onBind(item);
     }
 

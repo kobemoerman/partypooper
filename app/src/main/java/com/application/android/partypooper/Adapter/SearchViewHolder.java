@@ -15,27 +15,98 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SearchViewHolder extends RecyclerAdapter.ViewHolder {
 
+    /** Adds or removes selected user from Friends node */
     private Button follow;
+
+    /** Username of the user */
     private TextView username;
+
+    /** Status of the user */
     private TextView status;
+
+    /** Profile picture of the user */
     private CircleImageView icon;
 
+    /** Firebase user */
     private FirebaseUser mUser;
 
+    /** Firebase reference to user friends */
+    private DatabaseReference refFriends;
+
+    /**
+     * Initialises the SearchViewHolder.
+     * @param itemView user_search
+     */
     public SearchViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        username = itemView.findViewById(R.id.search_username);
-        status = itemView.findViewById(R.id.statusUser);
-        icon = itemView.findViewById(R.id.img_profile);
-        follow = itemView.findViewById(R.id.followButton);
+        initView();
     }
 
-    @Override
-    public void onBind(final User u) {
+    /**
+     * Initialises the items of user_search and Firebase.
+     */
+    private void initView() {
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        refFriends = FirebaseDatabase.getInstance().getReference().child("Friends").child(mUser.getUid());
+
+        icon = itemView.findViewById(R.id.img_profile);
+        status = itemView.findViewById(R.id.statusUser);
+        follow = itemView.findViewById(R.id.followButton);
+        username = itemView.findViewById(R.id.search_username);
+
         follow.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Adds or removes user to friends database reference.
+     * @param id user making the query
+     */
+    private void followItemListener(final String id) {
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            if (follow.getText().toString().equals("Add")) {
+                refFriends.child(id).setValue(false);
+            } else {
+                refFriends.child(id).removeValue();
+            }
+            }
+        });
+    }
+
+    /**
+     * Updates the button values depending on the user's friends.
+     * @param userID user making the query
+     */
+    private void isFriends(final String userID) {
+        refFriends.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(userID).exists()) {
+                    follow.setText("Friends");
+                    follow.setBackgroundResource(R.drawable.border_light);
+                    follow.setTextColor(Color.BLACK);
+                } else {
+                    follow.setText("Add");
+                    follow.setBackgroundResource(R.drawable.button_background_green);
+                    follow.setTextColor(Color.WHITE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * Updates the data in the recycler view
+     * @param item object, associated with the item.
+     */
+    @Override
+    public void onBind(Object item) {
+        final User u = (User) item;
 
         username.setText(u.getUsername());
         status.setText(u.getStatus());
@@ -46,43 +117,7 @@ public class SearchViewHolder extends RecyclerAdapter.ViewHolder {
             Glide.with(icon.getContext()).load(R.drawable.logo).into(icon);
         }
 
-        isFriends(u.getId(),follow);
-
-        follow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (follow.getText().toString().equals("Add")) {
-                    FirebaseDatabase.getInstance().getReference().child("Friends").child(mUser.getUid())
-                            .child(u.getId()).setValue(u.getUsername());
-                } else {
-                    FirebaseDatabase.getInstance().getReference().child("Friends").child(mUser.getUid())
-                            .child(u.getId()).removeValue();
-                }
-            }
-        });
-    }
-
-    private void isFriends(final String userID, final Button button) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Friends")
-                .child(mUser.getUid());
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(userID).exists()) {
-                    button.setText("Friends");
-                    button.setBackgroundResource(R.drawable.border_light);
-                    button.setTextColor(Color.BLACK);
-                } else {
-                    button.setText("Add");
-                    button.setBackgroundResource(R.drawable.button_background_green);
-                    button.setTextColor(Color.WHITE);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        isFriends(u.getId());
+        followItemListener(u.getId());
     }
 }

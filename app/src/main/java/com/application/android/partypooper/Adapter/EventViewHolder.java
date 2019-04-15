@@ -13,32 +13,61 @@ import com.application.android.partypooper.Adapter.EventAdapter.onItemClickListe
 
 public class EventViewHolder extends RecyclerAdapter.ViewHolder {
 
-    private TextView username;
     private ImageView check;
+    private TextView username;
     private CircleImageView icon;
 
+    private int mPosition;
     private onItemClickListener mListener;
 
-    public EventViewHolder(@NonNull View itemView, final onItemClickListener listner) {
+    /**
+     * Initialises the EventViewHolder.
+     * @param itemView user_event
+     * @param listener on item listener
+     */
+    public EventViewHolder(@NonNull View itemView, final onItemClickListener listener) {
         super(itemView);
-        username = itemView.findViewById(R.id.user_event_name);
+
+        initView(listener);
+        itemOnClickListener();
+    }
+
+    /**
+     * Initialises the items of user_event
+     * @param listener on item listener
+     */
+    private void initView(onItemClickListener listener) {
+        mListener = listener;
+        mPosition = getAdapterPosition();
+
         icon = itemView.findViewById(R.id.user_event_image);
         check = itemView.findViewById(R.id.user_event_check);
+        username = itemView.findViewById(R.id.user_event_name);
+    }
 
+    /**
+     * Action on the item listener.
+     */
+    private void itemOnClickListener() {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
+                if (mPosition != RecyclerView.NO_POSITION) {
                     check.setBackgroundResource(R.drawable.ic_check_circle);
-                    listner.onItemClick(position);
+                    mListener.onItemClick(mPosition);
                 }
             }
         });
     }
 
+    /**
+     * Updates the data in the recycler view
+     * @param item object, associated with the item.
+     */
     @Override
-    public void onBind(User u) {
+    public void onBind(Object item) {
+        User u = (User) item;
+
         username.setText(u.getUsername());
         if (u.getImgURL() != null) {
             Glide.with(icon.getContext()).load(u.getImgURL()).into(icon);

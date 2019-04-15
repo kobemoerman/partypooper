@@ -33,7 +33,7 @@ public class HomeActivity extends AppCompatActivity {
     private DatabaseReference refUserInfo;
 
     /** Firebase reference to user friends */
-    private DatabaseReference refFriendsCount;
+    private DatabaseReference refUserFriends;
 
     /**
      * Sets the initial fragment to HomeFragment
@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        refFriendsCount = FirebaseDatabase.getInstance().getReference("Friends").child(mUser.getUid());
+        refUserFriends = FirebaseDatabase.getInstance().getReference("Friends").child(mUser.getUid());
         refUserInfo = FirebaseDatabase.getInstance().getReference("Users").child(mUser.getUid());
 
         qUsers = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username");
@@ -167,10 +167,10 @@ public class HomeActivity extends AppCompatActivity {
 
     /**
      * Reference to get friend count of user.
-     * @return refFriendsCount
+     * @return refUserFriends
      */
-    public DatabaseReference getRefFriendsCount() {
-        return refFriendsCount;
+    public DatabaseReference getRefUserFriends() {
+        return refUserFriends;
     }
 
     /**

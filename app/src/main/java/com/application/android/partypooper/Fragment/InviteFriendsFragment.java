@@ -124,13 +124,13 @@ public class InviteFriendsFragment extends Fragment {
   		users.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-				mUsers.clear();
+				mAdapter.clear();
 				for (DataSnapshot snp : dataSnapshot.getChildren()) {
 					User user = snp.getValue(User.class);
 
 					for (String id : mFriends) {
 						if (user.getId().equals(id)) {
-							mUsers.add(user);
+							mAdapter.add(user);
 							HashMap event = new HashMap();
 							String eventID = ((CreateEventActivity)getActivity()).getTimeStamp() + "?" + firebaseUser.getUid();
 							event.put(eventID,false);
@@ -138,7 +138,6 @@ public class InviteFriendsFragment extends Fragment {
 						}
 					}
 				}
-				mAdapter.setItems(mUsers);
 			}
 
 			@Override
