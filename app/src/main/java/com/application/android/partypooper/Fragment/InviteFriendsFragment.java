@@ -156,7 +156,7 @@ public class InviteFriendsFragment extends Fragment {
   	    back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCreateEventFragment(new CreateEventFragment());
+                openCreateEventFragment(new EventInformationFragment());
             }
         });
   	    next.setOnClickListener(new View.OnClickListener() {

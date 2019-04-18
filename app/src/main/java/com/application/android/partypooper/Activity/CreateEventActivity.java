@@ -1,6 +1,5 @@
 package com.application.android.partypooper.Activity;
 
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,11 +12,11 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
+import com.application.android.partypooper.Fragment.EventInformationFragment;
 import com.application.android.partypooper.Fragment.EventThemeFragment;
 import com.application.android.partypooper.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -81,7 +80,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
         initFirebase();
         initView();
-        updateFragment(new EventThemeFragment());
+        updateFragment(new EventThemeFragment(),"fragment/EventTheme");
     }
 
     /**
@@ -136,11 +135,102 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     /**
+     * Called when the user has selected an image.
+     * @param requestCode the request code passed to startActivityForResult.
+     * @param resultCode RESULT_OK if successful or RESULT_CANCELED if the operation failed
+     * @param data an Intent that carries the result data.
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            mUri = result.getUri();
+            if (mUri != null) {
+                uploadImage();
+            }
+        } else {
+            showMessage("Something Went Wrong");
+        }
+    }
+
+    /**
+     * Extends the file name.
+     * @param uri reference to an image resource
+     * @return file extension
+     */
+    private String getFileExtension (Uri uri) {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    /**
+     * Uploads the image to the Firebase storage and save the url to the event map.
+     */
+    private void uploadImage () {
+        final EventInformationFragment frag = (EventInformationFragment)
+            getSupportFragmentManager().findFragmentByTag("fragment/EventInformation");
+
+        frag.setVisible();
+
+        final StorageReference file = sEvent.child(System.currentTimeMillis() + "." + getFileExtension(mUri));
+
+        StorageTask<UploadTask.TaskSnapshot> uploadTask = file.putFile(mUri);
+
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return file.getDownloadUrl();
+            }}).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    mURL = task.getResult().toString();
+
+                    addItem("imageURL", ""+mURL);
+
+                    frag.setEventImage();
+                } else {
+                    showMessage("Image Upload Failed");
+                }
+                frag.setInvisible();
+            }
+        });
+    }
+
+    /**
+     * Displays a toast on the screen.
+     * @param s text to display
+     */
+    public void showMessage(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+    }
+
+    /**
      * Replace the current fragment with the one to be displayed.
      * @param frag fragment to be displayed
      */
-    public void updateFragment(Fragment frag) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.event_fragment_container, frag).commit();
+    public void updateFragment(Fragment frag, String TAG) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.event_fragment_container, frag, TAG).commit();
+    }
+
+    /**
+     * Returns the value of the item.
+     * @param id to be fetched in the event hash map
+     * @return the string value of the id
+     */
+    public String getItem(String id) {
+        if (!event.containsKey(id)) {
+            return null;
+        }
+
+        return event.get(id).toString();
     }
 
     /**
@@ -208,70 +298,7 @@ public class CreateEventActivity extends AppCompatActivity {
         return timeStamp;
     }
 
-    /**
-     * Displays a toast on the screen.
-     * @param s text to display
-     */
-    private void showMessage(String s) {
-        Toast.makeText(this,s, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            mUri = result.getUri();
-            uploadImage();
-        } else {
-            showMessage("Something Went Wrong");
-        }
-    }
-
-    private String getFileExtension (Uri uri) {
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }
-
-    private void uploadImage () {
-        final ProgressDialog progress = new ProgressDialog(this);
-        progress.setMessage("Uploading");
-        progress.show();
-
-        if (mUri != null) {
-
-            final StorageReference file = sEvent.child(System.currentTimeMillis() + "." + getFileExtension(mUri));
-
-            StorageTask<UploadTask.TaskSnapshot> uploadTask = file.putFile(mUri);
-            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
-                }
-                return file.getDownloadUrl();
-            }}).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    mURL = task.getResult().toString();
-
-                    event.put("imageURL", ""+ mURL);
-
-                    mEvent.updateChildren(event);
-                    progress.dismiss();
-                } else {
-                    showMessage("Image Upload Failed");
-                }
-            }
-          }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-              progress.dismiss();
-            }
-          });
-        }
+    public Uri getmUri() {
+        return mUri;
     }
 }

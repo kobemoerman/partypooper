@@ -10,18 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.application.android.partypooper.Activity.CreateEventActivity;
-import com.application.android.partypooper.Activity.HomeActivity;
 import com.application.android.partypooper.Model.Events;
 import com.application.android.partypooper.R;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
 
 public class EventThemeFragment extends Fragment implements Events {
 
-  /** Reference to the Home Activity */
+  /** TAG reference of this fragment */
+  private final static String TAG = "fragment/EventTheme";
+
+  /** Reference to the CreateEvent Activity */
   private CreateEventActivity act;
 
   /** Card views representing the theme to select. */
@@ -72,7 +69,7 @@ public class EventThemeFragment extends Fragment implements Events {
       @Override
       public void onClick(View v) {
         act.addItem("theme",theme);
-        act.updateFragment(new CreateEventFragment());
+        act.updateFragment(new EventInformationFragment(),"fragment/EventInformation");
       }
     });
   }
