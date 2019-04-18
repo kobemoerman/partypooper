@@ -13,8 +13,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
-import com.application.android.partypooper.Fragment.EventSelectionFragment;
-import com.application.android.partypooper.Model.User;
+import com.application.android.partypooper.Fragment.EventThemeFragment;
 import com.application.android.partypooper.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -82,7 +81,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
         initFirebase();
         initView();
-        updateFragment(new EventSelectionFragment());
+        updateFragment(new EventThemeFragment());
     }
 
     /**
@@ -140,7 +139,7 @@ public class CreateEventActivity extends AppCompatActivity {
      * Replace the current fragment with the one to be displayed.
      * @param frag fragment to be displayed
      */
-    private void updateFragment(Fragment frag) {
+    public void updateFragment(Fragment frag) {
         getSupportFragmentManager().beginTransaction().replace(R.id.event_fragment_container, frag).commit();
     }
 
