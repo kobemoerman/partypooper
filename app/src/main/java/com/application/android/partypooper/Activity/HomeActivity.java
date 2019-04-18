@@ -36,7 +36,7 @@ public class HomeActivity extends AppCompatActivity {
     private DatabaseReference refUserFriends;
 
     /**
-     * Sets the initial fragment to HomeFragment
+     * On start method of the activity
      */
     @Override
     protected void onStart() {
@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
      */
     private void initFirebase() {
         mAuth = FirebaseAuth.getInstance();
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mUser = mAuth.getCurrentUser();
 
         refUserFriends = FirebaseDatabase.getInstance().getReference("Friends").child(mUser.getUid());
         refUserInfo = FirebaseDatabase.getInstance().getReference("Users").child(mUser.getUid());

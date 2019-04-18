@@ -28,9 +28,6 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
 
-    /** List of all users to display */
-    private List<User> userList;
-
     /** Reference to the Home Activity */
     private HomeActivity act;
 
@@ -83,8 +80,7 @@ public class SearchFragment extends Fragment {
 
         searchBar = view.findViewById(R.id.frag_search_search_bar);
 
-        userList = new ArrayList<>();
-        mAdapter = new SearchAdapter(getContext(),userList);
+        mAdapter = new SearchAdapter(getContext(),new ArrayList<User>());
         recyclerView.setAdapter(mAdapter);
     }
 

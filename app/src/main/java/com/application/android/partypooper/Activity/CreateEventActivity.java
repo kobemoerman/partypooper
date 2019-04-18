@@ -7,16 +7,14 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.application.android.partypooper.Fragment.CreateEventFragment;
 import com.application.android.partypooper.Fragment.EventSelectionFragment;
+import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,146 +31,248 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 public class CreateEventActivity extends AppCompatActivity {
 
-  private ImageView closeActivity;
+    /** Format used for the time stamp */
+    private static final String FORMAT = "yyyy:MM:dd:hh:mm:ss";
 
-  private String timeStamp;
-  private String mImageURL;
+    /** Current time stamp */
+    private String timeStamp;
 
-  private Uri mImageUri;
-  private FirebaseUser mUser;
-  private StorageTask uploadTask;
-  private StorageReference storageRef;
-  private DatabaseReference dbRef;
+    /** Stores data about the event */
+    private HashMap<String, Object> event;
 
-  private HashMap event;
+    /** Reference to the result uri */
+    private Uri mUri;
 
-  @Override
-  protected void onStop() {
-    event.put("time_stamp",timeStamp);
-    event.put("host",mUser.getUid());
+    /** Url of the image inside the storage */
+    private String mURL;
 
-    dbRef.updateChildren(event);
+    /** Firebase authentication */
+    private FirebaseAuth mAuth;
 
-    //dbRef.removeValue();
+    /** Firebase current user */
+    private FirebaseUser mUser;
 
-    super.onStop();
-  }
+    /** All users invited to the event */
+    private List<String> mMembers;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_create_event);
+    /** Reference the the current event */
+    private DatabaseReference mEvent;
 
-    updateFragment(new EventSelectionFragment());
+    /** Firebase reference to all events */
+    private DatabaseReference refEvents;
 
-    event = new HashMap();
+    /** Firebase reference to all members */
+    private DatabaseReference refMembers;
 
-    mUser = FirebaseAuth.getInstance().getCurrentUser();
-    storageRef = FirebaseStorage.getInstance().getReference("event_picture");
+    /** Firebase reference to event pictures storage */
+    private StorageReference sEvent;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy:MM:dd:hh:mm:ss");
-    timeStamp = dateFormat.format(new Date());
+    /**
+     * On create method of the activity.
+     * @param savedInstanceState
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_event);
 
-    dbRef = FirebaseDatabase.getInstance().getReference().child("Events").
-            child(timeStamp + "?" + mUser.getUid());
-
-    closeActivityListener();
-  }
-
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-
-    if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-      CropImage.ActivityResult result = CropImage.getActivityResult(data);
-      mImageUri = result.getUri();
-      uploadImage();
-    } else {
-      showMessage("Something Went Wrong");
+        initFirebase();
+        initView();
+        updateFragment(new EventSelectionFragment());
     }
-  }
 
-  private void updateFragment(Fragment frag) {
-    getSupportFragmentManager().beginTransaction().replace(R.id.event_fragment_container, frag).commit();
-  }
+    /**
+     * Initialises the event and members list.
+     * Adds the time stamp and current user id to the event hash map.
+     */
+    private void initView() {
+        event = new HashMap<>();
+        mMembers = new ArrayList<>();
 
-  private void closeActivityListener () {
-    closeActivity = findViewById(R.id.event_close);
+        addItem("host",mUser.getUid());
+        addItem("time_stamp",timeStamp);
+    }
 
-    closeActivity.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+    /**
+     * Initialise Firebase and make queries.
+     */
+    private void initFirebase() {
+        timeStamp = new SimpleDateFormat(FORMAT,Locale.FRANCE).format(new Date());
+
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
+        refEvents = FirebaseDatabase.getInstance().getReference().child("Events");
+        refMembers = FirebaseDatabase.getInstance().getReference().child("Members");
+
+        mEvent = refEvents.child(timeStamp + "?" + mUser.getUid());
+
+        sEvent = FirebaseStorage.getInstance().getReference("event_picture");
+
+    }
+
+    /**
+     * On click listener for the finish create event button.
+     * Updates the event with the mEvent hash map.
+     * Opens the event activity and kills this activity.
+     * @param view view of the activity
+     */
+    public void onClickFinishCreateEvent(View view) {
+        mEvent.updateChildren(event);
+    }
+
+    /**
+     * On click listener for the close activity image view.
+     * Removes the event and all references to it.
+     * Kills this activity.
+     * @param view view of this activity
+     */
+    public void onClickCloseCreateEvent(View view) {
+        clearEvent();
         finish();
-      }
-    });
-  }
-
-  private String getFileExtension (Uri uri) {
-    ContentResolver contentResolver = getContentResolver();
-    MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-    return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-  }
-
-  private void uploadImage () {
-    final ProgressDialog progress = new ProgressDialog(this);
-    progress.setMessage("Uploading");
-    progress.show();
-
-    if (mImageUri != null) {
-
-      final StorageReference file = storageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
-
-      uploadTask = file.putFile(mImageUri);
-      uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-        @Override
-        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-          if (!task.isSuccessful()) {
-            throw task.getException();
-          }
-          return file.getDownloadUrl();
-        }
-      }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-        @Override
-        public void onComplete(@NonNull Task<Uri> task) {
-          if (task.isSuccessful()) {
-            Uri downloadUri = task.getResult();
-            mImageURL = downloadUri.toString();
-
-            event.put("imageURL", ""+mImageURL);
-
-            dbRef.updateChildren(event);
-            progress.dismiss();
-          } else {
-            showMessage("Image Upload Failed");
-          }
-        }
-      }).addOnFailureListener(new OnFailureListener() {
-        @Override
-        public void onFailure(@NonNull Exception e) {
-          progress.dismiss();
-        }
-      });
     }
-  }
 
-  private void showMessage(String s) {
-    Toast.makeText(this,s, Toast.LENGTH_LONG).show();
-  }
+    /**
+     * Replace the current fragment with the one to be displayed.
+     * @param frag fragment to be displayed
+     */
+    private void updateFragment(Fragment frag) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.event_fragment_container, frag).commit();
+    }
 
-  public FirebaseUser getmUser() {
-    return mUser;
-  }
+    /**
+     * Adds an item to the event hash map.
+     * @param id of the item.
+     * @param item to be saved in the database
+     */
+    public void addItem(String id, String item) {
+        event.put(id,item);
+    }
 
-  public String getTimeStamp() {
-    return timeStamp;
-  }
+    /**
+     * Remove an item from the event hash map.
+     * @param id item to be removed
+     */
+    public void removeItem(String id) {
+        event.remove(id);
+    }
 
-  public void addValueDatabase(String name, String value) {
-    event.put(name,value);
-  }
+    /**
+     * Clears the even hash map.
+     */
+    public void clearEvent() {
+        if (event != null) {
+            event.clear();
+        }
+    }
+
+    /**
+     * Adds a user id to the invitee list.
+     * @param id to be added
+     */
+    public void addFriend(String id) {
+        mMembers.add(id);
+    }
+
+    /**
+     * Removes a user id from the invitee list.
+     * @param id to be removed
+     */
+    public void removeFriend(String id) {
+        mMembers.remove(id);
+    }
+
+    /**
+     * Clears the invitee list.
+     */
+    public void clearFriends() {
+        mMembers.clear();
+    }
+
+    /**
+     * Reference to the current user.
+     * @return mUser
+     */
+    public FirebaseUser getmUser() {
+        return mUser;
+    }
+
+    /**
+     * Time stamp when this activity was created.
+     * @return timeStamp
+     */
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    /**
+     * Displays a toast on the screen.
+     * @param s text to display
+     */
+    private void showMessage(String s) {
+        Toast.makeText(this,s, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            mUri = result.getUri();
+            uploadImage();
+        } else {
+            showMessage("Something Went Wrong");
+        }
+    }
+
+    private String getFileExtension (Uri uri) {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private void uploadImage () {
+        final ProgressDialog progress = new ProgressDialog(this);
+        progress.setMessage("Uploading");
+        progress.show();
+
+        if (mUri != null) {
+
+            final StorageReference file = sEvent.child(System.currentTimeMillis() + "." + getFileExtension(mUri));
+
+            StorageTask<UploadTask.TaskSnapshot> uploadTask = file.putFile(mUri);
+            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return file.getDownloadUrl();
+            }}).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    mURL = task.getResult().toString();
+
+                    event.put("imageURL", ""+ mURL);
+
+                    mEvent.updateChildren(event);
+                    progress.dismiss();
+                } else {
+                    showMessage("Image Upload Failed");
+                }
+            }
+          }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+              progress.dismiss();
+            }
+          });
+        }
+    }
 }

@@ -97,6 +97,7 @@
                     android:text="Next"
                     android:textColor="@color/white"
                     android:textAllCaps="false"
+                    android:onClick="onClickFinishCreateEvent"
             />
 
         </RelativeLayout>

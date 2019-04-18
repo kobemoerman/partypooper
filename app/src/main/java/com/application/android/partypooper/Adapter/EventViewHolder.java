@@ -13,11 +13,19 @@ import com.application.android.partypooper.Adapter.EventAdapter.onItemClickListe
 
 public class EventViewHolder extends RecyclerAdapter.ViewHolder {
 
+    /** Item position */
+    private int mPosition;
+
+    /** Determines if  user is selected */
     private ImageView check;
+
+    /** Username of the user */
     private TextView username;
+
+    /** Profile picture of the user */
     private CircleImageView icon;
 
-    private int mPosition;
+    /** Item click listener */
     private onItemClickListener mListener;
 
     /**

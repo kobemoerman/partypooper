@@ -59,8 +59,8 @@ public class SearchViewHolder extends RecyclerAdapter.ViewHolder {
     }
 
     /**
-     * Adds or removes user to friends database reference.
-     * @param id user making the query
+     * Adds or removes user to friends database list.
+     * @param id user to add/remove
      */
     private void followItemListener(final String id) {
         follow.setOnClickListener(new View.OnClickListener() {
@@ -76,14 +76,14 @@ public class SearchViewHolder extends RecyclerAdapter.ViewHolder {
     }
 
     /**
-     * Updates the button values depending on the user's friends.
-     * @param userID user making the query
+     * Updates the button value depending on the user's friends.
+     * @param id user making the query
      */
-    private void isFriends(final String userID) {
+    private void isFriends(final String id) {
         refFriends.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(userID).exists()) {
+                if (dataSnapshot.child(id).exists()) {
                     follow.setText("Friends");
                     follow.setBackgroundResource(R.drawable.border_light);
                     follow.setTextColor(Color.BLACK);

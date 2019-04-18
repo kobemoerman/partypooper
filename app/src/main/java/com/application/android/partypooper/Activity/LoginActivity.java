@@ -44,7 +44,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         mUser = mAuth.getCurrentUser();
 
-        if (mUser != null) updateActivity();
+        if (mUser != null) {
+            updateActivity();
+        }
     }
 
     /**

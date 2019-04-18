@@ -14,10 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Base generic RecyclerView adapter.
- * Handles basic logic such as adding/removing items,
- * setting listener, binding ViewHolders.
- * Extend the adapter for appropriate use case.
+ * Generic RecyclerView adapter.
+ * adds/removes items, binds ViewHolders.
  *
  * @param <T>  type of objects, which will be used by the adapter
  * @param <VH> ViewHolder {@link ViewHolder}
@@ -32,7 +30,6 @@ public abstract class RecyclerAdapter<T, VH extends ViewHolder> extends Recycler
 
     /**
      * Base constructor.
-     * Allocate adapter-related objects here if needed.
      *
      * @param context Context needed to retrieve LayoutInflater
      */
@@ -48,9 +45,9 @@ public abstract class RecyclerAdapter<T, VH extends ViewHolder> extends Recycler
         }
 
         /**
-         * Bind data to the item and set listener if needed.
+         * Bind data to the item.
          *
-         * @param item     object, associated with the item.
+         * @param item object, associated with the item.
          */
         public abstract void onBind(T item);
     }
@@ -66,7 +63,7 @@ public abstract class RecyclerAdapter<T, VH extends ViewHolder> extends Recycler
      */
     @Override
     public void onBindViewHolder(@NonNull final VH holder, int pos) {
-        T item = items.get(pos);
+        T item = getItem(pos);
         holder.onBind(item);
     }
 
@@ -81,7 +78,7 @@ public abstract class RecyclerAdapter<T, VH extends ViewHolder> extends Recycler
     public abstract VH onCreateViewHolder(ViewGroup parent, int viewType);
 
     /**
-     * Returns the total number of items in the data set held by the adapter.
+     * Returns the total number of items in the list held by the adapter.
      *
      * @return The total number of items in this adapter.
      */
@@ -91,7 +88,7 @@ public abstract class RecyclerAdapter<T, VH extends ViewHolder> extends Recycler
     }
 
     /**
-     * Returns an items from the data set at a certain position.
+     * Returns an items from the list at a certain position.
      *
      * @return All of items in this adapter.
      */
@@ -107,7 +104,7 @@ public abstract class RecyclerAdapter<T, VH extends ViewHolder> extends Recycler
      */
     public void setItems(List<T> items) {
         if (items == null) {
-            throw new IllegalArgumentException("Cannot set `null` item to the Recycler adapter");
+            throw new IllegalArgumentException("List to set in the RecyclerView is null");
         }
         this.items.clear();
         this.items.addAll(items);
@@ -115,14 +112,14 @@ public abstract class RecyclerAdapter<T, VH extends ViewHolder> extends Recycler
     }
 
     /**
-     * Adds item to the end of the data set.
+     * Adds item to the end of the list.
      * Notifies that item has been inserted.
      *
      * @param item item which has to be added to the adapter.
      */
     public void add(T item) {
         if (item == null) {
-            throw new IllegalArgumentException("Cannot add null item to the Recycler adapter");
+            throw new IllegalArgumentException("Item to add to the RecyclerView is null");
         }
         items.add(item);
         notifyItemInserted(items.size() - 1);
