@@ -84,7 +84,10 @@ public abstract class RecyclerAdapter<T, VH extends ViewHolder> extends Recycler
      */
     @Override
     public int getItemCount() {
-        return items != null ? items.size() : 0;
+        if (items == null) {
+            return 0;
+        }
+        return items.size();
     }
 
     /**

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.application.android.partypooper.Activity.HomeActivity;
 import com.application.android.partypooper.R;
 
-public class EventsFragment extends Fragment {
+public class CalendarFragment extends Fragment {
 
     /** Reference to the Home Activity */
     private HomeActivity act;
@@ -26,7 +26,7 @@ public class EventsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_events, container, false);
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
         initView(view);
 
@@ -35,7 +35,7 @@ public class EventsFragment extends Fragment {
 
     /**
      * Initialises the fragment view.
-     * @param view fragment_events
+     * @param view fragment_calendar
      */
     private void initView(View view) {
         act = (HomeActivity) getActivity();

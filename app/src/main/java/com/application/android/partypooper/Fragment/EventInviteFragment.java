@@ -28,20 +28,45 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class InviteFriendsFragment extends Fragment {
+public class EventInviteFragment extends Fragment {
 
-	private EditText searchBar;
-	private Button back, next;
-		
-	private FirebaseUser firebaseUser;
-	private RecyclerView recyclerView;
-	private EventAdapter mAdapter;
-	private List<User> mUsers;
+	/** TAG reference of this fragment */
+	private final static String TAG = "fragment/EventInvite";
+
+	/** Reference to the CreateEvent Activity */
+	private CreateEventActivity act;
+
+	/** List of all the user's friends */
 	private List<String> mFriends;
 
-  	@Override
+	/** Search bar to customise query */
+	private EditText searchBar;
+
+	/** Buttons to navigate back and forth between fragments */
+	private Button back, next;
+
+	/** Firebase reference to all friends of the user */
+	private DatabaseReference refFriends;
+
+	/** Firebase reference to all users */
+	private DatabaseReference refUsers;
+
+	/** Recycler View to display friends */
+	private RecyclerView recyclerView;
+
+	/** Adapter to display data in the recycler view */
+	private EventAdapter mAdapter;
+
+	/**
+	 * On create method of the fragment.
+	 * @param inflater inflate any views in the fragment
+	 * @param container parent view that the fragment's UI should be attached to
+	 * @param savedInstanceState this fragment is being re-constructed from a previous saved state as given here
+	 * @return Return the View for the fragment's UI, or null.
+	 */
+	@Override
   	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	View view = inflater.inflate(R.layout.fragment_invite_friends, container, false);
+    	View view = inflater.inflate(R.layout.fragment_event_invite, container, false);
 
     	initView(view);
 
@@ -52,8 +77,18 @@ public class InviteFriendsFragment extends Fragment {
     	return view;
   	}
 
+	/**
+	 * Initialises the fragment view, date and time.
+	 * @param view fragment_event_invite
+	 */
     private void initView(View view) {
-    	firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+		act = (CreateEventActivity) getActivity();
+		assert act != null;
+		refUsers = act.getRefUsers();
+		refFriends = act.getRefFriends();
+
+		back = view.findViewById(R.id.frag_invite_back);
+		next = view.findViewById(R.id.frag_invite_next);
 
     	recyclerView = view.findViewById(R.id.frag_invite_recycler);
     	recyclerView.setHasFixedSize(true);
@@ -61,25 +96,22 @@ public class InviteFriendsFragment extends Fragment {
 
     	searchBar = view.findViewById(R.id.frag_invite_search_bar);
 
-    	mUsers = new ArrayList<>();
     	mFriends = new ArrayList<>();
-    	mAdapter = new EventAdapter(getContext(),mUsers);
+    	mAdapter = new EventAdapter(getContext(),new ArrayList<User>());
     	recyclerView.setAdapter(mAdapter);
+
+
 
     	mAdapter.setOnItemClickListener(new EventAdapter.onItemClickListener() {
             @Override
             public void onItemClick(int pos) {
-                //TODO:get user id from click
+                System.out.println("ITEM CLICKED");
             }
         });
-
-    	back = view.findViewById(R.id.frag_invite_back);
-    	next = view.findViewById(R.id.frag_invite_next);
   	}
 
 	private void friendsQueryDatabase() {
-		Query ref = FirebaseDatabase.getInstance().getReference("Friends").child(firebaseUser.getUid());
-		displayFriends(ref);
+		displayFriends(refFriends);
 
 		searchBar.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -88,9 +120,9 @@ public class InviteFriendsFragment extends Fragment {
 			}
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				Query custom = FirebaseDatabase.getInstance().getReference("Friends").child(firebaseUser.getUid()).orderByValue()
-						.startAt(s.toString().toLowerCase()).endAt(s.toString().toLowerCase() + "\uf8ff");
+			public void onTextChanged(CharSequence string, int start, int before, int count) {
+				String s = string.toString().toLowerCase();
+				Query custom = refFriends.orderByValue().startAt(s).endAt(s+"\uf8ff");
 				displayFriends(custom);
 			}
 
@@ -119,8 +151,7 @@ public class InviteFriendsFragment extends Fragment {
 	}
 
 	private void showUsers() {
-  		final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-  		Query users = ref.orderByChild("username");
+  		Query users = refUsers.orderByChild("username");
   		users.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -131,10 +162,7 @@ public class InviteFriendsFragment extends Fragment {
 					for (String id : mFriends) {
 						if (user.getId().equals(id)) {
 							mAdapter.add(user);
-							HashMap event = new HashMap();
-							String eventID = ((CreateEventActivity)getActivity()).getTimeStamp() + "?" + firebaseUser.getUid();
-							event.put(eventID,false);
-							ref.child(user.getId()).child("events").updateChildren(event);
+							System.out.println(user.getUsername() + " : " + id);
 						}
 					}
 				}
@@ -156,15 +184,15 @@ public class InviteFriendsFragment extends Fragment {
   	    back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCreateEventFragment(new EventInformationFragment());
+			openCreateEventFragment(new EventInformationFragment());
             }
         });
   	    next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent homeIntent = new Intent(getActivity().getApplicationContext(), EventActivity.class);
-                startActivity(homeIntent);
-                getActivity().finish();
+			Intent homeIntent = new Intent(getActivity().getApplicationContext(), EventActivity.class);
+			startActivity(homeIntent);
+			getActivity().finish();
             }
         });
     }

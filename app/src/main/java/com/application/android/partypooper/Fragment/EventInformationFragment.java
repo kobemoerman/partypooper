@@ -87,7 +87,7 @@ public class EventInformationFragment extends Fragment implements Events {
     initView(view);
     updateData();
     navigationListener(mBack, new EventThemeFragment(),"fragment/EventTheme");
-    navigationListener(mNext, new InviteFriendsFragment(),"fragment/EventInvite");
+    navigationListener(mNext, new EventInviteFragment(),"fragment/EventInvite");
 
     uploadImageListener(uploadContainer);
     uploadImageListener(imageContainer);
@@ -105,6 +105,7 @@ public class EventInformationFragment extends Fragment implements Events {
     Calendar cal = Calendar.getInstance();
 
     act = (CreateEventActivity) getActivity();
+    assert act != null;
 
     mNext = view.findViewById(R.id.frag_event_next);
     mBack = view.findViewById(R.id.frag_event_back);
@@ -230,6 +231,7 @@ public class EventInformationFragment extends Fragment implements Events {
 
         Objects.requireNonNull(dialogDate.getWindow()).setBackgroundDrawable(
                 new ColorDrawable(Color.TRANSPARENT));
+
         dialogDate.show();
       }
     });
@@ -240,7 +242,8 @@ public class EventInformationFragment extends Fragment implements Events {
         String date = day + " " + getMonth(month) + ", at " + hour + ":00";
         date_time.setText(date);
 
-        TimePickerDialog dialogTime = new TimePickerDialog(getActivity(),
+        TimePickerDialog dialogTime = new TimePickerDialog(
+                getActivity(),
                 AlertDialog.THEME_HOLO_LIGHT,
                 mTimeSetListener,hour,min,true);
 
@@ -263,7 +266,7 @@ public class EventInformationFragment extends Fragment implements Events {
   }
 
   /**
-   * Udate data when the image is done uploading.
+   * Update data when the image is done uploading.
    */
   public void setInvisible() {
     uploading = false;

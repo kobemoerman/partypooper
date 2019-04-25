@@ -66,6 +66,12 @@ public class CreateEventActivity extends AppCompatActivity {
     /** Firebase reference to all members */
     private DatabaseReference refMembers;
 
+    /** Firebase reference to all friends of a user */
+    private DatabaseReference refFriends;
+
+    /** Firebase reference to all users */
+    private DatabaseReference refUsers;
+
     /** Firebase reference to event pictures storage */
     private StorageReference sEvent;
 
@@ -104,8 +110,10 @@ public class CreateEventActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
+        refFriends = FirebaseDatabase.getInstance().getReference().child("Friends").child(mUser.getUid());
         refEvents = FirebaseDatabase.getInstance().getReference().child("Events");
         refMembers = FirebaseDatabase.getInstance().getReference().child("Members");
+        refUsers = FirebaseDatabase.getInstance().getReference().child("Users");
 
         mEvent = refEvents.child(timeStamp + "?" + mUser.getUid());
 
@@ -298,7 +306,43 @@ public class CreateEventActivity extends AppCompatActivity {
         return timeStamp;
     }
 
+    /**
+     * Get the image uri that was uploaded.
+     * @return mUri
+     */
     public Uri getmUri() {
         return mUri;
+    }
+
+    /**
+     * Firebase reference to all events.
+     * @return refEvents
+     */
+    public DatabaseReference getRefEvents() {
+        return refEvents;
+    }
+
+    /**
+     * Firebase reference to all members.
+     * @return refMembers
+     */
+    public DatabaseReference getRefMembers() {
+        return refMembers;
+    }
+
+    /**
+     * Firebase reference to all friends.
+     * @return refFriends
+     */
+    public DatabaseReference getRefFriends() {
+        return refFriends;
+    }
+
+    /**
+     * Firebase reference to all users.
+     * @return refUsers
+     */
+    public DatabaseReference getRefUsers() {
+        return refUsers;
     }
 }

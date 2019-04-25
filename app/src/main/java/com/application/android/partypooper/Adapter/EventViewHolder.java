@@ -11,10 +11,12 @@ import com.bumptech.glide.Glide;
 import de.hdodenhof.circleimageview.CircleImageView;
 import com.application.android.partypooper.Adapter.EventAdapter.onItemClickListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EventViewHolder extends RecyclerAdapter.ViewHolder {
 
-    /** Item position */
-    private int mPosition;
+    private List<String> members;
 
     /** Determines if  user is selected */
     private ImageView check;
@@ -37,7 +39,7 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
         super(itemView);
 
         initView(listener);
-        itemOnClickListener();
+        itemOnClickListener(itemView);
     }
 
     /**
@@ -46,23 +48,27 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
      */
     private void initView(onItemClickListener listener) {
         mListener = listener;
-        mPosition = getAdapterPosition();
 
         icon = itemView.findViewById(R.id.user_event_image);
         check = itemView.findViewById(R.id.user_event_check);
         username = itemView.findViewById(R.id.user_event_name);
+
+        members = new ArrayList<>();
     }
 
     /**
      * Action on the item listener.
      */
-    private void itemOnClickListener() {
-        itemView.setOnClickListener(new View.OnClickListener() {
+    private void itemOnClickListener(View view) {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mPosition != RecyclerView.NO_POSITION) {
+                int position = getAdapterPosition();
+
+                if (position != RecyclerView.NO_POSITION) {
+//                members.add(u.getId());
                     check.setBackgroundResource(R.drawable.ic_check_circle);
-                    mListener.onItemClick(mPosition);
+                    mListener.onItemClick(position);
                 }
             }
         });
@@ -74,7 +80,7 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
      */
     @Override
     public void onBind(Object item) {
-        User u = (User) item;
+        final User u = (User) item;
 
         username.setText(u.getUsername());
         if (u.getImgURL() != null) {
