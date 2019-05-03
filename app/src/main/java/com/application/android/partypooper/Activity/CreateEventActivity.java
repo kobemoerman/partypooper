@@ -36,6 +36,9 @@ public class CreateEventActivity extends AppCompatActivity {
     /** Format used for the time stamp */
     private static final String FORMAT = "yyyy:MM:dd:hh:mm:ss";
 
+    /** Unique id of the event */
+    private String eventID;
+
     /** Current time stamp */
     private String timeStamp;
 
@@ -54,16 +57,19 @@ public class CreateEventActivity extends AppCompatActivity {
     /** Firebase current user */
     private FirebaseUser mUser;
 
-    /** All users invited to the event */
-    private List<String> mMembers;
-
-    /** Reference the the current event */
+    /** Reference to the current event in Events */
     private DatabaseReference mEvent;
+
+    /** Reference to the current event in Members  */
+    private DatabaseReference mMembers;
 
     /** Firebase reference to all events */
     private DatabaseReference refEvents;
 
-    /** Firebase reference to all members */
+    /** Firebase reference to all user events */
+    private DatabaseReference refInvited;
+
+    /** Firebase reference to all event users */
     private DatabaseReference refMembers;
 
     /** Firebase reference to all friends of a user */
@@ -95,7 +101,6 @@ public class CreateEventActivity extends AppCompatActivity {
      */
     private void initView() {
         event = new HashMap<>();
-        mMembers = new ArrayList<>();
 
         addItem("host",mUser.getUid());
         addItem("time_stamp",timeStamp);
@@ -110,12 +115,16 @@ public class CreateEventActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
+        eventID = timeStamp + "?" + mUser.getUid();
+
         refFriends = FirebaseDatabase.getInstance().getReference().child("Friends").child(mUser.getUid());
         refEvents = FirebaseDatabase.getInstance().getReference().child("Events");
         refMembers = FirebaseDatabase.getInstance().getReference().child("Members");
+        refInvited = FirebaseDatabase.getInstance().getReference().child("Invited");
         refUsers = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        mEvent = refEvents.child(timeStamp + "?" + mUser.getUid());
+        mEvent = refEvents.child(eventID);
+        mMembers = refMembers.child(eventID);
 
         sEvent = FirebaseStorage.getInstance().getReference("event_picture");
 
@@ -268,29 +277,6 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     /**
-     * Adds a user id to the invitee list.
-     * @param id to be added
-     */
-    public void addFriend(String id) {
-        mMembers.add(id);
-    }
-
-    /**
-     * Removes a user id from the invitee list.
-     * @param id to be removed
-     */
-    public void removeFriend(String id) {
-        mMembers.remove(id);
-    }
-
-    /**
-     * Clears the invitee list.
-     */
-    public void clearFriends() {
-        mMembers.clear();
-    }
-
-    /**
      * Reference to the current user.
      * @return mUser
      */
@@ -312,6 +298,22 @@ public class CreateEventActivity extends AppCompatActivity {
      */
     public Uri getmUri() {
         return mUri;
+    }
+
+    /**
+     * Firebase reference to the event in Events.
+     * @return mEvent
+     */
+    public DatabaseReference getmEvent() {
+        return mEvent;
+    }
+
+    /**
+     * Firebase reference to the event in Members.
+     * @return mMembers
+     */
+    public DatabaseReference getmMembers() {
+        return mMembers;
     }
 
     /**

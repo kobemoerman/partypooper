@@ -45,6 +45,9 @@ public class EventInviteFragment extends Fragment {
 	/** Buttons to navigate back and forth between fragments */
 	private Button back, next;
 
+	/** Firebase reference to all members of the event */
+	private DatabaseReference mMembers;
+
 	/** Firebase reference to all friends of the user */
 	private DatabaseReference refFriends;
 
@@ -86,6 +89,7 @@ public class EventInviteFragment extends Fragment {
 		assert act != null;
 		refUsers = act.getRefUsers();
 		refFriends = act.getRefFriends();
+		mMembers = act.getmMembers();
 
 		back = view.findViewById(R.id.frag_invite_back);
 		next = view.findViewById(R.id.frag_invite_next);
@@ -97,7 +101,7 @@ public class EventInviteFragment extends Fragment {
     	searchBar = view.findViewById(R.id.frag_invite_search_bar);
 
     	mFriends = new ArrayList<>();
-    	mAdapter = new EventAdapter(getContext(),new ArrayList<User>());
+    	mAdapter = new EventAdapter(getContext(),new ArrayList<User>(),mMembers);
     	recyclerView.setAdapter(mAdapter);
 
 
@@ -105,7 +109,22 @@ public class EventInviteFragment extends Fragment {
     	mAdapter.setOnItemClickListener(new EventAdapter.onItemClickListener() {
             @Override
             public void onItemClick(int pos) {
-                System.out.println("ITEM CLICKED");
+            	final User u = mAdapter.getItem(pos);
+            	mMembers.addListenerForSingleValueEvent(new ValueEventListener() {
+					@Override
+					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+							if (dataSnapshot.child(u.getId()).exists()) {
+								mMembers.child(u.getId()).removeValue();
+							} else {
+								mMembers.child(u.getId()).setValue(false);
+							}
+					}
+
+					@Override
+					public void onCancelled(@NonNull DatabaseError databaseError) {
+
+					}
+				});
             }
         });
   	}
@@ -145,7 +164,6 @@ public class EventInviteFragment extends Fragment {
 
 			@Override
 			public void onCancelled(@NonNull DatabaseError databaseError) {
-
 			}
 		});
 	}
@@ -162,7 +180,6 @@ public class EventInviteFragment extends Fragment {
 					for (String id : mFriends) {
 						if (user.getId().equals(id)) {
 							mAdapter.add(user);
-							System.out.println(user.getUsername() + " : " + id);
 						}
 					}
 				}
@@ -170,7 +187,6 @@ public class EventInviteFragment extends Fragment {
 
 			@Override
 			public void onCancelled(@NonNull DatabaseError databaseError) {
-
 			}
 		});
 	}

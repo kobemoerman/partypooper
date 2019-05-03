@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.ViewGroup;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
 
@@ -11,15 +12,18 @@ public class EventAdapter extends RecyclerAdapter<User, EventViewHolder> {
 
     private onItemClickListener mListener;
 
+    private final DatabaseReference refMembers;
+
     /**
      * Base constructor.
      * Allocate adapter-related objects here if needed.
      *
      * @param context Context needed to retrieve LayoutInflater
      */
-    public EventAdapter(Context context, List<User> mUsers) {
+    public EventAdapter(Context context, List<User> mUsers, DatabaseReference ref) {
         super(context);
         setItems(mUsers);
+        this.refMembers = ref;
     }
 
     public interface onItemClickListener {
@@ -47,6 +51,6 @@ public class EventAdapter extends RecyclerAdapter<User, EventViewHolder> {
      */
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new EventViewHolder(inflate(R.layout.user_event,parent),mListener);
+        return new EventViewHolder(inflate(R.layout.user_event,parent),mListener,refMembers);
     }
 }

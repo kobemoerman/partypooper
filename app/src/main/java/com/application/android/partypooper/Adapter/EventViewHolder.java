@@ -1,5 +1,6 @@
 package com.application.android.partypooper.Adapter;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,6 +11,10 @@ import com.application.android.partypooper.R;
 import com.bumptech.glide.Glide;
 import de.hdodenhof.circleimageview.CircleImageView;
 import com.application.android.partypooper.Adapter.EventAdapter.onItemClickListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,15 +35,18 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
     /** Item click listener */
     private onItemClickListener mListener;
 
+    /** Reference to the current event in Members  */
+    private DatabaseReference refMembers;
+
     /**
      * Initialises the EventViewHolder.
      * @param itemView user_event
      * @param listener on item listener
      */
-    public EventViewHolder(@NonNull View itemView, final onItemClickListener listener) {
+    public EventViewHolder(@NonNull View itemView, final onItemClickListener listener, DatabaseReference ref) {
         super(itemView);
 
-        initView(listener);
+        initView(listener, ref);
         itemOnClickListener(itemView);
     }
 
@@ -46,7 +54,9 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
      * Initialises the items of user_event
      * @param listener on item listener
      */
-    private void initView(onItemClickListener listener) {
+    private void initView(onItemClickListener listener, DatabaseReference ref) {
+        this.refMembers = ref;
+
         mListener = listener;
 
         icon = itemView.findViewById(R.id.user_event_image);
@@ -66,10 +76,29 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
                 int position = getAdapterPosition();
 
                 if (position != RecyclerView.NO_POSITION) {
-//                members.add(u.getId());
-                    check.setBackgroundResource(R.drawable.ic_check_circle);
                     mListener.onItemClick(position);
                 }
+            }
+        });
+    }
+
+    /**
+     * Updates the button value depending on the user's friends.
+     * @param id user making the query
+     */
+    private void isInvited(final String id) {
+        refMembers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(id).exists()) {
+                    check.setImageResource(R.drawable.ic_check_circle);
+                } else {
+                    check.setImageResource(R.drawable.ic_radio_button);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
@@ -88,5 +117,7 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
         } else {
             Glide.with(icon.getContext()).load(R.drawable.logo).into(icon);
         }
+
+        isInvited(u.getId());
     }
 }
