@@ -62,12 +62,12 @@ public class SearchViewHolder extends RecyclerAdapter.ViewHolder {
      * Adds or removes user to friends database list.
      * @param id user to add/remove
      */
-    private void followItemListener(final String id) {
+    private void followItemListener(final String id, final User user) {
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             if (follow.getText().toString().equals("Add")) {
-                refFriends.child(id).setValue(false);
+                refFriends.child(id).setValue(user.getUsername());
             } else {
                 refFriends.child(id).removeValue();
             }
@@ -118,6 +118,6 @@ public class SearchViewHolder extends RecyclerAdapter.ViewHolder {
         }
 
         isFriends(u.getId());
-        followItemListener(u.getId());
+        followItemListener(u.getId(),u);
     }
 }
