@@ -22,8 +22,8 @@ public class EventAdapter extends RecyclerAdapter<User, EventViewHolder> {
      */
     public EventAdapter(Context context, List<User> mUsers, DatabaseReference ref) {
         super(context);
-        setItems(mUsers);
         this.refMembers = ref;
+        setItems(mUsers);
     }
 
     public interface onItemClickListener {

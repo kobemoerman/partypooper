@@ -1,6 +1,5 @@
 package com.application.android.partypooper.Adapter;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventViewHolder extends RecyclerAdapter.ViewHolder {
-
-    private List<String> members;
 
     /** Determines if  user is selected */
     private ImageView check;
@@ -62,8 +59,6 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
         icon = itemView.findViewById(R.id.user_event_image);
         check = itemView.findViewById(R.id.user_event_check);
         username = itemView.findViewById(R.id.user_event_name);
-
-        members = new ArrayList<>();
     }
 
     /**
@@ -83,8 +78,8 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
     }
 
     /**
-     * Updates the button value depending on the user's friends.
-     * @param id user making the query
+     * Updates the check image depending if the user is invited to the event.
+     * @param id user in question
      */
     private void isInvited(final String id) {
         refMembers.addValueEventListener(new ValueEventListener() {
@@ -112,6 +107,7 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
         final User u = (User) item;
 
         username.setText(u.getUsername());
+        
         if (u.getImgURL() != null) {
             Glide.with(icon.getContext()).load(u.getImgURL()).into(icon);
         } else {

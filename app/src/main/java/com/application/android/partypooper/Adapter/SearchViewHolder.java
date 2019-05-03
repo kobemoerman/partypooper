@@ -77,7 +77,7 @@ public class SearchViewHolder extends RecyclerAdapter.ViewHolder {
 
     /**
      * Updates the button value depending on the user's friends.
-     * @param id user making the query
+     * @param id user in question
      */
     private void isFriends(final String id) {
         refFriends.addValueEventListener(new ValueEventListener() {

@@ -20,8 +20,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -134,21 +137,31 @@ public class CreateEventActivity extends AppCompatActivity {
      * On click listener for the finish create event button.
      * Updates the event with the mEvent hash map.
      * Opens the event activity and kills this activity.
-     * @param view view of the activity
      */
     public void onClickFinishCreateEvent(View view) {
-        mEvent.updateChildren(event);
+        mEvent.updateChildren(event).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    updateUI();
+                    updateInvitedDataBase();
+                } else {
+                    showMessage(Objects.requireNonNull(task.getException()).getMessage());
+                }
+            }
+        });
     }
 
     /**
      * On click listener for the close activity image view.
-     * Removes the event and all references to it.
+     * Removes all users that have been invited.
      * Kills this activity.
      * @param view view of this activity
      */
     public void onClickCloseCreateEvent(View view) {
-        clearEvent();
         finish();
+        clearEvent();
+        mMembers.removeValue();
     }
 
     /**
@@ -193,7 +206,8 @@ public class CreateEventActivity extends AppCompatActivity {
 
         frag.setVisible();
 
-        final StorageReference file = sEvent.child(System.currentTimeMillis() + "." + getFileExtension(mUri));
+        final StorageReference file = sEvent.child(
+            System.currentTimeMillis() + "." + getFileExtension(mUri));
 
         StorageTask<UploadTask.TaskSnapshot> uploadTask = file.putFile(mUri);
 
@@ -222,6 +236,26 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     /**
+     * Adds the event to the invited users from the Firebase.
+     */
+    public void updateInvitedDataBase() {
+        mMembers.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snp : dataSnapshot.getChildren()) {
+                    System.out.println(snp.getKey());
+                    refInvited.child(snp.getKey()).child(eventID).setValue(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
      * Displays a toast on the screen.
      * @param s text to display
      */
@@ -238,6 +272,15 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     /**
+     * Launches the Event Activity and kills the current one.
+     */
+    private void updateUI() {
+        Intent homeIntent = new Intent(getApplicationContext(), EventActivity.class);
+        startActivity(homeIntent);
+        finish();
+    }
+
+    /**
      * Returns the value of the item.
      * @param id to be fetched in the event hash map
      * @return the string value of the id
@@ -247,7 +290,7 @@ public class CreateEventActivity extends AppCompatActivity {
             return null;
         }
 
-        return event.get(id).toString();
+        return Objects.requireNonNull(event.get(id)).toString();
     }
 
     /**

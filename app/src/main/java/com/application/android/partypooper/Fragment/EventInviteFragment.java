@@ -1,6 +1,5 @@
 package com.application.android.partypooper.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -15,18 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.application.android.partypooper.Activity.CreateEventActivity;
-import com.application.android.partypooper.Activity.EventActivity;
 import com.application.android.partypooper.Adapter.EventAdapter;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class EventInviteFragment extends Fragment {
 
@@ -72,15 +66,14 @@ public class EventInviteFragment extends Fragment {
     	View view = inflater.inflate(R.layout.fragment_event_invite, container, false);
 
     	initView(view);
-
-		friendsQueryDatabase();
-
-    	navigationListener();
+        inviteUsersQueryDatabase();
+        itemClickListener();
+        navigationListener();
 
     	return view;
   	}
 
-	/**
+    /**
 	 * Initialises the fragment view, date and time.
 	 * @param view fragment_event_invite
 	 */
@@ -93,49 +86,61 @@ public class EventInviteFragment extends Fragment {
 
 		back = view.findViewById(R.id.frag_invite_back);
 		next = view.findViewById(R.id.frag_invite_next);
+		searchBar = view.findViewById(R.id.frag_invite_search_bar);
 
-    	recyclerView = view.findViewById(R.id.frag_invite_recycler);
-    	recyclerView.setHasFixedSize(true);
-    	recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-    	searchBar = view.findViewById(R.id.frag_invite_search_bar);
+		recyclerView = view.findViewById(R.id.frag_invite_recycler);
+		recyclerView.setHasFixedSize(true);
+		recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
     	mFriends = new ArrayList<>();
     	mAdapter = new EventAdapter(getContext(),new ArrayList<User>(),mMembers);
     	recyclerView.setAdapter(mAdapter);
-
-
-
-    	mAdapter.setOnItemClickListener(new EventAdapter.onItemClickListener() {
-            @Override
-            public void onItemClick(int pos) {
-            	final User u = mAdapter.getItem(pos);
-            	mMembers.addListenerForSingleValueEvent(new ValueEventListener() {
-					@Override
-					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-							if (dataSnapshot.child(u.getId()).exists()) {
-								mMembers.child(u.getId()).removeValue();
-							} else {
-								mMembers.child(u.getId()).setValue(false);
-							}
-					}
-
-					@Override
-					public void onCancelled(@NonNull DatabaseError databaseError) {
-
-					}
-				});
-            }
-        });
   	}
 
-	private void friendsQueryDatabase() {
+	/**
+	 * Take action on the item clicked.
+	 */
+	private void itemClickListener() {
+      mAdapter.setOnItemClickListener(new EventAdapter.onItemClickListener() {
+        @Override
+        public void onItemClick(int pos) {
+          User u = mAdapter.getItem(pos);
+          setUserDatabaseReference(u);
+        }
+      });
+    }
+
+	/**
+	 * Update the data in the Members DataBaseReference.
+	 * @param u user to be updated
+	 */
+	private void setUserDatabaseReference(final User u) {
+      mMembers.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+          if (dataSnapshot.child(u.getId()).exists()) {
+            mMembers.child(u.getId()).removeValue();
+          } else {
+            mMembers.child(u.getId()).setValue(false);
+          }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+      });
+    }
+
+	/**
+	 * Populate the Recycler View depending on the query.
+	 */
+    private void inviteUsersQueryDatabase() {
 		displayFriends(refFriends);
 
 		searchBar.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
 			}
 
 			@Override
@@ -151,6 +156,10 @@ public class EventInviteFragment extends Fragment {
 		});
 	}
 
+  /**
+   * Gets all friends of the user to be displayed.
+   * @param ref query to retrieve the list of friends
+   */
 	private void displayFriends(Query ref) {
 		ref.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
@@ -168,6 +177,9 @@ public class EventInviteFragment extends Fragment {
 		});
 	}
 
+	/**
+	 * Displays the friends with the help of the adapter.
+	 */
 	private void showUsers() {
   		Query users = refUsers.orderByChild("username");
   		users.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -191,24 +203,11 @@ public class EventInviteFragment extends Fragment {
 		});
 	}
 
-    private void openCreateEventFragment(Fragment frag) {
-        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(
-                R.id.event_fragment_container, frag).commit();
-    }
-
     private void navigationListener() {
   	    back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-			openCreateEventFragment(new EventInformationFragment());
-            }
-        });
-  	    next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-			Intent homeIntent = new Intent(getActivity().getApplicationContext(), EventActivity.class);
-			startActivity(homeIntent);
-			getActivity().finish();
+            	act.updateFragment(new EventInformationFragment(),"fragment/EventInformation");
             }
         });
     }

@@ -85,7 +85,7 @@ public class SearchFragment extends Fragment {
     }
 
     /**
-     * Displays the users depending on the query.
+     * Populate the Recycler View depending on the query.
      */
     private void usersQueryDatabase() {
         displayUsers(qUsers);
@@ -96,8 +96,8 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Query qCustom = act.getUsersCustom(s.toString());
-                displayUsers(qCustom);
+                Query custom = act.getUsersCustom(s.toString());
+                displayUsers(custom);
             }
 
             @Override
