@@ -11,8 +11,9 @@ public class Event {
   private String theme;
   private String time;
   private String time_stamp;
+  private String date_stamp;
 
-  public Event(String date, String description, String host, String imageURL, String location, String name, String theme, String time, String time_stamp) {
+  public Event(String date, String description, String host, String imageURL, String location, String name, String theme, String time, String time_stamp, String date_stamp) {
     this.date = date;
     this.description = description;
     this.host = host;
@@ -22,6 +23,7 @@ public class Event {
     this.theme = theme;
     this.time = time;
     this.time_stamp = time_stamp;
+    this.date_stamp = date_stamp;
   }
 
   public Event () {}
@@ -96,5 +98,13 @@ public class Event {
 
   public void setTime_stamp(String time_stamp) {
     this.time_stamp = time_stamp;
+  }
+
+  public String getDate_stamp() {
+    return date_stamp;
+  }
+
+  public void setDate_stamp(String date_stamp) {
+    this.date_stamp = date_stamp;
   }
 }

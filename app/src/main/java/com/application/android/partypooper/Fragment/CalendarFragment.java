@@ -4,17 +4,48 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.application.android.partypooper.Activity.HomeActivity;
+import com.application.android.partypooper.Adapter.CalendarAdapter;
+import com.application.android.partypooper.Adapter.CalendarDecoration;
+import com.application.android.partypooper.Adapter.RecyclerAdapter;
+import com.application.android.partypooper.Adapter.Section;
+import com.application.android.partypooper.Model.Event;
+import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CalendarFragment extends Fragment {
 
     /** Reference to the Home Activity */
     private HomeActivity act;
+
+    private List<Event> mEvent;
+
+    private List<String> mMember;
+
+    private FirebaseAuth mAuth;
+
+    private FirebaseUser mUser;
+
+    private RecyclerView recyclerView;
+
+    private RecyclerAdapter mAdapter;
 
     /**
      * On create method of the fragment.
@@ -40,5 +71,90 @@ public class CalendarFragment extends Fragment {
     private void initView(View view) {
         act = (HomeActivity) getActivity();
         assert act != null;
+
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
+        mEvent = new ArrayList<>();
+        mMember = new ArrayList<>();
+
+        recyclerView = view.findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mAdapter = new CalendarAdapter(getContext(),mEvent);
+        recyclerView.setAdapter(mAdapter);
+
+        displayFriends();
+
+        CalendarDecoration decoration =
+            new CalendarDecoration(40,
+                getSectionCallback(mEvent));
+        recyclerView.addItemDecoration(decoration);
+    }
+
+
+    /**
+     * Gets all friends of the user to be displayed.
+     */
+    private void displayFriends() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Invited").child(mUser.getUid());
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mMember.clear();
+                for (DataSnapshot snp : dataSnapshot.getChildren()) {
+                    mMember.add(snp.getKey());
+                }
+                showEvents();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    /**
+     * Displays the friends with the help of the adapter.
+     */
+    private void showEvents() {
+        Query users = FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("date_stamp");
+        users.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mEvent.clear();
+                for (DataSnapshot snp : dataSnapshot.getChildren()) {
+                    Event event = snp.getValue(Event.class);
+
+                    for (String id : mMember) {
+                        String time_stamp = event.getTime_stamp()+"?"+event.getHost();
+                        if (time_stamp.equals(id)) {
+                            mEvent.add(event);
+                        }
+                    }
+                }
+                mAdapter.setItems(mEvent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private Section getSectionCallback(final List<Event> item) {
+        return new Section() {
+            @Override
+            public boolean isHeader(int position) {
+                return position == 0
+                    || !item.get(position).getDate_stamp().equals(item.get(position - 1).getDate_stamp());
+            }
+
+            @Override
+            public CharSequence getSectionHeader(int position) {
+                return item.get(position).getDate_stamp();
+            }
+        };
     }
 }

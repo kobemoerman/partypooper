@@ -8,7 +8,7 @@
     android:gravity="center_vertical">
 
     <ImageView
-        android:id="@+id/user_event_check"
+        android:id="@+id/item_event_check"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="10dp"
@@ -17,20 +17,20 @@
     />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user_event_image"
+        android:id="@+id/item_event_image"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_toEndOf="@id/user_event_check"
+        android:layout_toEndOf="@id/item_event_check"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
         android:src="@drawable/logo"
     />
 
     <TextView
-        android:id="@+id/user_event_name"
+        android:id="@+id/item_event_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/user_event_image"
+        android:layout_toEndOf="@+id/item_event_image"
         android:layout_marginStart="10dp"
         android:layout_centerVertical="true"
         android:text="Username"

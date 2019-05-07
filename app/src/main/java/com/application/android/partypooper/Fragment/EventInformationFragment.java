@@ -188,16 +188,26 @@ public class EventInformationFragment extends Fragment implements Events {
         b.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            String date = day + "/" + month + "/" + year;
-            String time = hour + ":" + min;
+              String m = String.valueOf(month);
+              String d = String.valueOf(day);
+              String minute = String.valueOf(min);
 
-            act.addItem("date",date);
-            act.addItem("time",time);
-            act.addItem("name", name.getText().toString());
-            act.addItem("location", location.getText().toString());
-            act.addItem("description", description.getText().toString());
+              if (day < 10) d = "0"+day;
+              if (month < 10) m = "0"+month;
+              if (min < 10) minute = "0"+min;
 
-            act.updateFragment(frag,TAG);
+              String date_format = year+m+d;
+              String date = day + "/" + month + "/" + year;
+              String time = hour + ":" + minute;
+
+              act.addItem("date",date);
+              act.addItem("time",time);
+              act.addItem("date_format",date_format);
+              act.addItem("name", name.getText().toString());
+              act.addItem("location", location.getText().toString());
+              act.addItem("description", description.getText().toString());
+
+              act.updateFragment(frag,TAG);
           }
         });
     }

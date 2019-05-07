@@ -15,9 +15,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class EventViewHolder extends RecyclerAdapter.ViewHolder {
 
     /** Determines if  user is selected */
@@ -37,7 +34,7 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
 
     /**
      * Initialises the EventViewHolder.
-     * @param itemView user_event
+     * @param itemView item_event
      * @param listener on item listener
      */
     public EventViewHolder(@NonNull View itemView, final onItemClickListener listener, DatabaseReference ref) {
@@ -48,7 +45,7 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
     }
 
     /**
-     * Initialises the items of user_event
+     * Initialises the items of item_event
      * @param listener on item listener
      */
     private void initView(onItemClickListener listener, DatabaseReference ref) {
@@ -56,9 +53,9 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
 
         mListener = listener;
 
-        icon = itemView.findViewById(R.id.user_event_image);
-        check = itemView.findViewById(R.id.user_event_check);
-        username = itemView.findViewById(R.id.user_event_name);
+        icon = itemView.findViewById(R.id.item_event_image);
+        check = itemView.findViewById(R.id.item_event_check);
+        username = itemView.findViewById(R.id.item_event_name);
     }
 
     /**

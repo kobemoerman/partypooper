@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/nav_calendar"
-        android:icon="@drawable/ic_speaker_notes_black_24dp"
+        android:icon="@drawable/ic_speaker_notes"
         android:title=""/>
 
     <item

@@ -51,6 +51,6 @@ public class EventAdapter extends RecyclerAdapter<User, EventViewHolder> {
      */
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new EventViewHolder(inflate(R.layout.user_event,parent),mListener,refMembers);
+        return new EventViewHolder(inflate(R.layout.item_event,parent),mListener,refMembers);
     }
 }

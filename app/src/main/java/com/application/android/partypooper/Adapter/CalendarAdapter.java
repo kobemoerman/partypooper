@@ -2,12 +2,13 @@ package com.application.android.partypooper.Adapter;
 
 import android.content.Context;
 import android.view.ViewGroup;
-import com.application.android.partypooper.Model.User;
+
+import com.application.android.partypooper.Model.Event;
 import com.application.android.partypooper.R;
 
 import java.util.List;
 
-public class SearchAdapter extends RecyclerAdapter<User, SearchViewHolder> {
+public class CalendarAdapter extends RecyclerAdapter<Event, CalendarViewHolder> {
 
     /**
      * Base constructor.
@@ -15,7 +16,7 @@ public class SearchAdapter extends RecyclerAdapter<User, SearchViewHolder> {
      *
      * @param context Context needed to retrieve LayoutInflater
      */
-    public SearchAdapter(Context context, List<User> mUsers) {
+    public CalendarAdapter(Context context, List<Event> mUsers) {
         super(context);
         setItems(mUsers);
     }
@@ -28,7 +29,7 @@ public class SearchAdapter extends RecyclerAdapter<User, SearchViewHolder> {
      * @return A new ViewHolder that holds a View of the given view type.
      */
     @Override
-    public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SearchViewHolder(inflate(R.layout.item_search,parent));
+    public CalendarViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new CalendarViewHolder(inflate(R.layout.item_calendar,parent));
     }
 }

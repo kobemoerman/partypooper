@@ -35,7 +35,7 @@ public class SearchViewHolder extends RecyclerAdapter.ViewHolder {
 
     /**
      * Initialises the SearchViewHolder.
-     * @param itemView user_search
+     * @param itemView item_search
      */
     public SearchViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -44,16 +44,16 @@ public class SearchViewHolder extends RecyclerAdapter.ViewHolder {
     }
 
     /**
-     * Initialises the items of user_search and Firebase.
+     * Initialises the items of item_search and Firebase.
      */
     private void initView() {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         refFriends = FirebaseDatabase.getInstance().getReference().child("Friends").child(mUser.getUid());
 
-        icon = itemView.findViewById(R.id.img_profile);
-        status = itemView.findViewById(R.id.statusUser);
-        follow = itemView.findViewById(R.id.followButton);
-        username = itemView.findViewById(R.id.search_username);
+        icon = itemView.findViewById(R.id.item_search_image);
+        status = itemView.findViewById(R.id.item_search_status);
+        follow = itemView.findViewById(R.id.item_search_button);
+        username = itemView.findViewById(R.id.item_search_name);
 
         follow.setVisibility(View.VISIBLE);
     }
