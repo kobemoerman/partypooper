@@ -52,14 +52,14 @@ public class CalendarDecoration extends RecyclerView.ItemDecoration {
         CharSequence previousHeader = "";
         for (int i = 0; i < parent.getChildCount(); i++) {
             View child = parent.getChildAt(i);
-            final int position = parent.getChildAdapterPosition(child);
+            final int pos = parent.getChildAdapterPosition(child);
 
-            CharSequence title = section.getSectionHeader(position);
+            CharSequence title = section.getSectionHeader(pos);
             text.setText(title);
 
-            if (!previousHeader.equals(title) || section.isHeader(position)) {
-                previousHeader = title;
+            if (!previousHeader.equals(title) || section.isHeader(pos)) {
                 drawHeader(c, child, header);
+                previousHeader = title;
             }
         }
     }

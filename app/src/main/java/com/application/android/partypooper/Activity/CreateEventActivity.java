@@ -105,6 +105,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private void initView() {
         event = new HashMap<>();
 
+        hostUsername();
         addItem("host",mUser.getUid());
         addItem("time_stamp",timeStamp);
     }
@@ -239,13 +240,33 @@ public class CreateEventActivity extends AppCompatActivity {
      * Adds the event to the invited users from the Firebase.
      */
     public void updateInvitedDataBase() {
+        mMembers.child(mUser.getUid()).setValue(false);
+        refInvited.child(mUser.getUid()).child(eventID).setValue(false);
+
         mMembers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {
-                    System.out.println(snp.getKey());
                     refInvited.child(snp.getKey()).child(eventID).setValue(false);
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * Adds the username value of the current user creating the event.
+     */
+    private void hostUsername() {
+        refUsers.child(mUser.getUid()).child("username").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String username = dataSnapshot.getValue(String.class);
+                addItem("host_username",username);
             }
 
             @Override

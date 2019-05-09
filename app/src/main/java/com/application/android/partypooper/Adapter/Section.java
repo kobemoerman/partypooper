@@ -9,9 +9,9 @@ public interface Section {
     boolean isHeader(int position);
 
     /**
-     * This method gets called by {@link CalendarDecoration} to verify whether a new header must be created.
+     * This method gets called by {@link CalendarDecoration} to set the text of the header.
      * @param position int.
-     * @return true, if the next item has the same subSequence.
+     * @return the string to be displayed.
      */
     CharSequence getSectionHeader(int position);
 }

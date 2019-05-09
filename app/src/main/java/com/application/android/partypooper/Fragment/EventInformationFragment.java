@@ -196,13 +196,13 @@ public class EventInformationFragment extends Fragment implements Events {
               if (month < 10) m = "0"+month;
               if (min < 10) minute = "0"+min;
 
-              String date_format = year+m+d;
+              String date_stamp = year+m+d;
               String date = day + "/" + month + "/" + year;
               String time = hour + ":" + minute;
 
               act.addItem("date",date);
               act.addItem("time",time);
-              act.addItem("date_format",date_format);
+              act.addItem("date_stamp",date_stamp);
               act.addItem("name", name.getText().toString());
               act.addItem("location", location.getText().toString());
               act.addItem("description", description.getText().toString());

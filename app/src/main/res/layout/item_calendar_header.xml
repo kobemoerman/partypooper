@@ -2,16 +2,16 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:background="@color/background_white"
-    android:padding="10dp">
+    android:layout_height="@dimen/header"
+    android:background="@color/background_white">
 
     <TextView
         android:id="@+id/item_calendar_header_date"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="ven. 10 mai 2019"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal"
+        android:text="date"
         android:textSize="17sp"
         android:textColor="@color/black"
         />

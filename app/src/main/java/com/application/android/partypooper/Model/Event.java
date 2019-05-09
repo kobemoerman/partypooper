@@ -5,6 +5,7 @@ public class Event {
   private String date;
   private String description;
   private String host;
+  private String host_username;
   private String imageURL;
   private String location;
   private String name;
@@ -13,10 +14,11 @@ public class Event {
   private String time_stamp;
   private String date_stamp;
 
-  public Event(String date, String description, String host, String imageURL, String location, String name, String theme, String time, String time_stamp, String date_stamp) {
+  public Event(String date, String description, String host, String host_username, String imageURL, String location, String name, String theme, String time, String time_stamp, String date_stamp) {
     this.date = date;
     this.description = description;
     this.host = host;
+    this.host_username = host_username;
     this.imageURL = imageURL;
     this.location = location;
     this.name = name;
@@ -50,6 +52,14 @@ public class Event {
 
   public void setHost(String host) {
     this.host = host;
+  }
+
+  public String getHost_username() {
+    return host_username;
+  }
+
+  public void setHost_username(String host_username) {
+    this.host_username = host_username;
   }
 
   public String getImageURL() {
@@ -106,5 +116,9 @@ public class Event {
 
   public void setDate_stamp(String date_stamp) {
     this.date_stamp = date_stamp;
+  }
+
+  public void debug() {
+    System.out.println("\""+date+"\", \""+host+"\", \""+location+"\", \""+name+"\", \""+ host_username +"\", \""+name+"\", \""+time+"\", \""+time_stamp+"\", \""+date_stamp+"\"");
   }
 }

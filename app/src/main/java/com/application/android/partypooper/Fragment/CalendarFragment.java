@@ -78,19 +78,14 @@ public class CalendarFragment extends Fragment {
         mEvent = new ArrayList<>();
         mMember = new ArrayList<>();
 
+        displayFriends();
+
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mAdapter = new CalendarAdapter(getContext(),mEvent);
         recyclerView.setAdapter(mAdapter);
-
-        displayFriends();
-
-        CalendarDecoration decoration =
-            new CalendarDecoration(40,
-                getSectionCallback(mEvent));
-        recyclerView.addItemDecoration(decoration);
     }
 
 
@@ -134,6 +129,11 @@ public class CalendarFragment extends Fragment {
                         }
                     }
                 }
+                System.out.println("SIZE OF EVENTS: " + mEvent.size());
+                CalendarDecoration decoration =
+                    new CalendarDecoration(getResources().getDimensionPixelSize(R.dimen.header),
+                        getSectionCallback(mEvent));
+                recyclerView.addItemDecoration(decoration);
                 mAdapter.setItems(mEvent);
             }
 
@@ -147,8 +147,9 @@ public class CalendarFragment extends Fragment {
         return new Section() {
             @Override
             public boolean isHeader(int position) {
-                return position == 0
-                    || !item.get(position).getDate_stamp().equals(item.get(position - 1).getDate_stamp());
+                item.get(position).debug();
+                return position == 0 ||
+                    !item.get(position).getDate_stamp().equals(item.get(position - 1).getDate_stamp());
             }
 
             @Override

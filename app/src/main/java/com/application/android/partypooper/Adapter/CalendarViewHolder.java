@@ -43,9 +43,10 @@ public class CalendarViewHolder extends RecyclerAdapter.ViewHolder {
 
     /**
      * Opens the selected event.
-     * @param id to the event
+     * @param time_stamp of the event
+     * @param host of the event
      */
-    private void openEventListener(String id) {
+    private void openEventListener(String time_stamp, String host) {
         //TODO: open event activity.
     }
 
@@ -54,7 +55,7 @@ public class CalendarViewHolder extends RecyclerAdapter.ViewHolder {
         final Event t = (Event) item;
 
         name.setText(t.getName());
-        host.setText(t.getHost() + " has invited you");
+        host.setText(t.getHost_username() + " has invited you");
         time.setText(t.getTime());
 
         if (t.getImageURL() != null) {
@@ -63,6 +64,6 @@ public class CalendarViewHolder extends RecyclerAdapter.ViewHolder {
             Glide.with(image.getContext()).load(R.drawable.logo).into(image);
         }
 
-        openEventListener(t.getTime_stamp());
+        openEventListener(t.getTime_stamp(),t.getHost());
     }
 }
