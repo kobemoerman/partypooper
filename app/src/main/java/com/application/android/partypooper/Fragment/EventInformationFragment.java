@@ -126,7 +126,7 @@ public class EventInformationFragment extends Fragment implements Events {
         month = cal.get(Calendar.MONTH);
         day = cal.get(Calendar.DAY_OF_MONTH);
 
-        hour = cal.get(Calendar.HOUR_OF_DAY)+1;
+        hour = cal.get(Calendar.HOUR_OF_DAY);
         min = 0;
 
         uploading = false;
@@ -140,6 +140,7 @@ public class EventInformationFragment extends Fragment implements Events {
         String location = act.getItem("location");
         String description = act.getItem("description");
         String date_time = act.getItem("time");
+        String date_stamp = act.getItem("date_stamp");
 
         if (name != null) {
           this.name.setText(name);
@@ -155,6 +156,14 @@ public class EventInformationFragment extends Fragment implements Events {
 
         if (date_time != null) {
           this.date_time.setText(date_time);
+        }
+
+        if (date_stamp != null) {
+            this.year = Integer.parseInt(date_stamp.substring(0, 4));
+            this.month = Integer.parseInt(date_stamp.substring(4, 6));
+            this.day = Integer.parseInt(date_stamp.substring(6, 8));
+            this.hour = Integer.parseInt(date_stamp.substring(8, 10));
+            this.min = Integer.parseInt(date_stamp.substring(10, 12));
         }
 
         setEventImage();
@@ -190,15 +199,18 @@ public class EventInformationFragment extends Fragment implements Events {
           public void onClick(View v) {
               String m = String.valueOf(month);
               String d = String.valueOf(day);
+              String h = String.valueOf(hour);
               String minute = String.valueOf(min);
 
               if (day < 10) d = "0"+day;
               if (month < 10) m = "0"+month;
-              if (min < 10) minute = "0"+min;
+              if (hour < 10) h = "0"+hour;
+              if (min == 0) minute = "00";
+              else if (min < 10) minute = "0" + min;
 
-              String date_stamp = year+m+d;
-              String date = day + "/" + month + "/" + year;
-              String time = hour + ":" + minute;
+              String date_stamp = year+m+d+h+minute;
+              String date = d + "/" + m + "/" + year;
+              String time = h + ":" + minute;
 
               act.addItem("date",date);
               act.addItem("time",time);

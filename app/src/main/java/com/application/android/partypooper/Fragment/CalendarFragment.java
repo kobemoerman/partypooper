@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,7 +130,6 @@ public class CalendarFragment extends Fragment {
                         }
                     }
                 }
-                System.out.println("SIZE OF EVENTS: " + mEvent.size());
                 CalendarDecoration decoration =
                     new CalendarDecoration(getResources().getDimensionPixelSize(R.dimen.header),
                         getSectionCallback(mEvent));
@@ -147,15 +147,35 @@ public class CalendarFragment extends Fragment {
         return new Section() {
             @Override
             public boolean isHeader(int position) {
-                item.get(position).debug();
-                return position == 0 ||
-                    !item.get(position).getDate_stamp().equals(item.get(position - 1).getDate_stamp());
+                if (position == 0) {
+                    return true;
+                }
+
+                String header = item.get(position).getDate_stamp().substring(0,7);
+                String event = item.get(position-1).getDate_stamp().substring(0,7);
+
+                return !header.equals(event);
             }
 
             @Override
             public CharSequence getSectionHeader(int position) {
-                return item.get(position).getDate_stamp();
+                String date_stamp = item.get(position).getDate_stamp().substring(0,8);
+                String year = date_stamp.substring(0,4);
+                String month = getMonth(Integer.parseInt(date_stamp.substring(4,6)));
+                String day = date_stamp.substring(6,8);
+
+                return day + " " + month + " " + year;
             }
         };
     }
+
+    /**
+     * Converts a month in int form to a month in string form.
+     * @param month index
+     * @return corresponding string
+     */
+    private String getMonth(int month) {
+        return new DateFormatSymbols().getMonths()[month];
+    }
+
 }
