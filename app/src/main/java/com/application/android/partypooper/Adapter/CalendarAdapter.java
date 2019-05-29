@@ -10,6 +10,8 @@ import java.util.List;
 
 public class CalendarAdapter extends RecyclerAdapter<Event, CalendarViewHolder> {
 
+    private onItemClickListener mListener;
+
     /**
      * Base constructor.
      * Allocate adapter-related objects here if needed.
@@ -21,6 +23,23 @@ public class CalendarAdapter extends RecyclerAdapter<Event, CalendarViewHolder> 
         setItems(mUsers);
     }
 
+    public interface onItemClickListener {
+        /**
+         * On click listener.
+         * @param pos item position from the recycler view
+         */
+        void onItemClick(int pos);
+    }
+
+    /**
+     * Update the listener from the EventInviteFragment class.
+     * @param listener item position
+     */
+    public void setOnItemClickListener (onItemClickListener listener) {
+        mListener = listener;
+    }
+
+
     /**
      * To be implemented in as specific adapter
      *
@@ -30,6 +49,6 @@ public class CalendarAdapter extends RecyclerAdapter<Event, CalendarViewHolder> 
      */
     @Override
     public CalendarViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CalendarViewHolder(inflate(R.layout.item_calendar,parent));
+        return new CalendarViewHolder(inflate(R.layout.item_calendar,parent),mListener);
     }
 }

@@ -10,5 +10,14 @@ public class EventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+
+        initView();
+    }
+
+    private void initView() {
+        Bundle b = getIntent().getExtras();
+        String id = b.getString("id");
+
+        System.out.println(id);
     }
 }

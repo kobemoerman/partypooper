@@ -134,6 +134,17 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     /**
+     * On click listener for the calendar recycler view.
+     * Launches the EventActivity.
+     * @param id of the event
+     */
+    public void onClickLaunchEvent(String id) {
+        Intent eventIntent = new Intent(getApplicationContext(), EventActivity.class);
+        eventIntent.putExtra("id",id);
+        startActivity(eventIntent);
+    }
+
+    /**
      * Replace the current fragment with the one to be displayed.
      * @param selected fragment to be displayed
      */

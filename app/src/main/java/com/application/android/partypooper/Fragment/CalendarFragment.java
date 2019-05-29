@@ -46,7 +46,7 @@ public class CalendarFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
-    private RecyclerAdapter mAdapter;
+    private CalendarAdapter mAdapter;
 
     /**
      * On create method of the fragment.
@@ -61,6 +61,7 @@ public class CalendarFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
         initView(view);
+        itemClickListener();
 
         return view;
     }
@@ -87,6 +88,20 @@ public class CalendarFragment extends Fragment {
 
         mAdapter = new CalendarAdapter(getContext(),mEvent);
         recyclerView.setAdapter(mAdapter);
+    }
+
+    /**
+     * Take action on the item clicked.
+     */
+    private void itemClickListener() {
+        mAdapter.setOnItemClickListener(new CalendarAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Event e = mAdapter.getItem(pos);
+                String id = e.getTime_stamp()+"?"+e.getHost();
+                act.onClickLaunchEvent(id);
+            }
+        });
     }
 
 
