@@ -13,10 +13,10 @@ import com.application.android.partypooper.Activity.CreateEventActivity;
 import com.application.android.partypooper.Model.Events;
 import com.application.android.partypooper.R;
 
-public class EventThemeFragment extends Fragment implements Events {
+public class CreateThemeFragment extends Fragment implements Events {
 
   /** TAG reference of this fragment */
-  private final static String TAG = "fragment/EventTheme";
+  private final static String TAG = "fragment/CreateTheme";
 
   /** Reference to the CreateEvent Activity */
   private CreateEventActivity act;
@@ -34,7 +34,7 @@ public class EventThemeFragment extends Fragment implements Events {
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_event_theme, container, false);
+    View view = inflater.inflate(R.layout.fragment_create_theme, container, false);
 
     initView(view);
 
@@ -48,15 +48,15 @@ public class EventThemeFragment extends Fragment implements Events {
 
   /**
    * Initialises the fragment view.
-   * @param view fragment_event_theme
+   * @param view fragment_create_theme
    */
   private void initView(View view) {
     act = (CreateEventActivity) getActivity();
 
-    house = view.findViewById(R.id.frag_selection_house_party);
-    birthday = view.findViewById(R.id.frag_selection_birthday_party);
-    dinner = view.findViewById(R.id.frag_selection_dinner_party);
-    other = view.findViewById(R.id.frag_selection_other_party);
+    house = view.findViewById(R.id.frag_create_house_party);
+    birthday = view.findViewById(R.id.frag_create_birthday_party);
+    dinner = view.findViewById(R.id.frag_create_dinner_party);
+    other = view.findViewById(R.id.frag_create_other_party);
   }
 
   /**
@@ -69,7 +69,7 @@ public class EventThemeFragment extends Fragment implements Events {
       @Override
       public void onClick(View v) {
         act.addItem("theme",theme);
-        act.updateFragment(new EventInformationFragment(),"fragment/EventInformation");
+        act.updateFragment(new CreateInformationFragment(),"fragment/EventInformation");
       }
     });
   }

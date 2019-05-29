@@ -35,7 +35,7 @@ public class EventAdapter extends RecyclerAdapter<User, EventViewHolder> {
     }
 
     /**
-     * Update the listener from the EventInviteFragment class.
+     * Update the listener from the CreateInviteFragment class.
      * @param listener item position
      */
     public void setOnItemClickListener (onItemClickListener listener) {

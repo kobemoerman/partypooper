@@ -7,13 +7,13 @@
     android:background="@color/background_white">
 
     <RelativeLayout
-        android:id="@+id/frag_event_image"
+        android:id="@+id/frag_create_image"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:background="@color/background_white">
 
         <ImageView
-            android:id="@+id/frag_event_image1"
+            android:id="@+id/frag_create_image1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -21,7 +21,7 @@
         />
 
         <ImageView
-            android:id="@+id/frag_event_image2"
+            android:id="@+id/frag_create_image2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
@@ -32,10 +32,10 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/frag_event_layout_name"
+        android:id="@+id/frag_create_layout_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/frag_event_image"
+        android:layout_below="@+id/frag_create_image"
         android:background="@color/white">
 
         <View
@@ -45,7 +45,7 @@
         />
 
         <EditText
-            android:id="@+id/frag_event_name"
+            android:id="@+id/frag_create_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -61,22 +61,22 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/frag_event_name"
+            android:layout_below="@+id/frag_create_name"
             android:background="@color/black_light"
         />
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/frag_event_upload_photo"
+        android:id="@+id/frag_create_upload_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/frag_event_layout_name"
+        android:layout_below="@id/frag_create_layout_name"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true">
 
         <TextView
-            android:id="@+id/frag_event_upload_text"
+            android:id="@+id/frag_create_upload_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -87,7 +87,7 @@
 
         <ProgressBar
             style="?android:attr/progressBarStyle"
-            android:id="@+id/frag_event_upload_progress"
+            android:id="@+id/frag_create_upload_progress"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerInParent="true"
@@ -99,11 +99,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/frag_event_upload_photo"
+        android:layout_below="@+id/frag_create_upload_photo"
         android:background="@color/white">
 
         <View
-            android:id="@+id/frag_event_1"
+            android:id="@+id/frag_create_1"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginBottom="7dp"
@@ -111,10 +111,10 @@
         />
 
         <TextView
-            android:id="@+id/frag_event_date_time"
+            android:id="@+id/frag_create_date_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/frag_event_1"
+            android:layout_below="@id/frag_create_1"
             android:layout_marginStart="10dp"
             android:text="date, at time"
             android:textSize="16sp"
@@ -122,22 +122,22 @@
         />
 
         <View
-            android:id="@+id/frag_event_2"
+            android:id="@+id/frag_create_2"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
-            android:layout_below="@+id/frag_event_date_time"
+            android:layout_below="@+id/frag_create_date_time"
             android:background="@color/black_light"
         />
 
         <EditText
-            android:id="@+id/frag_event_location"
+            android:id="@+id/frag_create_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_below="@id/frag_event_2"
+            android:layout_below="@id/frag_create_2"
             android:background="@null"
             android:hint="Location"
             android:maxLines="1"
@@ -146,22 +146,22 @@
         />
 
         <View
-            android:id="@+id/frag_event_3"
+            android:id="@+id/frag_create_3"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
-            android:layout_below="@+id/frag_event_location"
+            android:layout_below="@+id/frag_create_location"
             android:background="@color/black_light"
         />
 
         <EditText
-            android:id="@+id/frag_event_description"
+            android:id="@+id/frag_create_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_below="@id/frag_event_3"
+            android:layout_below="@id/frag_create_3"
             android:background="@null"
             android:hint="Description"
             android:maxLines="7"
@@ -172,7 +172,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginTop="7dp"
-            android:layout_below="@+id/frag_event_description"
+            android:layout_below="@+id/frag_create_description"
             android:background="@color/black_light"
         />
 
@@ -190,7 +190,7 @@
             android:padding="15dp">
 
             <Button
-                android:id="@+id/frag_event_back"
+                android:id="@+id/frag_create_back"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_alignParentStart="true"
@@ -201,7 +201,7 @@
             />
 
             <Button
-                android:id="@+id/frag_event_next"
+                android:id="@+id/frag_create_next"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"

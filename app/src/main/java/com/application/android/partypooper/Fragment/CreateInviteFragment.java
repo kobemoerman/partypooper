@@ -22,10 +22,10 @@ import com.google.firebase.database.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventInviteFragment extends Fragment {
+public class CreateInviteFragment extends Fragment {
 
 	/** TAG reference of this fragment */
-	private final static String TAG = "fragment/EventInvite";
+	private final static String TAG = "fragment/CreateInvite";
 
 	/** Reference to the CreateEvent Activity */
 	private CreateEventActivity act;
@@ -63,7 +63,7 @@ public class EventInviteFragment extends Fragment {
 	 */
 	@Override
   	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	View view = inflater.inflate(R.layout.fragment_event_invite, container, false);
+    	View view = inflater.inflate(R.layout.fragment_create_invite, container, false);
 
     	initView(view);
         inviteUsersQueryDatabase();
@@ -75,7 +75,7 @@ public class EventInviteFragment extends Fragment {
 
     /**
 	 * Initialises the fragment view, date and time.
-	 * @param view fragment_event_invite
+	 * @param view fragment_create_invite
 	 */
     private void initView(View view) {
 		act = (CreateEventActivity) getActivity();
@@ -84,11 +84,11 @@ public class EventInviteFragment extends Fragment {
 		refFriends = act.getRefFriends();
 		mMembers = act.getmMembers();
 
-		back = view.findViewById(R.id.frag_invite_back);
-		next = view.findViewById(R.id.frag_invite_next);
-		searchBar = view.findViewById(R.id.frag_invite_search_bar);
+		back = view.findViewById(R.id.frag_create_back);
+		next = view.findViewById(R.id.frag_create_next);
+		searchBar = view.findViewById(R.id.frag_create_search_bar);
 
-		recyclerView = view.findViewById(R.id.frag_invite_recycler);
+		recyclerView = view.findViewById(R.id.frag_create_recycler);
 		recyclerView.setHasFixedSize(true);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -207,7 +207,7 @@ public class EventInviteFragment extends Fragment {
   	    back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            	act.updateFragment(new EventInformationFragment(),"fragment/EventInformation");
+            	act.updateFragment(new CreateInformationFragment(),"fragment/EventInformation");
             }
         });
     }

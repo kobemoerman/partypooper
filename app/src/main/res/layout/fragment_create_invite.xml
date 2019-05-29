@@ -5,18 +5,18 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/frag_invite_search_layout"
+        android:id="@+id/frag_create_search_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
         <android.support.design.widget.AppBarLayout
-            android:id="@+id/frag_invite_app_bar"
+            android:id="@+id/frag_create_app_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?android:attr/windowBackground">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/frag_invite_tool_bar"
+                android:id="@+id/frag_create_tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -28,7 +28,7 @@
                 />
 
                 <EditText
-                    android:id="@+id/frag_invite_search_bar"
+                    android:id="@+id/frag_create_search_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
@@ -42,31 +42,31 @@
     </RelativeLayout>
 
     <ImageView
-        android:id="@+id/frag_invite_separator_top"
+        android:id="@+id/frag_create_separator_top"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_below="@+id/frag_invite_search_layout"
+        android:layout_below="@+id/frag_create_search_layout"
         android:background="@color/black_light"
     />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/frag_invite_recycler"
+        android:id="@+id/frag_create_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/frag_invite_separator_top"
-        android:layout_above="@id/frag_invite_separator_bottom"
+        android:layout_below="@id/frag_create_separator_top"
+        android:layout_above="@id/frag_create_separator_bottom"
     />
 
     <View
-        android:id="@+id/frag_invite_separator_bottom"
+        android:id="@+id/frag_create_separator_bottom"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_above="@id/frag_invite_nav"
+        android:layout_above="@id/frag_create_nav"
         android:background="@color/black_light"
     />
 
     <LinearLayout
-        android:id="@+id/frag_invite_nav"
+        android:id="@+id/frag_create_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -78,7 +78,7 @@
             android:padding="15dp">
 
             <Button
-                android:id="@+id/frag_invite_back"
+                android:id="@+id/frag_create_back"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_alignParentStart="true"
@@ -89,7 +89,7 @@
             />
 
             <Button
-                android:id="@+id/frag_invite_next"
+                android:id="@+id/frag_create_next"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"

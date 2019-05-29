@@ -32,7 +32,7 @@ public class CalendarAdapter extends RecyclerAdapter<Event, CalendarViewHolder> 
     }
 
     /**
-     * Update the listener from the EventInviteFragment class.
+     * Update the listener from the CreateInviteFragment class.
      * @param listener item position
      */
     public void setOnItemClickListener (onItemClickListener listener) {

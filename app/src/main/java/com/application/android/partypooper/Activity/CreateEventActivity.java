@@ -12,8 +12,8 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
-import com.application.android.partypooper.Fragment.EventInformationFragment;
-import com.application.android.partypooper.Fragment.EventThemeFragment;
+import com.application.android.partypooper.Fragment.CreateInformationFragment;
+import com.application.android.partypooper.Fragment.CreateThemeFragment;
 import com.application.android.partypooper.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -95,7 +95,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
         initFirebase();
         initView();
-        updateFragment(new EventThemeFragment(),"fragment/EventTheme");
+        updateFragment(new CreateThemeFragment(),"fragment/EventTheme");
     }
 
     /**
@@ -202,7 +202,7 @@ public class CreateEventActivity extends AppCompatActivity {
      * Uploads the image to the Firebase storage and save the url to the event map.
      */
     private void uploadImage () {
-        final EventInformationFragment frag = (EventInformationFragment)
+        final CreateInformationFragment frag = (CreateInformationFragment)
             getSupportFragmentManager().findFragmentByTag("fragment/EventInformation");
 
         frag.setVisible();
