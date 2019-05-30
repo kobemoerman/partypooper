@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import android.view.View;
+
 import com.application.android.partypooper.Fragment.CalendarFragment;
 import com.application.android.partypooper.Fragment.SearchFragment;
 import com.application.android.partypooper.Fragment.HomeFragment;
@@ -19,6 +20,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 
 public class HomeActivity extends AppCompatActivity {
+
+    /** TAG of the current fragment */
+    private String TAG = "home_frag";
 
     /** Query of all users */
     private Query qUsers;
@@ -45,7 +49,7 @@ public class HomeActivity extends AppCompatActivity {
     }
     /**
      * On create method of the activity.
-     * @param savedInstanceState
+     * @param savedInstanceState this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle)
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,19 +86,34 @@ public class HomeActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.nav_home:
-                        selectedFragment = new HomeFragment();
+                        if (!TAG.equals("home_frag")) {
+                            selectedFragment = new HomeFragment();
+                            TAG = "home_frag";
+                            updateFragment(selectedFragment);
+                        }
                         break;
                     case R.id.nav_search:
-                        selectedFragment = new SearchFragment();
+                        if (!TAG.equals("search_frag")) {
+                            selectedFragment = new SearchFragment();
+                            TAG = "search_frag";
+                            updateFragment(selectedFragment);
+                        }
                         break;
                     case R.id.nav_calendar:
-                        selectedFragment = new CalendarFragment();
+                        if (!TAG.equals("calendar_frag")) {
+                            selectedFragment = new CalendarFragment();
+                            TAG = "calendar_frag";
+                            updateFragment(selectedFragment);
+                        }
                         break;
                     case R.id.nav_menu:
-                        selectedFragment = new MenuFragment();
+                        if (!TAG.equals("menu_frag")) {
+                            selectedFragment = new MenuFragment();
+                            TAG = "menu_frag";
+                            updateFragment(selectedFragment);
+                        }
                         break;
                 }
-                updateFragment(selectedFragment);
                 return true;
             }
         });
@@ -148,8 +167,8 @@ public class HomeActivity extends AppCompatActivity {
      * Replace the current fragment with the one to be displayed.
      * @param selected fragment to be displayed
      */
-    private void updateFragment (Fragment selected) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, selected).commit();
+    private void updateFragment(Fragment selected) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, selected, TAG).commit();
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.application.android.partypooper.Adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
@@ -49,8 +50,9 @@ public class EventAdapter extends RecyclerAdapter<User, EventViewHolder> {
      * @param viewType The view type of the new View.
      * @return A new ViewHolder that holds a View of the given view type.
      */
+    @NonNull
     @Override
-    public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new EventViewHolder(inflate(R.layout.item_event,parent),mListener,refMembers);
     }
 }

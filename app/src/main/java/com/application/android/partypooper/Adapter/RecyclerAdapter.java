@@ -33,14 +33,14 @@ public abstract class RecyclerAdapter<T, VH extends ViewHolder> extends Recycler
      *
      * @param context Context needed to retrieve LayoutInflater
      */
-    public RecyclerAdapter(Context context) {
+    RecyclerAdapter(Context context) {
         mContext = context;
         items = new ArrayList<>();
     }
 
     public abstract static class ViewHolder<T> extends RecyclerView.ViewHolder {
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
         }
 
@@ -74,8 +74,9 @@ public abstract class RecyclerAdapter<T, VH extends ViewHolder> extends Recycler
      * @param viewType The view type of the new View.
      * @return A new ViewHolder that holds a View of the given view type.
      */
+    @NonNull
     @Override
-    public abstract VH onCreateViewHolder(ViewGroup parent, int viewType);
+    public abstract VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType);
 
     /**
      * Returns the total number of items in the list held by the adapter.

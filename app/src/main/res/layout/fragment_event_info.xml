@@ -141,6 +141,7 @@
         android:background="@color/black_light" />
 
     <TextView
+        android:id="@+id/frag_event_info_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"

@@ -1,5 +1,6 @@
 package com.application.android.partypooper.Adapter;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -81,6 +82,7 @@ public class SearchViewHolder extends RecyclerAdapter.ViewHolder {
      */
     private void isFriends(final String id) {
         refFriends.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(id).exists()) {

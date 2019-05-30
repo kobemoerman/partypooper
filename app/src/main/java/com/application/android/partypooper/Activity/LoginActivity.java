@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * On create method of the activity.
-     * @param savedInstanceState
+     * @param savedInstanceState this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle)
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

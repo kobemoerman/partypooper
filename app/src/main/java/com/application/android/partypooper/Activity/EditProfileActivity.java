@@ -55,6 +55,10 @@ public class EditProfileActivity extends AppCompatActivity{
     private DatabaseReference refUser;
     private StorageTask<UploadTask.TaskSnapshot> mTask;
 
+    /**
+     *
+     * @param savedInstanceState this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle)
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

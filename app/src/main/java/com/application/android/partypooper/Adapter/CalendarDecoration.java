@@ -17,20 +17,37 @@ import com.application.android.partypooper.R;
 
 public class CalendarDecoration extends RecyclerView.ItemDecoration {
 
+    /** Current header */
     private View header;
+
+    /** Text to display on the header */
     private TextView text;
 
+    /** Keeps track of item states */
     private final Section section;
 
+    /** Keeps track of the header offset */
     private final int offset;
 
+    /**
+     * Constructor.
+     * @param height used for the offset
+     * @param section determines if item is a header
+     */
     public CalendarDecoration(int height, @NonNull Section section) {
         offset = height;
         this.section = section;
     }
 
+    /**
+     * Creates an offset for all items that are under headers.
+     * @param rect dimensions of header
+     * @param view view
+     * @param parent recycler view instance
+     * @param state current state of the recycler view
+     */
     @Override
-    public void getItemOffsets(Rect rect, View view, RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(@NonNull Rect rect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(rect, view, parent, state);
         int pos = parent.getChildAdapterPosition(view);
 
@@ -39,8 +56,14 @@ public class CalendarDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
+    /**
+     * Display the headers.
+     * @param c canvas to draw on
+     * @param parent recycler view instance
+     * @param state current state of the recycler view
+     */
     @Override
-    public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+    public void onDrawOver(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
 
         if (header == null) {
@@ -64,6 +87,12 @@ public class CalendarDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
+    /**
+     * Draws the header at the top of the screen.
+     * @param c area to draw
+     * @param current current header to display
+     * @param next next header to display
+     */
     private void drawHeader(Canvas c, View current, View next) {
         c.save();
         c.translate(0, Math.max(0, current.getTop() - next.getHeight()));
@@ -71,6 +100,11 @@ public class CalendarDecoration extends RecyclerView.ItemDecoration {
         c.restore();
     }
 
+    /**
+     * Inflate the header section.
+     * @param parent section to inflate
+     * @return item_calendar_header inflation
+     */
     private View inflateHeaderView(RecyclerView parent) {
         return LayoutInflater.from(parent.getContext())
             .inflate(R.layout.item_calendar_header, parent, false);

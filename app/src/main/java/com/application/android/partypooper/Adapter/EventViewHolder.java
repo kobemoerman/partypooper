@@ -37,7 +37,7 @@ public class EventViewHolder extends RecyclerAdapter.ViewHolder {
      * @param itemView item_event
      * @param listener on item listener
      */
-    public EventViewHolder(@NonNull View itemView, final onItemClickListener listener, DatabaseReference ref) {
+    EventViewHolder(@NonNull View itemView, final onItemClickListener listener, DatabaseReference ref) {
         super(itemView);
 
         initView(listener, ref);

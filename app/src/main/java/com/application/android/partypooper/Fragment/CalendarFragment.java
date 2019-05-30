@@ -13,10 +13,8 @@ import android.view.ViewGroup;
 import com.application.android.partypooper.Activity.HomeActivity;
 import com.application.android.partypooper.Adapter.CalendarAdapter;
 import com.application.android.partypooper.Adapter.CalendarDecoration;
-import com.application.android.partypooper.Adapter.RecyclerAdapter;
 import com.application.android.partypooper.Adapter.Section;
 import com.application.android.partypooper.Model.Event;
-import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -82,7 +80,7 @@ public class CalendarFragment extends Fragment {
 
         displayFriends();
 
-        recyclerView = view.findViewById(R.id.recyclerview);
+        recyclerView = view.findViewById(R.id.frag_calendar_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

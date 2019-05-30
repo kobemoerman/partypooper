@@ -35,6 +35,10 @@ public class EventActivity extends AppCompatActivity {
 
     private DatabaseReference mEvent;
 
+    /**
+     *
+     * @param savedInstanceState this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle)
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,5 +107,14 @@ public class EventActivity extends AppCompatActivity {
     private String getMonth(int month) {
         return new DateFormatSymbols().getMonths()[month];
     }
+
+    /**
+     * Firebase reference to the event in Events.
+     * @return mEvent
+     */
+    public DatabaseReference getmEvent() {
+        return mEvent;
+    }
+
 
 }

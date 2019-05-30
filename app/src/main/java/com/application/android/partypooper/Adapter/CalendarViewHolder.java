@@ -1,5 +1,6 @@
 package com.application.android.partypooper.Adapter;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -67,14 +68,10 @@ public class CalendarViewHolder extends RecyclerAdapter.ViewHolder {
     }
 
     /**
-     * Opens the selected event.
-     * @param time_stamp of the event
-     * @param host of the event
+     * Updates the data in the recycler view
+     * @param item object, associated with the item.
      */
-    private void openEventListener(String time_stamp, String host) {
-        //TODO: open event activity.
-    }
-
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBind(Object item) {
         final Event t = (Event) item;
@@ -88,7 +85,5 @@ public class CalendarViewHolder extends RecyclerAdapter.ViewHolder {
         } else {
             Glide.with(image.getContext()).load(R.drawable.logo).into(image);
         }
-
-        openEventListener(t.getTime_stamp(),t.getHost());
     }
 }

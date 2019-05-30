@@ -1,6 +1,7 @@
 package com.application.android.partypooper.Adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
@@ -27,8 +28,9 @@ public class SearchAdapter extends RecyclerAdapter<User, SearchViewHolder> {
      * @param viewType The view type of the new View.
      * @return A new ViewHolder that holds a View of the given view type.
      */
+    @NonNull
     @Override
-    public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new SearchViewHolder(inflate(R.layout.item_search,parent));
     }
 }
