@@ -19,9 +19,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.text.DateFormatSymbols;
+import java.util.Objects;
 
 public class EventActivity extends AppCompatActivity {
 
@@ -36,7 +36,7 @@ public class EventActivity extends AppCompatActivity {
     private DatabaseReference mEvent;
 
     /**
-     *
+     * On create method of the activity.
      * @param savedInstanceState this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle)
      */
     @Override
@@ -51,9 +51,9 @@ public class EventActivity extends AppCompatActivity {
 
     private void initView() {
         Bundle b = getIntent().getExtras();
-        String id = b.getString("id");
+        String id = Objects.requireNonNull(b).getString("id");
 
-        mEvent = FirebaseDatabase.getInstance().getReference("Events").child(id);
+        mEvent = FirebaseDatabase.getInstance().getReference("Events").child(Objects.requireNonNull(id));
 
         mPager = findViewById(R.id.event_view_pager);
         mTabLayout = findViewById(R.id.event_tab_layout);
@@ -63,13 +63,16 @@ public class EventActivity extends AppCompatActivity {
         image = findViewById(R.id.event_image);
     }
 
+    /**
+     * Populate the layout with the event data.
+     */
     private void loadEventData() {
         mEvent.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Event event = dataSnapshot.getValue(Event.class);
 
-                String date_stamp = event.getDate_stamp();
+                String date_stamp = Objects.requireNonNull(event).getDate_stamp();
                 String year = date_stamp.substring(0, 4);
                 int month = Integer.parseInt(date_stamp.substring(4, 6));
                 String day = date_stamp.substring(6, 8);
@@ -79,7 +82,7 @@ public class EventActivity extends AppCompatActivity {
 
                 name.setText(event.getName());
                 date.setText(date_str);
-                host.setText("Invited by "+event.getHost_username());
+                host.setText(String.format("Invited by %s", event.getHost_username()));
                 if (event.getImageURL() != null) Glide.with(getApplicationContext()).load(event.getImageURL()).into(image);
             }
 
@@ -90,6 +93,9 @@ public class EventActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     *  Initialises the Tab layout
+     */
     private void setUpViewPager() {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new EventInformationFragment(),"Description");

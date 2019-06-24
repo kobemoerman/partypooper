@@ -14,11 +14,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.application.android.partypooper.R;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -37,6 +39,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     /** View text view updated by DatePicker */
     private TextView userDate;
+
+    /** Logo to be displayed on the screen */
+    private ImageView image;
 
     /** View progress bar after pressing the button */
     private ProgressBar progressBar;
@@ -69,6 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void initView() {
         mAuth = FirebaseAuth.getInstance();
 
+        image = findViewById(R.id.register_logo);
         registerButton = findViewById(R.id.register_register_button);
         userUsername = findViewById(R.id.register_username);
         userDate = findViewById(R.id.register_age);
@@ -78,6 +84,8 @@ public class RegisterActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.register_progress_bar);
 
         progressBar.setVisibility(View.INVISIBLE);
+
+        Glide.with(getApplicationContext()).load(R.drawable.logo).into(image);
     }
 
     /**

@@ -368,7 +368,6 @@
             android:layout_height="75dp"
             android:layout_marginTop="35dp"
             android:layout_gravity="center"
-            android:src="@drawable/logo"
         />
 
         <TextView

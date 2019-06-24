@@ -8,14 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.application.android.partypooper.Activity.HomeActivity;
 import com.application.android.partypooper.R;
+import com.bumptech.glide.Glide;
 
 public class HomeFragment extends Fragment {
 
     /** Reference to the Home Activity */
     private HomeActivity act;
+
+    private ImageView image;
 
     @Nullable
     @Override
@@ -34,5 +38,9 @@ public class HomeFragment extends Fragment {
     private void initView(View view) {
         act = (HomeActivity) getActivity();
         assert act != null;
+
+        image = view.findViewById(R.id.frag_home_logo);
+
+        Glide.with(act.getApplicationContext()).load(R.drawable.logo).into(image);
     }
 }

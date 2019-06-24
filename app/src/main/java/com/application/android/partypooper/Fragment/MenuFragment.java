@@ -26,8 +26,8 @@ public class MenuFragment extends Fragment {
     /** Reference to the Home Activity */
     private HomeActivity act;
 
-    /** Image view for the user profile picture */
-    private ImageView userImage;
+    /** Image view for the user profile picture and logo*/
+    private ImageView userImage, logo;
 
     /** Text view items containing user info */
     private TextView userUsername, userStatus, userFriends, userAge;
@@ -67,10 +67,13 @@ public class MenuFragment extends Fragment {
      */
     private void initView(View view) {
         act = (HomeActivity) getActivity();
+
         assert act != null;
+
         refFriendsCount = act.getRefUserFriends();
         refUserInfo = act.getRefUserInfo();
 
+        logo = view.findViewById(R.id.frag_menu_logo);
         userImage = view.findViewById(R.id.frag_menu_user_image);
         userUsername = view.findViewById(R.id.frag_menu_user_username);
         userStatus = view.findViewById(R.id.frag_menu_user_status);
@@ -80,6 +83,8 @@ public class MenuFragment extends Fragment {
         bEvents = view.findViewById(R.id.frag_menu_events);
         bSettings = view.findViewById(R.id.frag_menu_settings);
         bLogOut = view.findViewById(R.id.frag_menu_log_out);
+
+        Glide.with(act.getApplicationContext()).load(R.drawable.logo).into(logo);
     }
 
     /**

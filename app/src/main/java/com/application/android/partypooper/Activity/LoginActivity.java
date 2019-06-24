@@ -9,10 +9,12 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.application.android.partypooper.R;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,6 +28,9 @@ public class LoginActivity extends AppCompatActivity {
 
     /** view button to sign in*/
     private Button loginButton;
+
+    /** logo to be displayed */
+    private ImageView image;
 
     /** view progress bar after pressing the button*/
     private ProgressBar progressBar;
@@ -67,12 +72,15 @@ public class LoginActivity extends AppCompatActivity {
     private void initView() {
         mAuth = FirebaseAuth.getInstance();
 
+        image = findViewById(R.id.login_logo);
         userMail = findViewById(R.id.login_email);
         userPassword = findViewById(R.id.login_password);
         loginButton = findViewById(R.id.login_login_button);
         progressBar = findViewById(R.id.login_progress_bar);
 
         progressBar.setVisibility(View.INVISIBLE);
+
+        Glide.with(getApplicationContext()).load(R.drawable.logo).into(image);
     }
 
     /**
