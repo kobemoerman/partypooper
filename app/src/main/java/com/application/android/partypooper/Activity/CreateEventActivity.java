@@ -296,8 +296,9 @@ public class CreateEventActivity extends AppCompatActivity {
      * Launches the Event Activity and kills the current one.
      */
     private void updateUI() {
-        Intent homeIntent = new Intent(getApplicationContext(), EventActivity.class);
-        startActivity(homeIntent);
+        Intent eventIntent = new Intent(getApplicationContext(), EventActivity.class);
+        eventIntent.putExtra("id",eventID);
+        startActivity(eventIntent);
         finish();
     }
 

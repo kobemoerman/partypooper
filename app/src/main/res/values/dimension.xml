@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <dimen name="header">50dp</dimen>
+    <dimen name="header">70dp</dimen>
+    <dimen name="calendar">150dp</dimen>
 </resources>
