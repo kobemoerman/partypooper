@@ -21,9 +21,6 @@ import com.google.firebase.database.*;
 
 public class HomeActivity extends AppCompatActivity {
 
-    /** TAG of the current fragment */
-    private String TAG = "home_frag";
-
     /** Query of all users */
     private Query qUsers;
 
@@ -86,34 +83,19 @@ public class HomeActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.nav_home:
-                        if (!TAG.equals("home_frag")) {
-                            selectedFragment = new HomeFragment();
-                            TAG = "home_frag";
-                            updateFragment(selectedFragment);
-                        }
+                        selectedFragment = new HomeFragment();
                         break;
                     case R.id.nav_search:
-                        if (!TAG.equals("search_frag")) {
-                            selectedFragment = new SearchFragment();
-                            TAG = "search_frag";
-                            updateFragment(selectedFragment);
-                        }
+                        selectedFragment = new SearchFragment();
                         break;
                     case R.id.nav_calendar:
-                        if (!TAG.equals("calendar_frag")) {
-                            selectedFragment = new CalendarFragment();
-                            TAG = "calendar_frag";
-                            updateFragment(selectedFragment);
-                        }
+                        selectedFragment = new CalendarFragment();
                         break;
                     case R.id.nav_menu:
-                        if (!TAG.equals("menu_frag")) {
-                            selectedFragment = new MenuFragment();
-                            TAG = "menu_frag";
-                            updateFragment(selectedFragment);
-                        }
+                        selectedFragment = new MenuFragment();
                         break;
                 }
+                updateFragment(selectedFragment);
                 return true;
             }
         });
@@ -168,7 +150,7 @@ public class HomeActivity extends AppCompatActivity {
      * @param selected fragment to be displayed
      */
     private void updateFragment(Fragment selected) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, selected, TAG).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, selected).commit();
     }
 
     /**
