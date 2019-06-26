@@ -143,10 +143,13 @@ public class CalendarFragment extends Fragment {
                         }
                     }
                 }
-                CalendarDecoration decoration =
-                    new CalendarDecoration(getResources().getDimensionPixelSize(R.dimen.header),
-                        getSectionCallback(mEvent));
-                recyclerView.addItemDecoration(decoration);
+
+                if (!mEvent.isEmpty()) {
+                    CalendarDecoration decoration =
+                        new CalendarDecoration(getResources().getDimensionPixelSize(R.dimen.header),
+                            getSectionCallback(mEvent));
+                    recyclerView.addItemDecoration(decoration);
+                }
                 mAdapter.setItems(mEvent);
             }
 

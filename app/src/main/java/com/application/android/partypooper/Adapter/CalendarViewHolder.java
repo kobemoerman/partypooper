@@ -77,7 +77,7 @@ public class CalendarViewHolder extends RecyclerAdapter.ViewHolder {
         final Event t = (Event) item;
 
         name.setText(t.getName());
-        host.setText(t.getHost_username() + " has invited you");
+        host.setText("by " + t.getHost_username());
         time.setText(t.getTime());
 
         if (t.getImageURL() != null) {

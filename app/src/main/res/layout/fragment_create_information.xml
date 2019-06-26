@@ -53,8 +53,8 @@
             android:layout_marginBottom="15dp"
             android:hint="Event Name"
             android:background="@null"
-            android:maxLines="2"
-            android:maxLength="60"
+            android:maxLines="1"
+            android:maxLength="35"
             android:textSize="25sp"
         />
 
