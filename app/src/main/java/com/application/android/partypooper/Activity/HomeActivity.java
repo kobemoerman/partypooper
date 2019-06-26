@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.widget.Toast;
 
 import com.application.android.partypooper.Fragment.CalendarFragment;
 import com.application.android.partypooper.Fragment.SearchFragment;
@@ -44,6 +45,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onStart();
         initFirebase();
     }
+
     /**
      * On create method of the activity.
      * @param savedInstanceState this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle)
@@ -106,7 +108,7 @@ public class HomeActivity extends AppCompatActivity {
      * Launches the LoginActivity and kills the current one.
      * @param view view of this activity
      */
-    public void onClickLogOutHome(View view) {
+    public void onClickLogOutMenu(View view) {
         try {
             mAuth.signOut();
         } catch (Exception e) {
@@ -121,8 +123,20 @@ public class HomeActivity extends AppCompatActivity {
      * Launches the EditProfileActivity.
      * @param view view of this activity
      */
-    public void onClickEditProfileHome(View view) {
+    public void onClickEditProfileMenu(View view) {
         startActivity(new Intent(this, EditProfileActivity.class));
+    }
+
+    public void onClickFriendsMenu(View view) {
+        startActivity(new Intent(this, FriendsActivity.class));
+    }
+
+    public void onClickEventMenu(View view) {
+        showMessage("Event not yet implemented.");
+    }
+
+    public void onClickSettingsMenu(View view) {
+        showMessage("Settings not yet implemented.");
     }
 
     /**
@@ -143,6 +157,14 @@ public class HomeActivity extends AppCompatActivity {
         Intent eventIntent = new Intent(getApplicationContext(), EventActivity.class);
         eventIntent.putExtra("id",id);
         startActivity(eventIntent);
+    }
+
+    /**
+     * Displays a toast on the screen.
+     * @param s text to display
+     */
+    private void showMessage(String s) {
+        Toast.makeText(this,s, Toast.LENGTH_LONG).show();
     }
 
     /**

@@ -49,6 +49,9 @@ public class EventActivity extends AppCompatActivity {
         loadEventData();
     }
 
+    /**
+     * Initialises the activity view.
+     */
     private void initView() {
         Bundle b = getIntent().getExtras();
         String id = Objects.requireNonNull(b).getString("id");

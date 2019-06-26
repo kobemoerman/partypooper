@@ -93,7 +93,7 @@ public class CreateInviteFragment extends Fragment {
 		recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
     	mFriends = new ArrayList<>();
-    	mAdapter = new EventAdapter(getContext(),new ArrayList<User>(),mMembers);
+    	mAdapter = new EventAdapter(getContext(), new ArrayList<User>(), mMembers);
     	recyclerView.setAdapter(mAdapter);
   	}
 

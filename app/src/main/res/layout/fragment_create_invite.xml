@@ -94,7 +94,7 @@
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/button_background_green"
-                android:text="Next"
+                android:text="Create"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
                 android:onClick="onClickFinishCreateEvent"
