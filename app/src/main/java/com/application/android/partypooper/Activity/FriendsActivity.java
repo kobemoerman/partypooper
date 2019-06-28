@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.application.android.partypooper.Adapter.EventAdapter;
 import com.application.android.partypooper.Adapter.FriendsAdapter;
@@ -30,6 +31,9 @@ public class FriendsActivity extends AppCompatActivity {
 
     /** List of all the user's friends */
     private List<String> mFriends;
+
+    /** Display the number of friends the user has */
+    private TextView count;
 
     /** Search bar to customise query */
     private EditText searchBar;
@@ -76,6 +80,7 @@ public class FriendsActivity extends AppCompatActivity {
         refFriends = FirebaseDatabase.getInstance().getReference().child("Friends").child(mUser.getUid());
 
         searchBar = findViewById(R.id.friends_search_bar);
+        count = findViewById(R.id.friends_count);
 
         recyclerView = findViewById(R.id.friends_recycler);
         recyclerView.setHasFixedSize(true);
@@ -86,6 +91,10 @@ public class FriendsActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
     }
 
+    /**
+     * Listener to close the activity.
+     * @param view of the activity
+     */
     public void onClickBackFriends(View view){
         finish();
     }
@@ -122,6 +131,9 @@ public class FriendsActivity extends AppCompatActivity {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long friends = dataSnapshot.getChildrenCount();
+                count.setText(String.format("Showing %s friends", String.valueOf(friends)));
+
                 mFriends.clear();
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {
                     mFriends.add(snp.getKey());

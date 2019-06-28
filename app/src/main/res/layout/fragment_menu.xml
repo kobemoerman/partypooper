@@ -52,9 +52,10 @@
                 android:text="Hi, I'm using PartyPooper!"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="13sp"
-                android:maxLines="3"
                 android:ellipsize="end"
+                android:textSize="13sp"
+                android:maxLength="250"
+                android:maxLines="3"
             />
 
         </LinearLayout>
@@ -171,8 +172,8 @@
         <View
             android:id="@+id/frag_menu_1"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@drawable/button_background_light"
+            android:layout_height="1dp"
+            android:background="@color/black_light"
         />
 
         <RelativeLayout
@@ -216,11 +217,11 @@
         <View
             android:id="@+id/frag_menu_2"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="0.5dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/button_background_light"
+            android:background="@color/black_light"
         />
 
         <RelativeLayout
@@ -264,11 +265,11 @@
         <View
             android:id="@+id/frag_menu_3"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="0.5dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/button_background_light"
+            android:background="@color/black_light"
         />
 
         <RelativeLayout
@@ -312,11 +313,11 @@
         <View
             android:id="@+id/frag_menu_4"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="0.5dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/button_background_light"
+            android:background="@color/black_light"
         />
 
         <RelativeLayout
@@ -359,9 +360,9 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/button_background_light"
+            android:background="@color/black_light"
         />
 
     </LinearLayout>

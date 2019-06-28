@@ -9,8 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,24 +43,43 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class EditProfileActivity extends AppCompatActivity{
+public class EditProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private ProgressBar progress;
-    private ImageView userImage;
+    /** Strings representing the username, status, and gender of the user */
+    private String u, g, s;
+
+    /** Allows the user to save the information */
     private TextView save;
-    private MaterialEditText username, gender, status;
 
+    /** Display a range of items for the user to choose from */
+    private Spinner gender;
+
+    /** Responsible to display the profile picture */
+    private ImageView userImage;
+
+    /** Responsible for displaying the username and status */
+    private EditText username, status;
+
+    /** Appears when the user saves the information */
+    private ProgressBar progress;
+
+    /** Stores the information the user wants to save */
     private HashMap<String, Object> edit;
 
+    /** Reference to the result uri */
     private Uri mUri;
 
+    /** Firebase current user */
     private FirebaseUser mUser;
+
+    /** Firebase reference to user pictures storage */
     private StorageReference mStorage;
+
+    /** Firebase reference to all users */
     private DatabaseReference refUser;
-    private StorageTask<UploadTask.TaskSnapshot> mTask;
 
     /**
-     *
+     * On create method of the activity.
      * @param savedInstanceState this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle)
      */
     @Override
@@ -65,25 +88,12 @@ public class EditProfileActivity extends AppCompatActivity{
         setContentView(R.layout.activity_edit_profile);
 
         initView();
-
-        refUser.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                username.setText(user.getUsername());
-                gender.setText(user.getGender());
-                status.setText(user.getStatus());
-                if (user.getImgURL() != null) Glide.with(getApplicationContext()).load(user.getImgURL()).into(userImage);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
+        updateUserInformation();
     }
 
+    /**
+     * Initialises the activity view and Firebase references.
+     */
     private void initView() {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mStorage = FirebaseStorage.getInstance().getReference("profile_picture");
@@ -99,92 +109,112 @@ public class EditProfileActivity extends AppCompatActivity{
         progress.setVisibility(View.INVISIBLE);
 
         edit = new HashMap<>();
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gender.setAdapter(adapter);
+        gender.setOnItemSelectedListener(this);
     }
 
-    public void onClickCloseEdit(View view) {
-        finish();
+    /**
+     * Updates the information to be displayed on the activity.
+     */
+    private void updateUserInformation() {
+        refUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                username.setText(user.getUsername());
+                status.setText(user.getStatus());
+
+                if (user.getImgURL() != null) Glide.with(getApplicationContext()).load(user.getImgURL()).into(userImage);
+
+                switch (user.getGender()){
+                    case "Male":
+                        gender.setSelection(1);
+                        break;
+                    case "Female":
+                        gender.setSelection(2);
+                        break;
+                    default:
+                        gender.setSelection(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
+    /**
+     * Listener to update the profile picture.
+     * Opens an activity to pick a new image.
+     * @param view of the activity
+     */
     public void onClickUpdateEdit(View view) {
         CropImage.activity().setAspectRatio(1,1).
                 setCropShape(CropImageView.CropShape.OVAL).start(EditProfileActivity.this);
     }
 
+    /**
+     * Listener to save the new values and close the activity.
+     * @param view of the activity
+     */
     public void onClickSaveEdit(View view) {
-        String u = username.getText().toString();
-        String g = gender.getText().toString();
-        String s = status.getText().toString();
+        u = username.getText().toString();
+        s = status.getText().toString();
 
-        updateProfile(u,g,s);
+        updateProfile();
         finish();
     }
 
-    private void updateProfile(String username, String gender, String status) {
-        edit.put("username",username);
-        edit.put("gender",gender);
-        edit.put("status",status);
+    /**
+     * Listener to discard the changes and close the activity.
+     * @param view of the activity
+     */
+    public void onClickCloseEdit(View view) {
+        finish();
+    }
+
+    /**
+     * Sets the new values inside the Hash map.
+     */
+    private void updateProfile() {
+        edit.put("username",u);
+        edit.put("gender",g);
+        edit.put("status",s);
 
         refUser.updateChildren(edit);
     }
 
+    /**
+     * Called when the user has selected an image.
+     * @param requestCode the request code passed to startActivityForResult.
+     * @param resultCode RESULT_OK if successful or RESULT_CANCELED if the operation failed
+     * @param data an Intent that carries the result data.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-
-            assert result != null;
             mUri = result.getUri();
-            uploadImage();
+            if (mUri != null) {
+                uploadImage();
+            }
         } else {
             showMessage("Something Went Wrong");
         }
     }
 
-    private void uploadImage () {
-        progress.setVisibility(View.VISIBLE);
-        save.setVisibility(View.INVISIBLE);
-
-        if (mUri == null) return;
-
-        final StorageReference file = mStorage.child(System.currentTimeMillis() + "." + getFileExtension(mUri));
-
-        mTask = file.putFile(mUri);
-        mTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) throw Objects.requireNonNull(task.getException());
-
-                return file.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (!task.isSuccessful()) {
-                    showMessage("Image Upload Failed");
-                    return;
-                }
-
-                Uri downloadUri = task.getResult();
-                String imgURL = downloadUri.toString();
-
-                edit.put("imgURL", ""+imgURL);
-                refUser.updateChildren(edit);
-
-                progress.setVisibility(View.INVISIBLE);
-                save.setVisibility(View.VISIBLE);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                showMessage(e.getMessage());
-                progress.setVisibility(View.INVISIBLE);
-                save.setVisibility(View.VISIBLE);
-            }
-        });
-    }
-
+    /**
+     * Extends the file name.
+     * @param uri reference to an image resource
+     * @return file extension
+     */
     private String getFileExtension (Uri uri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
@@ -192,7 +222,72 @@ public class EditProfileActivity extends AppCompatActivity{
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
+    /**
+     * Uploads the image to the Firebase storage and save the url to the event map.
+     */
+    private void uploadImage () {
+        progress.setVisibility(View.VISIBLE);
+        save.setVisibility(View.INVISIBLE);
+
+        final StorageReference file = mStorage.child(
+            System.currentTimeMillis() + "." + getFileExtension(mUri));
+
+        StorageTask<UploadTask.TaskSnapshot> uploadTask = file.putFile(mUri);
+
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw Objects.requireNonNull(task.getException());
+                }
+                return file.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    String imgURL = downloadUri.toString();
+
+                    edit.put("imgURL", ""+imgURL);
+
+                    refUser.updateChildren(edit);
+                } else {
+                    showMessage("Image Upload Failed");
+                }
+
+                progress.setVisibility(View.INVISIBLE);
+                save.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    /**
+     * Display a toast on the screen.
+     * @param s message to be displayed
+     */
     private void showMessage(String s) {
         Toast.makeText(EditProfileActivity.this,s,Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Update the value from the spinner inside the Hash map.
+     * @param parent the AdapterView where the selection happened
+     * @param view the view within the AdapterView that was clicked
+     * @param position the position of the view in the adapter
+     * @param id the row id of the item that is selected
+     */
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        g = parent.getItemAtPosition(position).toString();
+    }
+
+    /**
+     * Callback method to be invoked when the selection disappears from this view.
+     * @param parent the AdapterView that now contains no selected item.
+     */
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

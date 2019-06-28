@@ -4,12 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/background_white">
 
     <RelativeLayout
         android:id="@+id/edit_profile_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="55dp"
+        android:background="@color/white">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -18,12 +20,11 @@
 
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background_white">
+                android:layout_height="match_parent">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <ImageView
                         android:id="@+id/edit_profile_close"
@@ -33,19 +34,17 @@
                         android:layout_centerVertical="true"
                         android:layout_alignParentStart="true"
                         android:onClick="onClickCloseEdit"
-                    />
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/edit_profile_close"
-                        android:layout_marginStart="15dp"
-                        android:layout_centerVertical="true"
                         android:text="Edit Profile"
+                        android:layout_centerInParent="true"
+                        android:textSize="20sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
-                        android:textSize="18sp"
-                    />
+                        />
 
                     <TextView
                         android:id="@+id/edit_profile_save"
@@ -73,18 +72,22 @@
                     />
 
                 </RelativeLayout>
-
             </android.support.v7.widget.Toolbar>
-
         </android.support.design.widget.AppBarLayout>
-
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/black_light"
+        android:layout_below="@id/edit_profile_app_bar"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="40dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/edit_profile_image"
@@ -106,33 +109,122 @@
             android:onClick="onClickUpdateEdit"
         />
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            app:met_floatingLabel="normal"
-            android:id="@+id/edit_profile_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="Username"
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/black_light"
         />
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            app:met_floatingLabel="normal"
-            android:id="@+id/edit_profile_gender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="Gender"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            app:met_floatingLabel="normal"
-            android:id="@+id/edit_profile_status"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="Status"
-        />
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Username"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                />
+
+            <EditText
+                android:id="@+id/edit_profile_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="30dp"
+                android:hint="Username"
+                android:background="@android:color/transparent"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="115dp"
+            android:background="@color/black_light"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Status"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                />
+
+            <EditText
+                android:id="@+id/edit_profile_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="30dp"
+                android:maxLines="3"
+                android:maxLength="150"
+                android:hint="Status"
+                android:background="@android:color/transparent"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="115dp"
+            android:background="@color/black_light"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Gender"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                />
+
+            <Spinner
+                android:id="@+id/edit_profile_gender"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="23dp"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/black_light"
+        />
 
 </LinearLayout>

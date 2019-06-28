@@ -19,4 +19,10 @@
     <string name="termsOfService1Register">By tapping Sign Up &amp; Accept, you agree to our</string>
     <string name="termsOfService2Register">Terms of Service &amp; Privacy Policy</string>
     <string name="signUpAcceptRegister">Sign Up &amp; Accept</string>
+
+    <string-array name="gender">
+        <item>None</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 </resources>
