@@ -292,8 +292,7 @@ public class CreateInformationFragment extends Fragment implements Events {
     public void setDate() {
         String minute = String.valueOf(this.min);
 
-        if (this.min == 0) minute = "00";
-        else if (this.min < 10) minute = "0" + this.min;
+        if (this.min < 10) minute = "0" + this.min;
 
         String date = this.day + " " + getMonth(this.month) + ", at " + this.hour + ":" + minute;
         date_time.setText(date);

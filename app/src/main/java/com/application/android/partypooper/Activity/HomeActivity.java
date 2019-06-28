@@ -132,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void onClickEventMenu(View view) {
-        showMessage("Event not yet implemented.");
+        startActivity(new Intent(this, CalendarActivity.class));
     }
 
     public void onClickSettingsMenu(View view) {

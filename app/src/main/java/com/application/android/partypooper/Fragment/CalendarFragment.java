@@ -59,6 +59,7 @@ public class CalendarFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
         initView(view);
+        queryEvents();
         itemClickListener();
 
         return view;
@@ -77,8 +78,6 @@ public class CalendarFragment extends Fragment {
 
         mEvent = new ArrayList<>();
         mMember = new ArrayList<>();
-
-        displayFriends();
 
         recyclerView = view.findViewById(R.id.frag_calendar_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -104,9 +103,9 @@ public class CalendarFragment extends Fragment {
 
 
     /**
-     * Gets all friends of the user to be displayed.
+     * Creates a query to retrieve all events of the user.
      */
-    private void displayFriends() {
+    private void queryEvents() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Invited").child(mUser.getUid());
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -125,7 +124,7 @@ public class CalendarFragment extends Fragment {
     }
 
     /**
-     * Displays the friends with the help of the adapter.
+     * Displays the events with the help of the adapter.
      */
     private void showEvents() {
         Query users = FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("date_stamp");
@@ -159,6 +158,11 @@ public class CalendarFragment extends Fragment {
         });
     }
 
+    /**
+     * Determines if an item is a header.
+     * @param item list of events
+     * @return header information
+     */
     private Section getSectionCallback(final List<Event> item) {
         return new Section() {
             @Override
