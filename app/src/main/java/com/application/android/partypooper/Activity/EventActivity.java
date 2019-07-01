@@ -5,9 +5,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.application.android.partypooper.Adapter.HeightWrappingViewPager;
 import com.application.android.partypooper.Adapter.TabPageAdapter;
 import com.application.android.partypooper.Fragment.EventCommunityFragment;
 import com.application.android.partypooper.Fragment.EventInformationFragment;
@@ -31,7 +34,7 @@ public class EventActivity extends AppCompatActivity {
 
     private TabLayout mTabLayout;
 
-    private ViewPager mPager;
+    private HeightWrappingViewPager mPager;
 
     private DatabaseReference mEvent;
 
@@ -105,6 +108,7 @@ public class EventActivity extends AppCompatActivity {
         adapter.addFragment(new EventCommunityFragment(), "Community");
 
         mPager.setAdapter(adapter);
+        mPager.measure(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         mTabLayout.setupWithViewPager(mPager);
     }
 
@@ -126,4 +130,11 @@ public class EventActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Listener to close the activity.
+     * @param view of the activity
+     */
+    public void onClickBackEvent(View view) {
+        finish();
+    }
 }
