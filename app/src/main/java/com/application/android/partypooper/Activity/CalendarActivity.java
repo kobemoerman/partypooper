@@ -112,24 +112,7 @@ public class CalendarActivity extends AppCompatActivity {
      * Displays the events with the help of the adapter.
      */
     private void showEvents() {
-        Calendar cal = Calendar.getInstance();
-
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-
-        String y = String.valueOf(year);
-        String m = String.valueOf(month);
-        String d = String.valueOf(day);
-
-        if (month < 10) m = "0"+month;
-        if (day < 10) d = "0"+day;
-
-        String date_stamp = y+m+d;
-
-        System.out.println(date_stamp);
-
-        Query users = FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("date_stamp").startAt(date_stamp);
+        Query users = FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("date_stamp");
         users.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -139,7 +122,8 @@ public class CalendarActivity extends AppCompatActivity {
 
                     for (String id : mMember) {
                         String time_stamp = event.getTime_stamp()+"?"+event.getHost();
-                        if (time_stamp.equals(id)) {
+                        String user = event.getHost();
+                        if (time_stamp.equals(id) && user.equals(mUser.getUid())) {
                             mEvent.add(event);
                         }
                     }

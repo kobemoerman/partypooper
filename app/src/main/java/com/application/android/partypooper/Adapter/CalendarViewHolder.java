@@ -11,6 +11,8 @@ import com.application.android.partypooper.Adapter.CalendarAdapter.onItemClickLi
 import com.application.android.partypooper.Model.Event;
 import com.application.android.partypooper.R;
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class CalendarViewHolder extends RecyclerAdapter.ViewHolder {
 
@@ -22,6 +24,12 @@ public class CalendarViewHolder extends RecyclerAdapter.ViewHolder {
 
     /** Information about the event */
     private TextView name, host, time;
+
+    /** Firebase authentication */
+    private FirebaseAuth mAuth;
+
+    /** Firebase user */
+    private FirebaseUser mUser;
 
     /** Item click listener */
     private onItemClickListener mListener;
@@ -42,6 +50,9 @@ public class CalendarViewHolder extends RecyclerAdapter.ViewHolder {
      * @param listener on item listener
      */
     private void initView(onItemClickListener listener) {
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
         mListener = listener;
 
         image = itemView.findViewById(R.id.item_calendar_image);
@@ -74,14 +85,22 @@ public class CalendarViewHolder extends RecyclerAdapter.ViewHolder {
     @SuppressLint("SetTextI18n")
     @Override
     public void onBind(Object item) {
-        final Event t = (Event) item;
+        final Event e = (Event) item;
 
-        name.setText(t.getName());
-        host.setText("by " + t.getHost_username());
-        time.setText(t.getTime());
+        name.setText(e.getName());
 
-        if (t.getImageURL() != null) {
-            Glide.with(image.getContext()).load(t.getImageURL()).into(image);
+        String owner;
+
+        if (e.getHost().equals(mUser.getUid())) owner = "by You";
+        else owner = "by " + e.getHost_username();
+
+        host.setText(owner);
+
+
+        time.setText(e.getTime());
+
+        if (e.getImageURL() != null) {
+            Glide.with(image.getContext()).load(e.getImageURL()).into(image);
         } else {
             Glide.with(image.getContext()).load(R.drawable.logo).into(image);
         }
