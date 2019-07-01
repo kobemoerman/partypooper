@@ -3,11 +3,12 @@ package com.application.android.partypooper.Adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SectionsPageAdapter extends FragmentPagerAdapter {
+public class TabPageAdapter extends FragmentStatePagerAdapter {
 
     /** Keeps track of the fragments */
     private final List<Fragment> mFragment = new ArrayList<>();
@@ -29,7 +30,7 @@ public class SectionsPageAdapter extends FragmentPagerAdapter {
      * Constructor.
      * @param fm fragment manager
      */
-    public SectionsPageAdapter(FragmentManager fm) {
+    public TabPageAdapter(FragmentManager fm) {
         super(fm);
     }
 

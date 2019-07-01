@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.application.android.partypooper.Adapter.SectionsPageAdapter;
+import com.application.android.partypooper.Adapter.TabPageAdapter;
 import com.application.android.partypooper.Fragment.EventCommunityFragment;
 import com.application.android.partypooper.Fragment.EventInformationFragment;
 import com.application.android.partypooper.Model.Event;
@@ -100,7 +100,7 @@ public class EventActivity extends AppCompatActivity {
      *  Initialises the Tab layout
      */
     private void setUpViewPager() {
-        SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
+        TabPageAdapter adapter = new TabPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new EventInformationFragment(),"Description");
         adapter.addFragment(new EventCommunityFragment(), "Community");
 

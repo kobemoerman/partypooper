@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class CalendarFragment extends Fragment {
@@ -34,16 +35,25 @@ public class CalendarFragment extends Fragment {
     /** Reference to the Home Activity */
     private HomeActivity act;
 
+    /** true for coming events, else for past events */
+    private Boolean type;
+
+    /** List of all events */
     private List<Event> mEvent;
 
+    /** List of all events the user is a member of */
     private List<String> mMember;
 
+    /** Firebase authentication */
     private FirebaseAuth mAuth;
 
+    /** Firebase user */
     private FirebaseUser mUser;
 
+    /** Recycler View to display events */
     private RecyclerView recyclerView;
 
+    /** Adapter to display data in the recycler view */
     private CalendarAdapter mAdapter;
 
     /**
@@ -78,6 +88,9 @@ public class CalendarFragment extends Fragment {
 
         mEvent = new ArrayList<>();
         mMember = new ArrayList<>();
+
+        Bundle args = getArguments();
+        type = args.getBoolean("type");
 
         recyclerView = view.findViewById(R.id.frag_calendar_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -127,7 +140,15 @@ public class CalendarFragment extends Fragment {
      * Displays the events with the help of the adapter.
      */
     private void showEvents() {
-        Query users = FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("date_stamp");
+        Query users;
+        String date_stamp = getDateStamp();
+
+        if (type) {
+             users = FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("date_stamp").startAt(date_stamp);
+        } else {
+            users = FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("date_stamp").endAt(date_stamp);
+        }
+
         users.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -156,6 +177,27 @@ public class CalendarFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    /**
+     * Determines the current date stamp.
+     * @return a string of the current date
+     */
+    private String getDateStamp() {
+        Calendar cal = Calendar.getInstance();
+
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        String y = String.valueOf(year);
+        String m = String.valueOf(month);
+        String d = String.valueOf(day);
+
+        if (month < 10) m = "0"+month;
+        if (day < 10) d = "0"+day;
+
+        return y+m+d;
     }
 
     /**

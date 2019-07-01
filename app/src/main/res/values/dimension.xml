@@ -3,4 +3,5 @@
 <resources>
     <dimen name="header">70dp</dimen>
     <dimen name="calendar">150dp</dimen>
+    <dimen name="tab">50dp</dimen>
 </resources>

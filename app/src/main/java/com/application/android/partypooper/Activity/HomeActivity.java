@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.application.android.partypooper.Fragment.CalendarFragment;
+import com.application.android.partypooper.Fragment.CalendarTabFragment;
 import com.application.android.partypooper.Fragment.SearchFragment;
 import com.application.android.partypooper.Fragment.HomeFragment;
 import com.application.android.partypooper.Fragment.MenuFragment;
@@ -91,7 +92,7 @@ public class HomeActivity extends AppCompatActivity {
                         selectedFragment = new SearchFragment();
                         break;
                     case R.id.nav_calendar:
-                        selectedFragment = new CalendarFragment();
+                        selectedFragment = new CalendarTabFragment();
                         break;
                     case R.id.nav_menu:
                         selectedFragment = new MenuFragment();
@@ -127,10 +128,20 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(new Intent(this, EditProfileActivity.class));
     }
 
+    /**
+     * On click listener for the my friends section.
+     * Launches the FriendsActivity.
+     * @param view view of this activity
+     */
     public void onClickFriendsMenu(View view) {
         startActivity(new Intent(this, FriendsActivity.class));
     }
 
+    /**
+     * On click listener for the my calendar section.
+     * Launches the CalendarActivity.
+     * @param view view of this activity
+     */
     public void onClickEventMenu(View view) {
         startActivity(new Intent(this, CalendarActivity.class));
     }
