@@ -28,6 +28,8 @@ import java.util.Objects;
 
 public class EventActivity extends AppCompatActivity {
 
+    private String ID;
+
     private ImageView image;
 
     private TextView name, date, host;
@@ -57,9 +59,9 @@ public class EventActivity extends AppCompatActivity {
      */
     private void initView() {
         Bundle b = getIntent().getExtras();
-        String id = Objects.requireNonNull(b).getString("id");
+        ID = Objects.requireNonNull(b).getString("id");
 
-        mEvent = FirebaseDatabase.getInstance().getReference("Events").child(Objects.requireNonNull(id));
+        mEvent = FirebaseDatabase.getInstance().getReference("Events").child(Objects.requireNonNull(ID));
 
         mPager = findViewById(R.id.event_view_pager);
         mTabLayout = findViewById(R.id.event_tab_layout);
@@ -89,6 +91,7 @@ public class EventActivity extends AppCompatActivity {
                 name.setText(event.getName());
                 date.setText(date_str);
                 host.setText(String.format("Invited by %s", event.getHost_username()));
+
                 if (event.getImageURL() != null) Glide.with(getApplicationContext()).load(event.getImageURL()).into(image);
             }
 
@@ -136,5 +139,9 @@ public class EventActivity extends AppCompatActivity {
      */
     public void onClickBackEvent(View view) {
         finish();
+    }
+
+    public String getID() {
+        return ID;
     }
 }

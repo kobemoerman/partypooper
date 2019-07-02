@@ -112,8 +112,8 @@ public class CalendarActivity extends AppCompatActivity {
      * Displays the events with the help of the adapter.
      */
     private void showEvents() {
-        Query users = FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("date_stamp");
-        users.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query events = FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("date_stamp");
+        events.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mEvent.clear();
