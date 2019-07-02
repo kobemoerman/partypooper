@@ -57,7 +57,7 @@
             android:id="@+id/login_login_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/shadow_rect"
+            android:background="@drawable/button_background_red"
             android:text="@string/loginLogin"
             android:textColor="@color/white"
             android:textSize="20sp"

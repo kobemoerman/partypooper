@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.application.android.partypooper.Activity.HomeActivity;
@@ -19,7 +18,7 @@ public class HomeFragment extends Fragment {
     /** Reference to the Home Activity */
     private HomeActivity act;
 
-    private ImageView image;
+    private ImageView logo, title, banner;
 
     @Nullable
     @Override
@@ -39,8 +38,12 @@ public class HomeFragment extends Fragment {
         act = (HomeActivity) getActivity();
         assert act != null;
 
-        image = view.findViewById(R.id.frag_home_logo);
+        logo = view.findViewById(R.id.frag_home_logo);
+        title = view.findViewById(R.id.frag_home_welcome);
+        banner = view.findViewById(R.id.frag_home_banner);
 
-        Glide.with(act.getApplicationContext()).load(R.drawable.logo).into(image);
+        Glide.with(act.getApplicationContext()).load(R.drawable.logo).into(logo);
+        Glide.with(act.getApplicationContext()).load(R.drawable.text_logo).into(title);
+        Glide.with(act.getApplicationContext()).load(R.drawable.party_banner).into(banner);
     }
 }

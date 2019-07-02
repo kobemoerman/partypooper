@@ -15,6 +15,9 @@
 
     -bright colors
     <color name="green">#4CAF50</color>
-    <color name="red">#F44336</color>
+    <color name="red">#F84B40</color>
     <color name="blue">#2196F3</color>
+
+    -main colors
+    <color name="theme">#F8F4CA</color>
 </resources>

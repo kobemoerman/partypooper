@@ -86,8 +86,8 @@ public class CreateInformationFragment extends Fragment implements Events {
 
         initView(view);
         updateData();
-        navigationListener(mBack, new CreateThemeFragment(),"fragment/EventTheme");
-        navigationListener(mNext, new CreateInviteFragment(),"fragment/EventInvite");
+        navigationListener(mBack, new CreateThemeFragment(),"fragment/EventTheme", false);
+        navigationListener(mNext, new CreateInviteFragment(),"fragment/EventInvite", true);
 
         uploadImageListener(uploadContainer);
         uploadImageListener(imageContainer);
@@ -193,10 +193,23 @@ public class CreateInformationFragment extends Fragment implements Events {
      * @param frag fragment to switch
      * @param TAG reference of the fragment
      */
-    private void navigationListener (Button b, final Fragment frag, final String TAG) {
+    private void navigationListener (Button b, final Fragment frag, final String TAG, final boolean next) {
         b.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+              final String n = name.getText().toString();
+              final String l = location.getText().toString();
+
+              if (n.isEmpty() && next) {
+                  act.showMessage("Title is missing");
+                  return;
+              }
+
+              if (l.isEmpty() && next) {
+                  act.showMessage("Location is missing");
+                  return;
+              }
+
               String m = String.valueOf(month);
               String d = String.valueOf(day);
               String h = String.valueOf(hour);
@@ -215,8 +228,8 @@ public class CreateInformationFragment extends Fragment implements Events {
               act.addItem("date",date);
               act.addItem("time",time);
               act.addItem("date_stamp",date_stamp);
-              act.addItem("name", name.getText().toString());
-              act.addItem("location", location.getText().toString());
+              act.addItem("name", n);
+              act.addItem("location", l);
               act.addItem("description", description.getText().toString());
 
               act.updateFragment(frag,TAG);

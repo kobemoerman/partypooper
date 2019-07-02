@@ -29,8 +29,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Events"
+                    android:layout_marginEnd="40dp"
                     android:gravity="center_horizontal"
+                    android:text="My Events"
                     android:textSize="20sp"
                     android:textColor="@color/black"
                     android:textStyle="bold"

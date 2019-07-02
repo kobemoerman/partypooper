@@ -79,7 +79,7 @@
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
-                    android:src="@color/colorPrimary" />
+                    android:src="@color/background_white" />
 
             </RelativeLayout>
 
