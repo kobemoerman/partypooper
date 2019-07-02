@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.application.android.partypooper.Activity.HomeActivity;
 import com.application.android.partypooper.Adapter.SearchAdapter;
@@ -27,6 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
+
+    /** Number of users to be displayed in the recycler view */
+    private int LIMIT = 20;
 
     /** Reference to the Home Activity */
     private HomeActivity act;
@@ -59,6 +63,7 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         initView(view);
+        recyclerScrollListener();
         usersQueryDatabase();
 
         return view;
@@ -85,6 +90,23 @@ public class SearchFragment extends Fragment {
     }
 
     /**
+     * Increases the value of LIMIT once the bottom of the view has been reached.
+     */
+    private void recyclerScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                // The user cannot scroll down anymore
+                if (!recyclerView.canScrollVertically(1)) {
+                    LIMIT+=20;
+                }
+            }
+        });
+    }
+
+    /**
      * Populate the Recycler View depending on the query.
      */
     private void usersQueryDatabase() {
@@ -106,11 +128,11 @@ public class SearchFragment extends Fragment {
     }
 
     /**
-     * Displays the users with the help of the adapter.
+     * Displays LIMIT users with the help of the adapter.
      * @param mQuery populates the user list
      */
     private void displayUsers (Query mQuery) {
-        mQuery.addValueEventListener(new ValueEventListener() {
+        mQuery.limitToFirst(LIMIT).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mAdapter.clear();
