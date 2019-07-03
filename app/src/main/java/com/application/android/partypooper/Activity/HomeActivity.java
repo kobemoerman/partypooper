@@ -174,7 +174,7 @@ public class HomeActivity extends AppCompatActivity {
      * Displays a toast on the screen.
      * @param s text to display
      */
-    private void showMessage(String s) {
+    public void showMessage(String s) {
         Toast.makeText(this,s, Toast.LENGTH_LONG).show();
     }
 

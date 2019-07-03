@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 
 import com.application.android.partypooper.Activity.HomeActivity;
 import com.application.android.partypooper.R;
@@ -18,7 +19,9 @@ public class HomeFragment extends Fragment {
     /** Reference to the Home Activity */
     private HomeActivity act;
 
-    private ImageView logo, title, banner;
+    private ImageView logo, banner;
+
+    private RatingBar rating;
 
     @Nullable
     @Override
@@ -26,6 +29,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         initView(view);
+        onRatingListener();
 
         return view;
     }
@@ -39,11 +43,19 @@ public class HomeFragment extends Fragment {
         assert act != null;
 
         logo = view.findViewById(R.id.frag_home_logo);
-        title = view.findViewById(R.id.frag_home_welcome);
         banner = view.findViewById(R.id.frag_home_banner);
+        rating = view.findViewById(R.id.frag_home_rating);
 
         Glide.with(act.getApplicationContext()).load(R.drawable.logo).into(logo);
-        Glide.with(act.getApplicationContext()).load(R.drawable.text_logo).into(title);
-        Glide.with(act.getApplicationContext()).load(R.drawable.party_banner).into(banner);
+        Glide.with(act.getApplicationContext()).load(R.drawable.banner_home).into(banner);
+    }
+
+    private void onRatingListener() {
+        rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                act.showMessage(((int) rating) + " stars");
+            }
+        });
     }
 }
