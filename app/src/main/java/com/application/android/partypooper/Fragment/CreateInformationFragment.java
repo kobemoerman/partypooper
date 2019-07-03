@@ -107,8 +107,8 @@ public class CreateInformationFragment extends Fragment implements Events {
         act = (CreateEventActivity) getActivity();
         assert act != null;
 
-        mNext = view.findViewById(R.id.frag_create_next);
-        mBack = view.findViewById(R.id.frag_create_back);
+        mNext = view.findViewById(R.id.frag_create_info_next);
+        mBack = view.findViewById(R.id.frag_create_info_back);
         date_time = view.findViewById(R.id.frag_create_date_time);
         name = view.findViewById(R.id.frag_create_name);
         location = view.findViewById(R.id.frag_create_location);
@@ -192,6 +192,7 @@ public class CreateInformationFragment extends Fragment implements Events {
      * @param b button to listen
      * @param frag fragment to switch
      * @param TAG reference of the fragment
+     * @param next true if 'next' button is pressed
      */
     private void navigationListener (Button b, final Fragment frag, final String TAG, final boolean next) {
         b.setOnClickListener(new View.OnClickListener() {

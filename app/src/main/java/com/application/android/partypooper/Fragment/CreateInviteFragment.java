@@ -68,7 +68,9 @@ public class CreateInviteFragment extends Fragment {
     	initView(view);
         inviteUsersQueryDatabase();
         itemClickListener();
-        navigationListener();
+
+        navigationListener(back, new CreateInformationFragment(),"fragment/CreateInformation");
+        navigationListener(next, new CreateRecommendationFragment(), "fragment/CreateInformation");
 
     	return view;
   	}
@@ -79,13 +81,15 @@ public class CreateInviteFragment extends Fragment {
 	 */
     private void initView(View view) {
 		act = (CreateEventActivity) getActivity();
+
 		assert act != null;
+
 		refUsers = act.getRefUsers();
 		refFriends = act.getRefFriends();
 		mMembers = act.getmMembers();
 
-		back = view.findViewById(R.id.frag_create_back);
-		next = view.findViewById(R.id.frag_create_next);
+		back = view.findViewById(R.id.frag_create_invite_back);
+		next = view.findViewById(R.id.frag_create_invite_next);
 		searchBar = view.findViewById(R.id.frag_create_search_bar);
 
 		recyclerView = view.findViewById(R.id.frag_create_recycler);
@@ -203,11 +207,17 @@ public class CreateInviteFragment extends Fragment {
 		});
 	}
 
-    private void navigationListener() {
-  	    back.setOnClickListener(new View.OnClickListener() {
+	/**
+	 * Listener to navigate to the previous fragment or the next one.
+	 * @param b button to listen
+	 * @param frag fragment to switch
+	 * @param TAG reference of the fragment
+	 */
+	private void navigationListener (Button b, final Fragment frag, final String TAG) {
+  	    b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            	act.updateFragment(new CreateInformationFragment(),"fragment/EventInformation");
+            	act.updateFragment(frag,TAG);
             }
         });
     }
