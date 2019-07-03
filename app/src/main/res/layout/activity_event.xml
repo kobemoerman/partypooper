@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
-                android:text="17 January, 20:00"
+                android:text="31 January, 20:00"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp" />
 

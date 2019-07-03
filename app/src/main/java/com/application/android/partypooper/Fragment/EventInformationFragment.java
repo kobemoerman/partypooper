@@ -9,12 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.application.android.partypooper.Activity.EventActivity;
-import com.application.android.partypooper.Adapter.CalendarAdapter;
 import com.application.android.partypooper.Adapter.InvitedAdapter;
 import com.application.android.partypooper.Model.Event;
 import com.application.android.partypooper.Model.User;
@@ -23,7 +21,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -54,7 +51,7 @@ public class EventInformationFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_event_info,container,false);
+        View view = inflater.inflate(R.layout.fragment_event_information,container,false);
 
         initView(view);
         queryInvitedUsers();
@@ -121,7 +118,7 @@ public class EventInformationFragment extends Fragment {
                     mMember.add(snp.getKey());
                     System.out.println(snp.getKey());
                 }
-                invited.setText(String.format("%d have been invited", mMember.size()));
+                invited.setText(String.format("%d people have been invited", mMember.size()));
                 showUsers();
             }
 

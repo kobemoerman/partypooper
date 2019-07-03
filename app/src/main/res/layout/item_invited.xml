@@ -6,10 +6,10 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon_invited_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="5dp"
         android:scaleType="centerCrop"
         android:src="@color/red"
         />
