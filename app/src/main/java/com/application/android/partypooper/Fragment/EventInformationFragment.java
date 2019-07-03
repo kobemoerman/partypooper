@@ -114,10 +114,11 @@ public class EventInformationFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mMember.clear();
+
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {
                     mMember.add(snp.getKey());
-                    System.out.println(snp.getKey());
                 }
+
                 invited.setText(String.format("%d people have been invited", mMember.size()));
                 showUsers();
             }
@@ -135,6 +136,7 @@ public class EventInformationFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mAdapter.clear();
+
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {
                     User user = snp.getValue(User.class);
 

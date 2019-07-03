@@ -1,5 +1,8 @@
 package com.application.android.partypooper.Activity;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -25,11 +28,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormatSymbols;
+import java.util.Locale;
 import java.util.Objects;
 
 public class EventActivity extends AppCompatActivity {
 
     private String ID;
+
+    private Event event;
 
     private ImageView image;
 
@@ -79,7 +85,7 @@ public class EventActivity extends AppCompatActivity {
         mEvent.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Event event = dataSnapshot.getValue(Event.class);
+                event = dataSnapshot.getValue(Event.class);
 
                 String date_stamp = Objects.requireNonNull(event).getDate_stamp();
                 String year = date_stamp.substring(0, 4);
@@ -147,7 +153,27 @@ public class EventActivity extends AppCompatActivity {
     }
 
     public void onClickDirectionsEvent(View view) {
-        showMessage("Open Maps View");
+        String location = getLocationUri();
+
+        Uri uri = Uri.parse("google.navigation:q=" +location);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        try {
+            startActivity(mapIntent);
+        } catch(ActivityNotFoundException ex) {
+            try {
+                Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.valueOf(uri)));
+                startActivity(unrestrictedIntent);
+            } catch(ActivityNotFoundException innerEx) {
+                Toast.makeText(this, "Please install a maps application", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private String getLocationUri() {
+        String loc = event.getLocation().replaceAll(" ","+");
+
+        return loc.replaceAll(",","%2C");
     }
 
     public void onClickShareEvent(View view) {
