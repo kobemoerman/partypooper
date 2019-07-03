@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.application.android.partypooper.Adapter.HeightWrappingViewPager;
 import com.application.android.partypooper.Adapter.TabPageAdapter;
@@ -107,8 +108,8 @@ public class EventActivity extends AppCompatActivity {
      */
     private void setUpViewPager() {
         TabPageAdapter adapter = new TabPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new EventInformationFragment(),"Description");
-        adapter.addFragment(new EventCommunityFragment(), "Community");
+        adapter.addFragment(new EventInformationFragment(),"General");
+        adapter.addFragment(new EventCommunityFragment(), "To bring");
 
         mPager.setAdapter(adapter);
         mPager.measure(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -143,5 +144,21 @@ public class EventActivity extends AppCompatActivity {
 
     public String getID() {
         return ID;
+    }
+
+    public void onClickDirectionsEvent(View view) {
+        showMessage("Open Maps View");
+    }
+
+    public void onClickShareEvent(View view) {
+        showMessage("Share Party Pooper");
+    }
+
+    /**
+     * Displays a toast on the screen.
+     * @param s text to display
+     */
+    private void showMessage(String s) {
+        Toast.makeText(this,s, Toast.LENGTH_LONG).show();
     }
 }
