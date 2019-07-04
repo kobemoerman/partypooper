@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,6 +18,8 @@ import com.application.android.partypooper.Adapter.InvitedAdapter;
 import com.application.android.partypooper.Model.Event;
 import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,21 +36,27 @@ public class EventInformationFragment extends Fragment {
 
     private TextView desc, location, invited;
 
-    private LinearLayout accept, decline;
+    private ImageView accept, decline;
 
     /** Adapter to display data in the recycler view */
     private InvitedAdapter mAdapter;
 
     private String mEventID;
 
-    /** List of all events */
-    private List<User> mUser;
-
     private List<String> mMember;
 
     private EventActivity act;
 
     private DatabaseReference mEvent;
+
+    /** Firebase authentication */
+    private FirebaseAuth mAuth;
+
+    /** Firebase user */
+    private FirebaseUser mUser;
+
+    /** Reference to the user invited events */
+    private DatabaseReference mInvited;
 
     /**
      * On create method of the fragment.
@@ -61,6 +70,7 @@ public class EventInformationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_event_information,container,false);
 
         initView(view);
+        isUserComing();
         queryInvitedUsers();
         loadEventData();
         acceptOnClickListener();
@@ -72,23 +82,27 @@ public class EventInformationFragment extends Fragment {
     private void initView(View view) {
         act = (EventActivity) getActivity();
 
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
         mEvent = act.getmEvent();
         mEventID = act.getID();
 
-        mUser = new ArrayList<>();
+        mInvited = FirebaseDatabase.getInstance().getReference().child("Invited").child(mUser.getUid());
+
         mMember = new ArrayList<>();
 
         desc = view.findViewById(R.id.frag_event_info_desc);
         invited = view.findViewById(R.id.frag_event_info_invited);
         location = view.findViewById(R.id.frag_event_info_location);
-        accept = view.findViewById(R.id.frag_event_info_accept);
-        decline = view.findViewById(R.id.frag_event_info_decline);
+        accept = view.findViewById(R.id.frag_event_info_accept_image);
+        decline = view.findViewById(R.id.frag_event_info_decline_image);
 
         recyclerView = view.findViewById(R.id.frag_event_info_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        mAdapter = new InvitedAdapter(getContext(), mUser);
+        mAdapter = new InvitedAdapter(getContext(), new ArrayList<User>());
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -162,6 +176,25 @@ public class EventInformationFragment extends Fragment {
         });
     }
 
+    private void isUserComing() {
+        mInvited.child(mEventID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                boolean coming = (boolean) dataSnapshot.getValue();
+                if (coming) {
+                    accept.setImageResource(R.drawable.ic_check_circle);
+                } else {
+                    accept.setImageResource(R.drawable.ic_check_circle_grey);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void declineOnClickListener() {
         decline.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,6 +207,7 @@ public class EventInformationFragment extends Fragment {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mInvited.child(mEventID).setValue(true);
             }
         });
     }
