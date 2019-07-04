@@ -82,7 +82,7 @@ public class RecommendationEventAdapter extends ListViewAdapter {
 
         // set the values for the view
         itemView.setText(item);
-        amountView.setText(String.valueOf(amount));
+        updateAmountDisplay(item,amount,amountView);
 
         // listeners
         addItemListener(item,amount,amountView);
@@ -111,7 +111,26 @@ public class RecommendationEventAdapter extends ListViewAdapter {
 
             }
         });
+    }
 
+    private void updateAmountDisplay(final String item, final int total, final TextView amountView) {
+        refBringing.child(item).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int amount = 0;
+
+                if (dataSnapshot.getValue() != null) {
+                    amount = ((Long) dataSnapshot.getValue()).intValue();
+                }
+
+                amountView.setText(String.valueOf(amount));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void removeItemListener(final String item, final int total, final TextView amountView) {
