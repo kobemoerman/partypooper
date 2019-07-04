@@ -13,6 +13,8 @@ import com.application.android.partypooper.Activity.EventActivity;
 import com.application.android.partypooper.Adapter.RecommendationEventAdapter;
 import com.application.android.partypooper.Model.Recommendation;
 import com.application.android.partypooper.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +40,12 @@ public class EventRecommendationFragment extends Fragment {
 
     /** Firebase reference to all event recommendations */
     private DatabaseReference refRecommendation;
+
+    /** Firebase authentication */
+    private FirebaseAuth mAuth;
+
+    /** Firebase user */
+    private FirebaseUser mUser;
 
     /**
      * On create method of the fragment.
@@ -65,13 +73,15 @@ public class EventRecommendationFragment extends Fragment {
         assert act != null;
 
         eventID = act.getID();
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
         refRecommendation = FirebaseDatabase.getInstance().getReference().child("Recommendation").child(eventID);
 
         queryRecommendationList();
 
         list = view.findViewById(R.id.frag_event_recommendation_list_view);
 
-        mAdapter = new RecommendationEventAdapter(getContext(), R.layout.item_recommendation_event, new ArrayList<Recommendation>());
+        mAdapter = new RecommendationEventAdapter(getContext(), R.layout.item_recommendation_event, new ArrayList<Recommendation>(), eventID, mUser.getUid());
         list.setAdapter(mAdapter);
     }
 

@@ -1,6 +1,7 @@
 package com.application.android.partypooper.Adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,11 @@ import android.widget.TextView;
 
 import com.application.android.partypooper.Model.Recommendation;
 import com.application.android.partypooper.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -21,18 +27,33 @@ public class RecommendationEventAdapter extends ListViewAdapter {
     /** Displays the amount Recommendation */
     private TextView amountView;
 
+    /** Turns green when the total of items has been reached */
+    private ImageView circle;
+
     /** Icons responsible to add or remove a Recommendation */
     private ImageView remove, add;
 
+    private String event, user;
+
+    private DatabaseReference refRecommendation;
+
+    private DatabaseReference refBringing;
+
     /**
      * Base constructor.
-     *
-     * @param context  of the fragment
+     *  @param context  of the fragment
      * @param resource layout to be displayed inside the list view
      * @param items    list of items to be displayed
+     * @param event    the id of the current event
+     * @param user     the id of the current user
      */
-    public RecommendationEventAdapter(Context context, int resource, ArrayList<Recommendation> items) {
+    public RecommendationEventAdapter(Context context, int resource, ArrayList<Recommendation> items, String event, String user) {
         super(context, resource, items);
+        this.event = event;
+        this.user = user;
+
+        refRecommendation = FirebaseDatabase.getInstance().getReference().child("Recommendation").child(event);
+        refBringing = FirebaseDatabase.getInstance().getReference().child("Bringing").child(user).child(event);
     }
 
     /**
@@ -55,6 +76,7 @@ public class RecommendationEventAdapter extends ListViewAdapter {
         // retrieve the display items
         add = view.findViewById(R.id.recommendation_event_add);
         remove = view.findViewById(R.id.recommendation_event_remove);
+        circle = view.findViewById(R.id.recommendation_event_circle);
         itemView = view.findViewById(R.id.recommendation_event_item);
         amountView = view.findViewById(R.id.recommendation_event_amount);
 
@@ -62,6 +84,106 @@ public class RecommendationEventAdapter extends ListViewAdapter {
         itemView.setText(item);
         amountView.setText(String.valueOf(amount));
 
+        // listeners
+        addItemListener(item,amount,amountView);
+        removeItemListener(item,amount,amountView);
+        updateCircleDisplay(item, circle);
+
         return view;
+    }
+
+    private void updateCircleDisplay(String item, final ImageView c) {
+        refRecommendation.child(item).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int amount = ((Long) dataSnapshot.child("brought").getValue()).intValue();
+                int total = ((Long) dataSnapshot.child("total").getValue()).intValue();
+
+                if (amount == total) {
+                    c.setImageResource(R.drawable.ic_circle_green);
+                } else if (amount < total) {
+                    c.setImageResource(R.drawable.ic_circle_grey);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void removeItemListener(final String item, final int total, final TextView amountView) {
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateUserAmount(item,total,false,amountView);
+                updateEventAmount(item,total,false);
+            }
+        });
+    }
+
+    private void addItemListener(final String item, final int total, final TextView amountView) {
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateUserAmount(item,total,true,amountView);
+                updateEventAmount(item,total,true);
+            }
+        });
+    }
+
+    private void updateEventAmount(final String item, final int total, final boolean add) {
+        refRecommendation.child(item).child("brought").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int amount = ((Long) dataSnapshot.getValue()).intValue();
+
+                if (amount < total && add) {
+                    amount++;
+                }
+
+                if (amount > 0 && !add) {
+                    amount--;
+                }
+
+                refRecommendation.child(item).child("brought").setValue(amount);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void updateUserAmount(final String item, final int total, final boolean add, final TextView amountView) {
+        refBringing.child(item).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int amount = 0;
+
+                if (dataSnapshot.getValue() != null) {
+                    amount = ((Long) dataSnapshot.getValue()).intValue();
+                }
+
+                if (amount < total && add) {
+                    amount++;
+                }
+
+                if (amount > 0 && !add) {
+                    amount--;
+                }
+
+                refBringing.child(item).setValue(amount);
+                amountView.setText(String.valueOf(amount));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
