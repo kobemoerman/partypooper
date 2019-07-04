@@ -131,6 +131,9 @@ public class RecommendationAdapter extends ArrayAdapter<Recommendation> {
      * @return All of items in this adapter.
      */
     public ArrayList<Recommendation> getItems() {
+        if (mItems == null) {
+            throw new IllegalArgumentException("The list of items is null");
+        }
         return mItems;
     }
 

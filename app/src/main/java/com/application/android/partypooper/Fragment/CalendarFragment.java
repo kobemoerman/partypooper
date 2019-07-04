@@ -140,37 +140,31 @@ public class CalendarFragment extends Fragment {
      * Displays the events with the help of the adapter.
      */
     private void showEvents() {
-        Query users;
+        Query users = FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("date_stamp");
         String date_stamp = getDateStamp();
 
         if (type) {
-             users = FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("date_stamp").startAt(date_stamp);
+             users = users.startAt(date_stamp);
         } else {
-            users = FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("date_stamp").endAt(date_stamp);
+            users = users.endAt(date_stamp);
         }
 
         users.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mEvent.clear();
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {
                     Event event = snp.getValue(Event.class);
 
                     for (String id : mMember) {
                         String time_stamp = event.getTime_stamp()+"?"+event.getHost();
                         if (time_stamp.equals(id)) {
-                            mEvent.add(event);
+                            mAdapter.add(event);
                         }
                     }
                 }
 
-                if (!mEvent.isEmpty()) {
-                    CalendarDecoration decoration =
-                        new CalendarDecoration(getResources().getDimensionPixelSize(R.dimen.header),
-                            getSectionCallback(mEvent));
-                    recyclerView.addItemDecoration(decoration);
-                }
-                mAdapter.setItems(mEvent);
+                CalendarDecoration decoration = new CalendarDecoration(getResources().getDimensionPixelSize(R.dimen.header), getSectionCallback(mAdapter.getAllItems()));
+                recyclerView.addItemDecoration(decoration);
             }
 
             @Override

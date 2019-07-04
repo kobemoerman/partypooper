@@ -73,6 +73,7 @@ public class CalendarDecoration extends RecyclerView.ItemDecoration {
         }
 
         CharSequence previousHeader = "";
+
         for (int i = 0; i < parent.getChildCount(); i++) {
             View child = parent.getChildAt(i);
             final int pos = parent.getChildAdapterPosition(child);

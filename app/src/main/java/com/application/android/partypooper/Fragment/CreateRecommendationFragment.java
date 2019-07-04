@@ -74,7 +74,7 @@ public class CreateRecommendationFragment extends Fragment {
         amount = view.findViewById(R.id.frag_create_recommendation_amount);
 
         mAdapter = new RecommendationAdapter(getContext(),
-            R.layout.item_recommendation, new ArrayList<Recommendation>());
+            R.layout.item_recommendation, act.getmRecommendations());
 
         list.setAdapter(mAdapter);
     }
@@ -86,6 +86,8 @@ public class CreateRecommendationFragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!checkRecommendationValues()) return;
+
                 int a = Integer.parseInt(amount.getText().toString());
                 String i = item.getText().toString();
 
@@ -98,12 +100,34 @@ public class CreateRecommendationFragment extends Fragment {
     }
 
     /**
+     * Determines if the values of the EditText fields are valid
+     * @return false when no text was found for item or amount
+     */
+    private boolean checkRecommendationValues() {
+        String a = amount.getText().toString();
+        String i = item.getText().toString();
+
+        if (i.equals("")) {
+            act.showMessage("Name your item");
+            return false;
+        }
+
+        if (amount.getText().toString().equals("")) {
+            act.showMessage("Give an amount for \"" + i + "\"");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Listener to navigate to the previous fragment.
      */
     private void navigationListener () {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                act.setmRecommendations(mAdapter.getItems());
                 act.updateFragment(new CreateInviteFragment(),"fragment/CreateInvite");
             }
         });

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.application.android.partypooper.Fragment.CreateInformationFragment;
 import com.application.android.partypooper.Fragment.CreateThemeFragment;
+import com.application.android.partypooper.Model.Recommendation;
 import com.application.android.partypooper.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,6 +49,9 @@ public class CreateEventActivity extends AppCompatActivity {
     /** Stores data about the event */
     private HashMap<String, Object> event;
 
+    /** Stores all user mRecommendations */
+    private ArrayList<Recommendation> mRecommendations;
+
     /** Reference to the result uri */
     private Uri mUri;
 
@@ -81,6 +85,9 @@ public class CreateEventActivity extends AppCompatActivity {
     /** Firebase reference to all users */
     private DatabaseReference refUsers;
 
+    /** Firebase reference to all event recommendations */
+    private DatabaseReference refRecommendation;
+
     /** Firebase reference to event pictures storage */
     private StorageReference sEvent;
 
@@ -104,10 +111,11 @@ public class CreateEventActivity extends AppCompatActivity {
      */
     private void initView() {
         event = new HashMap<>();
+        mRecommendations = new ArrayList<>();
 
         hostUsername();
-        addItem("host",mUser.getUid());
-        addItem("time_stamp",timeStamp);
+        addItem("host", mUser.getUid());
+        addItem("time_stamp", timeStamp);
     }
 
     /**
@@ -126,12 +134,12 @@ public class CreateEventActivity extends AppCompatActivity {
         refMembers = FirebaseDatabase.getInstance().getReference().child("Members");
         refInvited = FirebaseDatabase.getInstance().getReference().child("Invited");
         refUsers = FirebaseDatabase.getInstance().getReference().child("Users");
+        refRecommendation = FirebaseDatabase.getInstance().getReference().child("Recommendation").child(eventID);
 
         mEvent = refEvents.child(eventID);
         mMembers = refMembers.child(eventID);
 
         sEvent = FirebaseStorage.getInstance().getReference("event_picture");
-
     }
 
     /**
@@ -146,6 +154,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     updateUI();
                     updateInvitedDataBase();
+                    updateRecommendationDatabase();
                 } else {
                     showMessage(Objects.requireNonNull(task.getException()).getMessage());
                 }
@@ -258,6 +267,12 @@ public class CreateEventActivity extends AppCompatActivity {
         });
     }
 
+    private void updateRecommendationDatabase() {
+        for (Recommendation r : mRecommendations) {
+            refRecommendation.child(r.getItem()).setValue(r.getAmount());
+        }
+    }
+
     /**
      * Adds the username value of the current user creating the event.
      */
@@ -339,6 +354,22 @@ public class CreateEventActivity extends AppCompatActivity {
         if (event != null) {
             event.clear();
         }
+    }
+
+    /**
+     * Returns the list of all recommendations.
+     * @return mRecommendations
+     */
+    public ArrayList<Recommendation> getmRecommendations() {
+        return mRecommendations;
+    }
+
+    /**
+     * Sets the list of recommendations.
+     * @param mRecommendations new list of recommendations
+     */
+    public void setmRecommendations(ArrayList<Recommendation> mRecommendations) {
+        this.mRecommendations = mRecommendations;
     }
 
     /**

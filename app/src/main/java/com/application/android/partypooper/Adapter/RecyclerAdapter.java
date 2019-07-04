@@ -101,6 +101,15 @@ public abstract class RecyclerAdapter<T, VH extends ViewHolder> extends Recycler
     }
 
     /**
+     * Returns all items from the adapter.
+     *
+     * @return All items
+     */
+    public List<T> getAllItems() {
+        return items;
+    }
+
+    /**
      * Sets items to the adapter and notifies that data set has been changed.
      *
      * @param items items to set to the adapter

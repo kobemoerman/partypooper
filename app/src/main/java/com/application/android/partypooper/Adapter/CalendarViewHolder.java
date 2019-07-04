@@ -85,18 +85,15 @@ public class CalendarViewHolder extends RecyclerAdapter.ViewHolder {
     @SuppressLint("SetTextI18n")
     @Override
     public void onBind(Object item) {
+        String owner;
         final Event e = (Event) item;
 
         name.setText(e.getName());
-
-        String owner;
 
         if (e.getHost().equals(mUser.getUid())) owner = "by You";
         else owner = "by " + e.getHost_username();
 
         host.setText(owner);
-
-
         time.setText(e.getTime());
 
         if (e.getImageURL() != null) {
