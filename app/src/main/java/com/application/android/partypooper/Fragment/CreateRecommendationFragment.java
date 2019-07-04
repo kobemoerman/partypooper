@@ -1,25 +1,21 @@
 package com.application.android.partypooper.Fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.application.android.partypooper.Activity.CreateEventActivity;
+import com.application.android.partypooper.Adapter.RecommendationAdapter;
 import com.application.android.partypooper.Model.Recommendation;
 import com.application.android.partypooper.R;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class CreateRecommendationFragment extends Fragment {
 
@@ -29,15 +25,20 @@ public class CreateRecommendationFragment extends Fragment {
     /** Reference to the CreateEvent Activity */
     private CreateEventActivity act;
 
-    private Button back;
-
-    private ImageView add;
-
-    private EditText item, amount;
-
+    /** List view to display the recommendations */
     private ListView list;
 
-    private ArrayList<Recommendation> recom;
+    /** Button to navigate back */
+    private Button back;
+
+    /** ImageView to add a recommendation to the adapter */
+    private ImageView add;
+
+    /** Inputs from the user */
+    private EditText item, amount;
+
+    /** Adapter to display items in the list view */
+    private RecommendationAdapter mAdapter;
 
     /**
      * On create method of the fragment.
@@ -52,9 +53,11 @@ public class CreateRecommendationFragment extends Fragment {
 
         initView(view);
         navigationListener();
+        addRecommendationListener();
 
         return view;
     }
+
     /**
      * Initialises the fragment view.
      * @param view fragment_create_recommendation
@@ -62,29 +65,31 @@ public class CreateRecommendationFragment extends Fragment {
     private void initView(View view) {
         act = (CreateEventActivity) getActivity();
 
+        assert act != null;
+
         add = view.findViewById(R.id.frag_create_recommendation_add);
         back = view.findViewById(R.id.frag_create_recommendation_back);
         list = view.findViewById(R.id.frag_create_recommendation_list_view);
         item = view.findViewById(R.id.frag_create_recommendation_item);
         amount = view.findViewById(R.id.frag_create_recommendation_amount);
 
-        assert act != null;
-
-        recom = new ArrayList<>();
-
-        final RecommendationAdapter mAdapter = new RecommendationAdapter(getContext(), R.layout.item_recommendation, recom);
+        mAdapter = new RecommendationAdapter(getContext(),
+            R.layout.item_recommendation, new ArrayList<Recommendation>());
 
         list.setAdapter(mAdapter);
+    }
 
+    /**
+     * Listener to add a Recommendation to the adapter.
+     */
+    private void addRecommendationListener() {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int a = Integer.parseInt(amount.getText().toString());
                 String i = item.getText().toString();
 
-                recom.add(new Recommendation(a,i));
-
-                mAdapter.notifyDataSetChanged();
+                mAdapter.add(new Recommendation(a,i));
 
                 item.getText().clear();
                 amount.getText().clear();
@@ -92,6 +97,9 @@ public class CreateRecommendationFragment extends Fragment {
         });
     }
 
+    /**
+     * Listener to navigate to the previous fragment.
+     */
     private void navigationListener () {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,34 +107,5 @@ public class CreateRecommendationFragment extends Fragment {
                 act.updateFragment(new CreateInviteFragment(),"fragment/CreateInvite");
             }
         });
-    }
-
-    class RecommendationAdapter extends ArrayAdapter<Recommendation> {
-
-        private int mResource;
-        private Context mContext;
-
-        public RecommendationAdapter(Context context, int resource, ArrayList<Recommendation> objects) {
-            super(context, resource, objects);
-            mContext = context;
-            mResource = resource;
-        }
-
-        @Override
-        public View getView(int pos, View view, ViewGroup parent) {
-            int amount = Objects.requireNonNull(getItem(pos)).getAmount();
-            String item = Objects.requireNonNull(getItem(pos)).getItem();
-
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-            view = inflater.inflate(mResource,parent,false);
-
-            TextView itemView = view.findViewById(R.id.recommendation_item);
-            EditText amountView = view.findViewById(R.id.recommendation_amount);
-
-            itemView.setText(item);
-            amountView.setText(String.valueOf(amount));
-
-            return view;
-        }
     }
 }

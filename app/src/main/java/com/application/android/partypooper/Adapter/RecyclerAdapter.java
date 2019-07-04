@@ -94,7 +94,7 @@ public abstract class RecyclerAdapter<T, VH extends ViewHolder> extends Recycler
     /**
      * Returns an items from the list at a certain position.
      *
-     * @return All of items in this adapter.
+     * @return An item in this adapter.
      */
     public T getItem(int position) {
         return items.get(position);
