@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +15,7 @@ import android.widget.Toast;
 
 import com.application.android.partypooper.Adapter.HeightWrappingViewPager;
 import com.application.android.partypooper.Adapter.TabPageAdapter;
-import com.application.android.partypooper.Fragment.EventCommunityFragment;
+import com.application.android.partypooper.Fragment.EventRecommendationFragment;
 import com.application.android.partypooper.Fragment.EventInformationFragment;
 import com.application.android.partypooper.Model.Event;
 import com.application.android.partypooper.R;
@@ -28,23 +27,29 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormatSymbols;
-import java.util.Locale;
 import java.util.Objects;
 
 public class EventActivity extends AppCompatActivity {
 
+    /** ID of the event */
     private String ID;
 
+    /** All information relevant to the event */
     private Event event;
 
+    /** Event banner image */
     private ImageView image;
 
+    /** TextView to display event data */
     private TextView name, date, host;
 
+    /** Responsible for the tab layout */
     private TabLayout mTabLayout;
 
+    /** Wraps the height of the Pager to the highest child */
     private HeightWrappingViewPager mPager;
 
+    /** Reference to the current event in Events */
     private DatabaseReference mEvent;
 
     /**
@@ -115,7 +120,7 @@ public class EventActivity extends AppCompatActivity {
     private void setUpViewPager() {
         TabPageAdapter adapter = new TabPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new EventInformationFragment(),"General");
-        adapter.addFragment(new EventCommunityFragment(), "To bring");
+        adapter.addFragment(new EventRecommendationFragment(), "To bring");
 
         mPager.setAdapter(adapter);
         mPager.measure(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -148,10 +153,10 @@ public class EventActivity extends AppCompatActivity {
         finish();
     }
 
-    public String getID() {
-        return ID;
-    }
-
+    /**
+     * Listener to open Google Maps directions
+     * @param view fragment_event_information
+     */
     public void onClickDirectionsEvent(View view) {
         String location = getLocationUri();
 
@@ -170,14 +175,22 @@ public class EventActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Adapts the event address to correspond to google navigation.
+     * @return All " " are replaced with "+", all "," are replaced with "%2C"
+     */
     private String getLocationUri() {
         String loc = event.getLocation().replaceAll(" ","+");
 
         return loc.replaceAll(",","%2C");
     }
 
+    /**
+     * Listener to share the application
+     * @param view fragment_event_information
+     */
     public void onClickShareEvent(View view) {
-        showMessage("Share Party Pooper");
+        showMessage("You shared PartyPooper!");
     }
 
     /**
@@ -186,5 +199,13 @@ public class EventActivity extends AppCompatActivity {
      */
     private void showMessage(String s) {
         Toast.makeText(this,s, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Returns the event ID.
+     * @return ID
+     */
+    public String getID() {
+        return ID;
     }
 }

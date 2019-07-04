@@ -15,8 +15,6 @@ import com.application.android.partypooper.Adapter.RecommendationAdapter;
 import com.application.android.partypooper.Model.Recommendation;
 import com.application.android.partypooper.R;
 
-import java.util.ArrayList;
-
 public class CreateRecommendationFragment extends Fragment {
 
     /** TAG reference of this fragment */
@@ -112,7 +110,7 @@ public class CreateRecommendationFragment extends Fragment {
             return false;
         }
 
-        if (amount.getText().toString().equals("")) {
+        if (a.equals("")) {
             act.showMessage("Give an amount for \"" + i + "\"");
             return false;
         }

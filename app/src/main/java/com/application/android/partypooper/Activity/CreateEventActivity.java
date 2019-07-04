@@ -267,9 +267,13 @@ public class CreateEventActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Creates a Firebase reference to all event recommendations
+     */
     private void updateRecommendationDatabase() {
         for (Recommendation r : mRecommendations) {
-            refRecommendation.child(r.getItem()).setValue(r.getAmount());
+            refRecommendation.child(r.getItem()).child("total").setValue(r.getAmount());
+            refRecommendation.child(r.getItem()).child("brought").setValue(0);
         }
     }
 

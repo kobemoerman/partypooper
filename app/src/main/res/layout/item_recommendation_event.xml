@@ -18,24 +18,24 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_circle_grey"
+                android:src="@drawable/ic_circle_green"
                 android:layout_centerInParent="true"
                 />
 
-            <EditText
-                android:id="@+id/recommendation_amount"
+            <TextView
+                android:id="@+id/recommendation_event_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:hint="0"
+                android:text="0"
                 android:textSize="18sp"
-                android:background="@android:color/transparent"
+                android:textColor="@color/white"
                 />
 
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/recommendation_item"
+            android:id="@+id/recommendation_event_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -53,11 +53,20 @@
             android:layout_marginEnd="25dp">
 
             <ImageView
-                android:id="@+id/recommendation_remove"
+                android:id="@+id/recommendation_event_remove"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_toStartOf="@+id/recommendation_event_add"
+                android:src="@drawable/ic_remove"
+                />
+
+            <ImageView
+                android:id="@+id/recommendation_event_add"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_remove"
+                android:src="@drawable/ic_add"
                 />
 
         </RelativeLayout>

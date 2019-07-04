@@ -49,6 +49,13 @@ public class EventInformationFragment extends Fragment {
 
     private DatabaseReference mEvent;
 
+    /**
+     * On create method of the fragment.
+     * @param inflater inflate any views in the fragment
+     * @param container parent view that the fragment's UI should be attached to
+     * @param savedInstanceState this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_information,container,false);
