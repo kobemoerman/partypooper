@@ -136,9 +136,7 @@ public class RecommendationEventAdapter extends ListViewAdapter {
     private void removeItemListener(final String item, final int total, final TextView amountView) {
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                updateUserAmount(item,total,false,amountView);
-                updateEventAmount(item,total,false);
+            public void onClick(View v) { updateEventAmount(item,total,amountView,false);
             }
         });
     }
@@ -146,18 +144,18 @@ public class RecommendationEventAdapter extends ListViewAdapter {
     private void addItemListener(final String item, final int total, final TextView amountView) {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                updateUserAmount(item,total,true,amountView);
-                updateEventAmount(item,total,true);
+            public void onClick(View v) { updateEventAmount(item,total,amountView,true);
             }
         });
     }
 
-    private void updateEventAmount(final String item, final int total, final boolean add) {
+    private void updateEventAmount(final String item, final int total, final TextView amountView, final boolean add) {
         refRecommendation.child(item).child("brought").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int amount = ((Long) dataSnapshot.getValue()).intValue();
+
+                updateUserAmount(item,total-amount,amountView,add);
 
                 if (amount < total && add) {
                     amount++;
@@ -177,7 +175,7 @@ public class RecommendationEventAdapter extends ListViewAdapter {
         });
     }
 
-    private void updateUserAmount(final String item, final int total, final boolean add, final TextView amountView) {
+    private void updateUserAmount(final String item, final int total, final TextView amountView, final boolean add) {
         refBringing.child(item).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -187,7 +185,7 @@ public class RecommendationEventAdapter extends ListViewAdapter {
                     amount = ((Long) dataSnapshot.getValue()).intValue();
                 }
 
-                if (amount < total && add) {
+                if (total > 0 && add) {
                     amount++;
                 }
 
