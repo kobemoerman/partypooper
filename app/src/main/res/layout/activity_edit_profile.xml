@@ -82,148 +82,160 @@
         android:layout_below="@id/edit_profile_app_bar"
         />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="40dp">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/edit_profile_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_account_circle"
-        />
-
-        <TextView
-            android:id="@+id/edit_profile_change_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center"
-            android:text="Change Picture"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
-            android:onClick="onClickUpdateEdit"
-        />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/black_light"
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusableInTouchMode="true"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Username"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                />
-
-            <EditText
-                android:id="@+id/edit_profile_username"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="30dp"
-                android:hint="Username"
-                android:background="@android:color/transparent"
+                android:orientation="vertical"
+                android:padding="40dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/edit_profile_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_account_circle"
+                    />
+
+                <TextView
+                    android:id="@+id/edit_profile_change_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:text="Change Picture"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:onClick="onClickUpdateEdit"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/black_light"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Username"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        />
+
+                    <EditText
+                        android:id="@+id/edit_profile_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="30dp"
+                        android:hint="Username"
+                        android:background="@android:color/transparent"
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginStart="115dp"
+                    android:background="@color/black_light"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Status"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        />
+
+                    <EditText
+                        android:id="@+id/edit_profile_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="30dp"
+                        android:maxLength="150"
+                        android:hint="Status"
+                        android:background="@android:color/transparent"
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginStart="115dp"
+                    android:background="@color/black_light"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Gender"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        />
+
+                    <Spinner
+                        android:id="@+id/edit_profile_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="23dp"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/black_light"
                 />
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginStart="115dp"
-            android:background="@color/black_light"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Status"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                />
-
-            <EditText
-                android:id="@+id/edit_profile_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="30dp"
-                android:maxLines="3"
-                android:maxLength="150"
-                android:hint="Status"
-                android:background="@android:color/transparent"
-                />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginStart="115dp"
-            android:background="@color/black_light"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Gender"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                />
-
-            <Spinner
-                android:id="@+id/edit_profile_gender"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="23dp"
-                />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/black_light"
-        />
+    </ScrollView>
 
 </LinearLayout>

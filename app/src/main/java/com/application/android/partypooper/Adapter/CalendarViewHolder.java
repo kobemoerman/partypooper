@@ -99,7 +99,7 @@ public class CalendarViewHolder extends RecyclerAdapter.ViewHolder {
         if (e.getImageURL() != null) {
             Glide.with(image.getContext()).load(e.getImageURL()).into(image);
         } else {
-            Glide.with(image.getContext()).load(R.drawable.logo).into(image);
+            Glide.with(image.getContext()).load(R.drawable.default_banner).into(image);
         }
     }
 }

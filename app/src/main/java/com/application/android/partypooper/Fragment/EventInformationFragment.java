@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.application.android.partypooper.Activity.EventActivity;
@@ -34,7 +33,7 @@ public class EventInformationFragment extends Fragment {
     /** Recycler View to display invited users */
     private RecyclerView recyclerView;
 
-    private TextView desc, location, invited;
+    private TextView desc, location, amount;
 
     private ImageView accept, decline;
 
@@ -43,7 +42,7 @@ public class EventInformationFragment extends Fragment {
 
     private String mEventID;
 
-    private List<String> mMember;
+    private List<String> invited;
 
     private EventActivity act;
 
@@ -57,6 +56,8 @@ public class EventInformationFragment extends Fragment {
 
     /** Reference to the user invited events */
     private DatabaseReference mInvited;
+
+    private DatabaseReference mMembers;
 
     /**
      * On create method of the fragment.
@@ -89,11 +90,12 @@ public class EventInformationFragment extends Fragment {
         mEventID = act.getID();
 
         mInvited = FirebaseDatabase.getInstance().getReference().child("Invited").child(mUser.getUid());
+        mMembers = FirebaseDatabase.getInstance().getReference().child("Members").child(mEventID);
 
-        mMember = new ArrayList<>();
+        invited = new ArrayList<>();
 
         desc = view.findViewById(R.id.frag_event_info_desc);
-        invited = view.findViewById(R.id.frag_event_info_invited);
+        amount = view.findViewById(R.id.frag_event_info_invited);
         location = view.findViewById(R.id.frag_event_info_location);
         accept = view.findViewById(R.id.frag_event_info_accept_image);
         decline = view.findViewById(R.id.frag_event_info_decline_image);
@@ -127,20 +129,19 @@ public class EventInformationFragment extends Fragment {
     }
 
     /**
-     * Creates a query to retrieve all users invited to the event.
+     * Creates a query to retrieve all users amount to the event.
      */
     private void queryInvitedUsers() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Members").child(mEventID);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        mMembers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mMember.clear();
+                invited.clear();
 
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {
-                    mMember.add(snp.getKey());
+                    invited.add(snp.getKey());
                 }
 
-                invited.setText(String.format("%d people have been invited", mMember.size()));
+                amount.setText(String.format("%d people have been invited", invited.size()));
                 showUsers();
             }
 
@@ -161,7 +162,7 @@ public class EventInformationFragment extends Fragment {
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {
                     User user = snp.getValue(User.class);
 
-                    for (String id : mMember) {
+                    for (String id : invited) {
                         if (user.getId().equals(id)) {
                             mAdapter.add(user);
                         }
@@ -180,6 +181,8 @@ public class EventInformationFragment extends Fragment {
         mInvited.child(mEventID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() == null) return;
+
                 boolean coming = (boolean) dataSnapshot.getValue();
                 if (coming) {
                     accept.setImageResource(R.drawable.ic_check_circle);
@@ -199,6 +202,9 @@ public class EventInformationFragment extends Fragment {
         decline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mInvited.child(mEventID).getRef().removeValue();
+                mMembers.child(mUser.getUid()).getRef().removeValue();
+                act.finish();
             }
         });
     }
@@ -206,8 +212,7 @@ public class EventInformationFragment extends Fragment {
     private void acceptOnClickListener() {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                mInvited.child(mEventID).setValue(true);
+            public void onClick(View v) { mInvited.child(mEventID).setValue(true);
             }
         });
     }

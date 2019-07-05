@@ -120,7 +120,7 @@ public class CalendarFragment extends Fragment {
      */
     private void queryEvents() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Invited").child(mUser.getUid());
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mMember.clear();
@@ -149,7 +149,7 @@ public class CalendarFragment extends Fragment {
             users = users.endAt(date_stamp);
         }
 
-        users.addListenerForSingleValueEvent(new ValueEventListener() {
+        users.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {

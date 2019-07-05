@@ -105,6 +105,7 @@ public class EventActivity extends AppCompatActivity {
                 host.setText(String.format("Invited by %s", event.getHost_username()));
 
                 if (event.getImageURL() != null) Glide.with(getApplicationContext()).load(event.getImageURL()).into(image);
+                else Glide.with(getApplicationContext()).load(R.drawable.default_banner).into(image);
             }
 
             @Override

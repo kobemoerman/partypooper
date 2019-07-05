@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.application.android.partypooper.Activity.EventActivity;
 import com.application.android.partypooper.Adapter.RecommendationEventAdapter;
@@ -34,6 +35,9 @@ public class EventRecommendationFragment extends Fragment {
 
     /** List view to display the recommendations */
     private ListView list;
+
+    /** Displays information text when there are no recommendations */
+    private TextView empty;
 
     /** Adapter to display items in the list view */
     private RecommendationEventAdapter mAdapter;
@@ -80,6 +84,7 @@ public class EventRecommendationFragment extends Fragment {
         queryRecommendationList();
 
         list = view.findViewById(R.id.frag_event_recommendation_list_view);
+        empty = view.findViewById(R.id.frag_event_recommendation_text);
 
         mAdapter = new RecommendationEventAdapter(getContext(), R.layout.item_recommendation_event, new ArrayList<Recommendation>(), eventID, mUser.getUid());
         list.setAdapter(mAdapter);
@@ -98,6 +103,8 @@ public class EventRecommendationFragment extends Fragment {
 
                     mAdapter.add(new Recommendation(amount,item));
                 }
+
+                isRecommendationsEmpty();
             }
 
             @Override
@@ -105,5 +112,11 @@ public class EventRecommendationFragment extends Fragment {
 
             }
         });
+    }
+
+    private void isRecommendationsEmpty() {
+        if (mAdapter.isEmpty()) {
+            empty.setText("You do not have to bring anything.");
+        }
     }
 }
