@@ -114,7 +114,7 @@ public class MenuFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
 
-                userUsername.setText(user.getUsername());
+                userUsername.setText(isUserBirthday(user));
                 userStatus.setText(String.format("\"%s\"", user.getStatus()));
                 userAge.setText(getAge(user.getAge()));
                 if (user.getImgURL() != null) Glide.with(userImage.getContext()).load(user.getImgURL()).into(userImage);
@@ -151,5 +151,39 @@ public class MenuFragment extends Fragment {
         }
 
         return Integer.toString(age);
+    }
+
+    /**
+     * Compares the date with the user's birth day.
+     *
+     * @param u user to compare with
+     * @return username to display
+     */
+    public String isUserBirthday(User u) {
+        Calendar cal = Calendar.getInstance();
+        int m = cal.get(Calendar.MONTH)+1;
+        int d = cal.get(Calendar.DAY_OF_MONTH);
+
+        String day = String.valueOf(d);
+        String month = String.valueOf(m);
+
+        if (d < 10) day = "0"+d;
+        if (m < 10) month = "0"+m;
+
+        if (u.getAge().substring(0,5).equals(day+"/"+month)) {
+            return u.getUsername()+" "+getEmojiByUnicode(0x1F382);
+        } else {
+            return u.getUsername();
+        }
+    }
+
+    /**
+     * Transforms a unicode into a string.
+     *
+     * @param unicode to be displayed
+     * @return Emoji corresponding to the unicode
+     */
+    private String getEmojiByUnicode(int unicode){
+        return new String(Character.toChars(unicode));
     }
 }
