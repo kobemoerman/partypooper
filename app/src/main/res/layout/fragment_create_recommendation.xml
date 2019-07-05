@@ -57,9 +57,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:background="@android:color/transparent"
                     android:hint="0"
                     android:textSize="18sp"
-                    android:background="@android:color/transparent"
+                    android:maxLength="2"
                     />
 
             </RelativeLayout>

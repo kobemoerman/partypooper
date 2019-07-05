@@ -30,6 +30,7 @@
                 android:hint="0"
                 android:textSize="18sp"
                 android:background="@android:color/transparent"
+                android:maxLength="2"
                 />
 
         </RelativeLayout>
