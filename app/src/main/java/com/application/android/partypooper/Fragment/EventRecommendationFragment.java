@@ -114,6 +114,9 @@ public class EventRecommendationFragment extends Fragment {
         });
     }
 
+    /**
+     * Display information text if the adapter list is empty
+     */
     private void isRecommendationsEmpty() {
         if (mAdapter.isEmpty()) {
             empty.setText("You do not have to bring anything.");

@@ -30,34 +30,41 @@ import java.util.List;
 
 public class EventInformationFragment extends Fragment {
 
-    /** Recycler View to display invited users */
-    private RecyclerView recyclerView;
+    /** Reference to the Event Activity */
+    private EventActivity act;
 
+    /** ID reference to the event */
+    private String mEventID;
+
+    /** Stores all user IDs that have been invited to the event */
+    private List<String> invited;
+
+    /** Views for the user to accept or decline the invitation */
+    private ImageView accept, decline;
+
+    /** Views to display information about the event */
     private TextView desc, location, amount;
 
-    private ImageView accept, decline;
+    /** Recycler View to display invited users */
+    private RecyclerView recyclerView;
 
     /** Adapter to display data in the recycler view */
     private InvitedAdapter mAdapter;
 
-    private String mEventID;
-
-    private List<String> invited;
-
-    private EventActivity act;
-
+    /** Reference to the event */
     private DatabaseReference mEvent;
+
+    /** Reference to the user invited events */
+    private DatabaseReference mInvited;
+
+    /** Reference to the members of the event */
+    private DatabaseReference mMembers;
 
     /** Firebase authentication */
     private FirebaseAuth mAuth;
 
     /** Firebase user */
     private FirebaseUser mUser;
-
-    /** Reference to the user invited events */
-    private DatabaseReference mInvited;
-
-    private DatabaseReference mMembers;
 
     /**
      * On create method of the fragment.
@@ -80,6 +87,10 @@ public class EventInformationFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Initialises the fragment view.
+     * @param view fragment_event_information
+     */
     private void initView(View view) {
         act = (EventActivity) getActivity();
 
@@ -129,7 +140,7 @@ public class EventInformationFragment extends Fragment {
     }
 
     /**
-     * Creates a query to retrieve all users amount to the event.
+     * Creates a query to retrieve all users invited to the event.
      */
     private void queryInvitedUsers() {
         mMembers.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -152,6 +163,9 @@ public class EventInformationFragment extends Fragment {
         });
     }
 
+    /**
+     * Displays information of all the users invited to the event.
+     */
     private void showUsers() {
         DatabaseReference users = FirebaseDatabase.getInstance().getReference("Users");
         users.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -177,6 +191,10 @@ public class EventInformationFragment extends Fragment {
         });
     }
 
+    /**
+     * Updates the value of the user inside the event invited reference.
+     * Sets the image view for accept.
+     */
     private void isUserComing() {
         mInvited.child(mEventID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -184,6 +202,7 @@ public class EventInformationFragment extends Fragment {
                 if (dataSnapshot.getValue() == null) return;
 
                 boolean coming = (boolean) dataSnapshot.getValue();
+
                 if (coming) {
                     accept.setImageResource(R.drawable.ic_check_circle);
                 } else {
@@ -198,6 +217,10 @@ public class EventInformationFragment extends Fragment {
         });
     }
 
+    /**
+     * Listener to remove event references for the user.
+     * Closes the activity.
+     */
     private void declineOnClickListener() {
         decline.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,6 +232,9 @@ public class EventInformationFragment extends Fragment {
         });
     }
 
+    /**
+     * Listener to update the user inside the event invited reference.
+     */
     private void acceptOnClickListener() {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override

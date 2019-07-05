@@ -165,8 +165,8 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        String username = userUsername.getText().toString();
         String age = userDate.getText().toString();
+        String username = userUsername.getText().toString();
 
         createUserAccount(email, password, username, age);
     }
@@ -200,7 +200,14 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 month = month+1;
-                String date = day + "/" + month + "/" + year;
+
+                String d = String.valueOf(day);
+                String m = String.valueOf(month);
+
+                if (day < 10) d = "0"+day;
+                if (month < 10) m = "0"+month;
+
+                String date = d + "/" + m + "/" + year;
                 userDate.setText(date);
                 userDate.setTextColor(Color.BLACK);
             }

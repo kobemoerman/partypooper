@@ -9,6 +9,8 @@ import com.application.android.partypooper.Model.User;
 import com.application.android.partypooper.R;
 import com.bumptech.glide.Glide;
 
+import java.util.Calendar;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendsViewHolder extends RecyclerAdapter.ViewHolder {
@@ -60,7 +62,7 @@ public class FriendsViewHolder extends RecyclerAdapter.ViewHolder {
     public void onBind(Object item) {
         final User u = (User) item;
 
-        username.setText(u.getUsername());
+        username.setText(isUserBirthday(u));
         status.setText(u.getStatus());
 
         if (u.getImgURL() != null) {
@@ -68,5 +70,39 @@ public class FriendsViewHolder extends RecyclerAdapter.ViewHolder {
         } else {
             Glide.with(icon.getContext()).load(R.drawable.logo).into(icon);
         }
+    }
+
+    /**
+     * Compares the date with the user's birth day.
+     *
+     * @param u user to compare with
+     * @return username to display
+     */
+    public String isUserBirthday(User u) {
+        Calendar cal = Calendar.getInstance();
+        int m = cal.get(Calendar.MONTH)+1;
+        int d = cal.get(Calendar.DAY_OF_MONTH);
+
+        String day = String.valueOf(d);
+        String month = String.valueOf(m);
+
+        if (d < 10) day = "0"+d;
+        if (m < 10) month = "0"+m;
+
+        if (u.getAge().substring(0,5).equals(day+"/"+month)) {
+            return u.getUsername()+" "+getEmojiByUnicode(0x1F382);
+        } else {
+            return u.getUsername();
+        }
+    }
+
+    /**
+     * Transforms a unicode into a string.
+     *
+     * @param unicode to be displayed
+     * @return Emoji corresponding to the unicode
+     */
+    private String getEmojiByUnicode(int unicode){
+        return new String(Character.toChars(unicode));
     }
 }
