@@ -23,6 +23,9 @@ import com.google.firebase.database.*;
 
 public class HomeActivity extends AppCompatActivity {
 
+    /** TAG of the current fragment */
+    private String TAG = "home_frag";
+
     /** Query of all users */
     private Query qUsers;
 
@@ -82,23 +85,32 @@ public class HomeActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment selectedFragment = null;
-
                 switch (item.getItemId()) {
                     case R.id.nav_home:
-                        selectedFragment = new HomeFragment();
+                        if (!TAG.equals("home_frag")) {
+                            updateFragment(new HomeFragment());
+                            TAG = "home_frag";
+                        }
                         break;
                     case R.id.nav_search:
-                        selectedFragment = new SearchFragment();
+                        if (!TAG.equals("search_frag")) {
+                            updateFragment(new SearchFragment());
+                            TAG = "search_frag";
+                        }
                         break;
                     case R.id.nav_calendar:
-                        selectedFragment = new CalendarTabFragment();
+                        if (!TAG.equals("calendar_frag")) {
+                            updateFragment( new CalendarTabFragment());
+                            TAG = "calendar_frag";
+                        }
                         break;
                     case R.id.nav_menu:
-                        selectedFragment = new MenuFragment();
+                        if (!TAG.equals("menu_frag")) {
+                            updateFragment(new MenuFragment());
+                            TAG = "menu_frag";
+                        }
                         break;
                 }
-                updateFragment(selectedFragment);
                 return true;
             }
         });

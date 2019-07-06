@@ -44,9 +44,6 @@ public class CreateInformationFragment extends Fragment implements Events {
     /** Reference to the CreateEvent Activity */
     private CreateEventActivity act;
 
-    /** Determines whether a picture is uploading to the database */
-    private boolean uploading;
-
     /** Informs the user the image is uploading to the database */
     private ProgressBar progress;
 
@@ -128,8 +125,6 @@ public class CreateInformationFragment extends Fragment implements Events {
 
         hour = cal.get(Calendar.HOUR_OF_DAY);
         min = 0;
-
-        uploading = false;
     }
 
     /**
@@ -173,7 +168,7 @@ public class CreateInformationFragment extends Fragment implements Events {
      * Listener to upload an event image.
      */
     private void uploadImageListener(RelativeLayout layout) {
-        if (uploading) {
+        if (act.isUploading()) {
           act.showMessage("Image is uploading");
           return;
         }
@@ -198,6 +193,11 @@ public class CreateInformationFragment extends Fragment implements Events {
         b.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+              if (act.isUploading()) {
+                  act.showMessage("Image is uploading");
+                  return;
+              }
+
               final String n = name.getText().toString();
               final String l = location.getText().toString();
 
@@ -316,7 +316,7 @@ public class CreateInformationFragment extends Fragment implements Events {
     * Update data when the image is done uploading.
     */
     public void setInvisible() {
-        uploading = false;
+        act.setUploading(false);
         progress.setVisibility(View.INVISIBLE);
         upload.setVisibility(View.VISIBLE);
     }
@@ -326,7 +326,7 @@ public class CreateInformationFragment extends Fragment implements Events {
     * Update data when the image is uploading.
     */
     public void setVisible() {
-        uploading = true;
+        act.setUploading(true);
         progress.setVisibility(View.VISIBLE);
         upload.setVisibility(View.INVISIBLE);
     }
@@ -337,7 +337,7 @@ public class CreateInformationFragment extends Fragment implements Events {
     * @return corresponding string
     */
     private String getMonth(int month) {
-    return new DateFormatSymbols().getMonths()[month];
+        return new DateFormatSymbols().getMonths()[month];
     }
 
     /**

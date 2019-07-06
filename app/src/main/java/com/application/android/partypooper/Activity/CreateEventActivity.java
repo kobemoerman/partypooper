@@ -40,6 +40,9 @@ public class CreateEventActivity extends AppCompatActivity {
     /** Format used for the time stamp */
     private static final String FORMAT = "yyyy:MM:dd:hh:mm:ss";
 
+    /** Determines whether a picture is uploading to the database */
+    private boolean uploading;
+
     /** Unique id of the event */
     private String eventID;
 
@@ -116,6 +119,8 @@ public class CreateEventActivity extends AppCompatActivity {
         hostUsername();
         addItem("host", mUser.getUid());
         addItem("time_stamp", timeStamp);
+
+        uploading = false;
     }
 
     /**
@@ -169,6 +174,8 @@ public class CreateEventActivity extends AppCompatActivity {
      * @param view view of this activity
      */
     public void onClickCloseCreateEvent(View view) {
+        if (uploading) return;
+
         finish();
         clearEvent();
         mMembers.removeValue();
@@ -446,5 +453,21 @@ public class CreateEventActivity extends AppCompatActivity {
      */
     public DatabaseReference getRefUsers() {
         return refUsers;
+    }
+
+    /**
+     * Returns whether an image is being uploaded.
+     * @return uploading
+     */
+    public boolean isUploading() {
+        return uploading;
+    }
+
+    /**
+     * Set the value when image is/isn't being uploaded
+     * @param uploading value to set
+     */
+    public void setUploading(boolean uploading) {
+        this.uploading = uploading;
     }
 }
