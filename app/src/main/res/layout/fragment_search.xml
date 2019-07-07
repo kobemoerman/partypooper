@@ -57,4 +57,16 @@
         android:layout_below="@id/frag_search_separator"
     />
 
+    <TextView
+        android:id="@+id/frag_search_no_users"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frag_search_separator"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:text="No users available"
+        android:textColor="@color/black_light"
+        android:textSize="20sp"
+        />
+
 </RelativeLayout>

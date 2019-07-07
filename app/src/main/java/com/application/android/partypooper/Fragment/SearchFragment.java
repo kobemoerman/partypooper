@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.application.android.partypooper.Activity.HomeActivity;
@@ -37,6 +38,9 @@ public class SearchFragment extends Fragment {
 
     /** Edit Text to search users */
     private EditText searchBar;
+
+    /** Informs the user when no users are available */
+    private TextView available;
 
     /** Recycler View to display users */
     private RecyclerView recyclerView;
@@ -83,6 +87,7 @@ public class SearchFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        available = view.findViewById(R.id.frag_search_no_users);
         searchBar = view.findViewById(R.id.frag_search_search_bar);
 
         mAdapter = new SearchAdapter(getContext(),new ArrayList<User>());
@@ -144,6 +149,9 @@ public class SearchFragment extends Fragment {
                         mAdapter.add(user);
                     }
                 }
+
+                if (mAdapter.getItemCount() > 0) available.setVisibility(View.INVISIBLE);
+                else available.setVisibility(View.VISIBLE);
             }
 
             @Override
