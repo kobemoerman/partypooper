@@ -10,7 +10,7 @@
         android:id="@+id/frag_create_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:text="What party are you having?"
         android:textColor="@color/black"
@@ -22,9 +22,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/frag_create_header"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"
-        android:text="Get mRecommendations based on the party theme"
+        android:text="Get recommendations based on the party theme"
         android:textColor="@color/black_light"
         android:textSize="16sp"
     />
@@ -32,12 +32,12 @@
     <View
         android:id="@+id/frag_create_separator"
         android:layout_width="match_parent"
-        android:layout_height="4dp"
+        android:layout_height="1dp"
         android:elevation="3dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="25dp"
         android:layout_below="@+id/frag_create_desc"
         android:background="@drawable/button_background_red"
     />
@@ -51,7 +51,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/frag_create_house_party"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="60dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:clickable="true"
@@ -97,7 +97,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/frag_create_dinner_party"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
@@ -144,7 +144,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/frag_create_birthday_party"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
@@ -191,7 +191,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/frag_create_other_party"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"

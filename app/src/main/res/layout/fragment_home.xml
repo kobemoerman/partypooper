@@ -13,14 +13,14 @@
         <ImageView
             android:id="@+id/frag_home_banner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
             />
 
         <ImageView
             android:id="@+id/frag_home_logo"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:layout_marginTop="30dp"
             android:layout_gravity="center_horizontal"
         />
@@ -33,7 +33,7 @@
             android:gravity="center_horizontal"
             android:text="&quot;The best event-planning application in the world.&quot;"
             android:textColor="@color/black"
-            android:textSize="22sp"
+            android:textSize="20sp"
         />
 
         <Button
@@ -41,8 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
             android:elevation="5dp"
             android:background="@drawable/button_background_red"
             android:text="Create event"
@@ -55,7 +55,7 @@
         <RatingBar
             android:id="@+id/frag_home_rating"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="40dp"
             android:layout_gravity="center_horizontal"
             android:numStars="5"
@@ -66,6 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:text="Your opinion matters to us"
             android:textColor="@color/black_light"

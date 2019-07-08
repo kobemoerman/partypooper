@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.application.android.partypooper.Adapter.CalendarAdapter;
 import com.application.android.partypooper.Adapter.CalendarDecoration;
-import com.application.android.partypooper.Adapter.Section;
+import com.application.android.partypooper.Model.Section;
 import com.application.android.partypooper.Model.Event;
 import com.application.android.partypooper.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,12 +25,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-public class CalendarActivity extends AppCompatActivity {
+public class CalendarActivity extends AppCompatActivity implements CalendarAdapter.ItemClickListener {
 
-    private List<Event> mEvent;
+    private List<Section> mEvent;
 
     private List<String> mMember;
 
@@ -52,7 +52,6 @@ public class CalendarActivity extends AppCompatActivity {
 
         initView();
         queryEvents();
-        itemClickListener();
     }
 
     /**
@@ -69,22 +68,21 @@ public class CalendarActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mAdapter = new CalendarAdapter(this,mEvent);
+        mAdapter = new CalendarAdapter(this,new ArrayList<Section>());
+        mAdapter.setClickListener(this);
         recyclerView.setAdapter(mAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new CalendarDecoration(mAdapter));
     }
 
     /**
      * Take action on the item clicked.
      */
-    private void itemClickListener() {
-        mAdapter.setOnItemClickListener(new CalendarAdapter.onItemClickListener() {
-            @Override
-            public void onItemClick(int pos) {
-                Event e = mAdapter.getItem(pos);
-                String id = e.getTime_stamp()+"?"+e.getHost();
-                onClickLaunchEvent(id);
-            }
-        });
+    @Override
+    public void onItemClick(View view, int position) {
+        Event e = mAdapter.getItem(position).getEvent();
+        String id = e.getTime_stamp()+"?"+e.getHost();
+        onClickLaunchEvent(id);
     }
 
     /**
@@ -116,24 +114,25 @@ public class CalendarActivity extends AppCompatActivity {
         events.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int index = 0;
                 mEvent.clear();
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {
                     Event event = snp.getValue(Event.class);
+                    String user = event.getHost();
+                    String time_stamp = event.getTime_stamp()+"?"+user;
 
                     for (String id : mMember) {
-                        String time_stamp = event.getTime_stamp()+"?"+event.getHost();
-                        String user = event.getHost();
                         if (time_stamp.equals(id) && user.equals(mUser.getUid())) {
-                            mEvent.add(event);
+                            if (isHeader(index, event)) {
+                                mEvent.add(new Section(event, 0));
+                                mEvent.add(new Section(event, 1));
+                                index+=2;
+                            } else {
+                                mEvent.add(new Section(event,1));
+                                index++;
+                            }
                         }
                     }
-                }
-
-                if (!mEvent.isEmpty()) {
-                    CalendarDecoration decoration =
-                        new CalendarDecoration(getResources().getDimensionPixelSize(R.dimen.header),
-                            getSectionCallback(mEvent));
-                    recyclerView.addItemDecoration(decoration);
                 }
                 mAdapter.setItems(mEvent);
             }
@@ -144,35 +143,15 @@ public class CalendarActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Determines if an item is a header.
-     * @param item list of events
-     * @return header information
-     */
-    private Section getSectionCallback(final List<Event> item) {
-        return new Section() {
-            @Override
-            public boolean isHeader(int position) {
-                if (position == 0) {
-                    return true;
-                }
+    private boolean isHeader (int position, Event event) {
+        if (position == 0) {
+            return true;
+        }
 
-                String header = item.get(position).getDate_stamp().substring(0,7);
-                String event = item.get(position-1).getDate_stamp().substring(0,7);
+        String header = mEvent.get(position-1).getEvent().getDate_stamp().substring(0,8);
+        String item = event.getDate_stamp().substring(0,8);
 
-                return !header.equals(event);
-            }
-
-            @Override
-            public CharSequence getSectionHeader(int position) {
-                String date_stamp = item.get(position).getDate_stamp().substring(0,8);
-                String year = date_stamp.substring(0,4);
-                String month = getMonth(Integer.parseInt(date_stamp.substring(4,6)));
-                String day = date_stamp.substring(6,8);
-
-                return day + " " + month + " " + year;
-            }
-        };
+        return !header.equals(event);
     }
 
     /**

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +14,7 @@ import android.view.ViewGroup;
 import com.application.android.partypooper.Activity.HomeActivity;
 import com.application.android.partypooper.Adapter.CalendarAdapter;
 import com.application.android.partypooper.Adapter.CalendarDecoration;
-import com.application.android.partypooper.Adapter.Section;
+import com.application.android.partypooper.Model.Section;
 import com.application.android.partypooper.Model.Event;
 import com.application.android.partypooper.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,12 +26,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends Fragment implements CalendarAdapter.ItemClickListener {
 
     /** Reference to the Home Activity */
     private HomeActivity act;
@@ -39,7 +39,7 @@ public class CalendarFragment extends Fragment {
     private Boolean type;
 
     /** List of all events */
-    private List<Event> mEvent;
+    private List<Section> mEvent;
 
     /** List of all events the user is a member of */
     private List<String> mMember;
@@ -70,7 +70,6 @@ public class CalendarFragment extends Fragment {
 
         initView(view);
         queryEvents();
-        itemClickListener();
 
         return view;
     }
@@ -96,22 +95,21 @@ public class CalendarFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mAdapter = new CalendarAdapter(getContext(),mEvent);
+        mAdapter = new CalendarAdapter(getContext(),new ArrayList<Section>());
+        mAdapter.setClickListener(this);
         recyclerView.setAdapter(mAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new CalendarDecoration(mAdapter));
     }
 
     /**
      * Take action on the item clicked.
      */
-    private void itemClickListener() {
-        mAdapter.setOnItemClickListener(new CalendarAdapter.onItemClickListener() {
-            @Override
-            public void onItemClick(int pos) {
-                Event e = mAdapter.getItem(pos);
-                String id = e.getTime_stamp()+"?"+e.getHost();
-                act.onClickLaunchEvent(id);
-            }
-        });
+    @Override
+    public void onItemClick(View view, int pos) {
+        Event e = mAdapter.getItem(pos).getEvent();
+        String id = e.getTime_stamp()+"?"+e.getHost();
+        act.onClickLaunchEvent(id);
     }
 
 
@@ -152,25 +150,43 @@ public class CalendarFragment extends Fragment {
         users.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int index = 0;
+                mEvent.clear();
                 for (DataSnapshot snp : dataSnapshot.getChildren()) {
                     Event event = snp.getValue(Event.class);
+                    String time_stamp = event.getTime_stamp()+"?"+event.getHost();
 
                     for (String id : mMember) {
-                        String time_stamp = event.getTime_stamp()+"?"+event.getHost();
                         if (time_stamp.equals(id)) {
-                            mAdapter.add(event);
+                            if (isHeader(index, event)) {
+                                mEvent.add(new Section(event, 0));
+                                mEvent.add(new Section(event, 1));
+                                index+=2;
+                            } else {
+                                mEvent.add(new Section(event,1));
+                                index++;
+                            }
                         }
                     }
                 }
-
-                CalendarDecoration decoration = new CalendarDecoration(getResources().getDimensionPixelSize(R.dimen.header), getSectionCallback(mAdapter.getAllItems()));
-                recyclerView.addItemDecoration(decoration);
+                mAdapter.setItems(mEvent);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    private boolean isHeader (int position, Event event) {
+        if (position == 0) {
+            return true;
+        }
+
+        String header = mEvent.get(position-1).getEvent().getDate_stamp().substring(0,8);
+        String item = event.getDate_stamp().substring(0,8);
+
+        return !header.equals(item);
     }
 
     /**
@@ -193,45 +209,4 @@ public class CalendarFragment extends Fragment {
 
         return y+m+d;
     }
-
-    /**
-     * Determines if an item is a header.
-     * @param item list of events
-     * @return header information
-     */
-    private Section getSectionCallback(final List<Event> item) {
-        return new Section() {
-            @Override
-            public boolean isHeader(int position) {
-                if (position == 0) {
-                    return true;
-                }
-
-                String header = item.get(position).getDate_stamp().substring(0,7);
-                String event = item.get(position-1).getDate_stamp().substring(0,7);
-
-                return !header.equals(event);
-            }
-
-            @Override
-            public CharSequence getSectionHeader(int position) {
-                String date_stamp = item.get(position).getDate_stamp().substring(0,8);
-                String year = date_stamp.substring(0,4);
-                String month = getMonth(Integer.parseInt(date_stamp.substring(4,6)));
-                String day = date_stamp.substring(6,8);
-
-                return day + " " + month + " " + year;
-            }
-        };
-    }
-
-    /**
-     * Converts a month in int form to a month in string form.
-     * @param month index
-     * @return corresponding string
-     */
-    private String getMonth(int month) {
-        return new DateFormatSymbols().getMonths()[month];
-    }
-
 }
