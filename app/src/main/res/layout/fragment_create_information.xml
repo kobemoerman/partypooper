@@ -4,252 +4,402 @@
     android:id="@+id/fragment_create_event"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
     android:background="@color/background_white">
 
-    <RelativeLayout
-        android:id="@+id/frag_create_image"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@color/background_white">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/frag_create_navigation">
 
-        <ImageView
-            android:id="@+id/frag_create_image1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_image"
-        />
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/frag_create_image2"
+            <ImageView
+                android:id="@+id/frag_create_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:maxHeight="200dp"
+                />
+
+            <RelativeLayout
+                android:id="@+id/frag_create_layout_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black_light"
+                    />
+
+                <EditText
+                    android:id="@+id/frag_create_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:inputType="textPersonName"
+                    android:imeOptions="actionDone"
+                    android:hint="Event Name"
+                    android:background="@null"
+                    android:maxLines="1"
+                    android:maxLength="35"
+                    android:textSize="25sp"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/frag_create_name"
+                    android:background="@color/black_light"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/frag_create_upload_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/frag_create_upload_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/colorPrimary"
+                    android:text="Upload image"
+                    android:textSize="16sp"
+                    />
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyle"
+                    android:id="@+id/frag_create_upload_progress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/frag_create_date_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text="Date and time"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black_light"
+                        />
+
+                    <TextView
+                        android:id="@+id/frag_create_start_date_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="date, at time"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginStart="30dp"
+                        android:background="@color/black_light"
+                        />
+
+                    <TextView
+                        android:id="@+id/frag_create_end_date_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="End: date, at time"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black_light"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/frag_create_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text="Location"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black_light"
+                        />
+
+                    <EditText
+                        android:id="@+id/frag_create_location_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:background="@null"
+                        android:hint="House number"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginStart="30dp"
+                        android:background="@color/black_light"
+                        />
+
+                    <EditText
+                        android:id="@+id/frag_create_location_street"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:inputType="text"
+                        android:imeOptions="actionDone"
+                        android:background="@null"
+                        android:hint="Street name"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginStart="30dp"
+                        android:background="@color/black_light"
+                        />
+
+                    <EditText
+                        android:id="@+id/frag_create_location_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:inputType="text"
+                        android:imeOptions="actionDone"
+                        android:background="@null"
+                        android:hint="City"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black_light"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/frag_create_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text="Description"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black_light"
+                        />
+
+                    <EditText
+                        android:id="@+id/frag_create_description_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:inputType="text"
+                        android:imeOptions="actionDone"
+                        android:background="@null"
+                        android:hint="What should others know?"
+                        android:maxLines="10"
+                        android:textSize="16sp"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black_light"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/frag_create_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp">
+
+                <Button
+                    android:id="@+id/frag_create_info_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/button_background_red"
+                    android:text="Back"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false"
+                    />
+
+                <Button
+                    android:id="@+id/frag_create_info_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/button_background_green"
+                    android:text="Next"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false"
+                    />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@color/colorPrimary"
-        />
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/frag_create_layout_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/frag_create_image"
-        android:background="@color/white">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black_light"
-        />
-
-        <EditText
-            android:id="@+id/frag_create_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:hint="Event Name"
-            android:background="@null"
-            android:maxLines="1"
-            android:maxLength="35"
-            android:textSize="25sp"
-        />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/frag_create_name"
-            android:background="@color/black_light"
-        />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/frag_create_upload_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/frag_create_layout_name"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true">
-
-        <TextView
-            android:id="@+id/frag_create_upload_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="@color/colorPrimary"
-            android:text="Upload image"
-            android:textSize="16sp"
-            />
-
-        <ProgressBar
-            style="?android:attr/progressBarStyle"
-            android:id="@+id/frag_create_upload_progress"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerInParent="true"
-            />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/frag_create_upload_photo"
-        android:background="@color/white">
-
-        <View
-            android:id="@+id/frag_create_1"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginBottom="7dp"
-            android:background="@color/black_light"
-        />
-
-        <TextView
-            android:id="@+id/frag_create_date_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/frag_create_1"
-            android:layout_marginStart="10dp"
-            android:text="date, at time"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-        />
-
-        <View
-            android:id="@+id/frag_create_2"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_below="@+id/frag_create_date_time"
-            android:background="@color/black_light"
-        />
-
-        <EditText
-            android:id="@+id/frag_create_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_below="@id/frag_create_2"
-            android:background="@null"
-            android:hint="Location"
-            android:maxLines="1"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-        />
-
-        <View
-            android:id="@+id/frag_create_3"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_below="@+id/frag_create_location"
-            android:background="@color/black_light"
-        />
-
-        <EditText
-            android:id="@+id/frag_create_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_below="@id/frag_create_3"
-            android:background="@null"
-            android:hint="Description"
-            android:maxLines="7"
-            android:textSize="16sp"
-        />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="7dp"
-            android:layout_below="@+id/frag_create_description"
-            android:background="@color/black_light"
-        />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp">
-
-            <Button
-                android:id="@+id/frag_create_info_back"
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_alignParentStart="true"
-                android:background="@drawable/button_background_red"
-                android:text="Back"
-                android:textColor="@color/white"
-                android:textAllCaps="false"
-            />
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="7dp"
+                android:src="@drawable/circle_not_active"
+                />
 
-            <Button
-                android:id="@+id/frag_create_info_next"
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/button_background_green"
-                android:text="Next"
-                android:textColor="@color/white"
-                android:textAllCaps="false"
-            />
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="7dp"
+                android:src="@drawable/circle_active"
+                />
 
-        </RelativeLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="7dp"
+                android:src="@drawable/circle_not_active"
+                />
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/circle_not_active"
+                />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
+        </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="7dp"
-            android:src="@drawable/circle_not_active"
-        />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="7dp"
-            android:src="@drawable/circle_active"
-        />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="7dp"
-            android:src="@drawable/circle_not_active"
-        />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/circle_not_active"
-            />
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

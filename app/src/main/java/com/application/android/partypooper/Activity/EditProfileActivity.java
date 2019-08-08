@@ -1,5 +1,6 @@
 package com.application.android.partypooper.Activity;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -89,6 +91,8 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
 
         initView();
         updateUserInformation();
+        hideKeyboardListener(username);
+        hideKeyboardListener(status);
     }
 
     /**
@@ -190,6 +194,20 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
     }
 
     /**
+     * Calls @hideKeyboard when the users touches outside the edit text.
+     */
+    private void hideKeyboardListener(EditText editText) {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+    }
+
+    /**
      * Called when the user has selected an image.
      * @param requestCode the request code passed to startActivityForResult.
      * @param resultCode RESULT_OK if successful or RESULT_CANCELED if the operation failed
@@ -260,6 +278,15 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                 save.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    /**
+     * Hides an open keyboard.
+     * @param view of the activity
+     */
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     /**

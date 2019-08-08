@@ -197,8 +197,6 @@ public class CreateEventActivity extends AppCompatActivity {
             if (mUri != null) {
                 uploadImage();
             }
-        } else {
-            showMessage("Something Went Wrong");
         }
     }
 

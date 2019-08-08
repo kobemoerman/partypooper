@@ -1,5 +1,6 @@
 package com.application.android.partypooper.Fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -13,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -41,6 +43,9 @@ public class CreateInformationFragment extends Fragment implements Events {
     /** TAG reference of this fragment */
     private final static String TAG = "fragment/CreateInformation";
 
+    /** Estimate of party length */
+    private final static int INTERVAL = 3;
+
     /** Reference to the CreateEvent Activity */
     private CreateEventActivity act;
 
@@ -53,14 +58,16 @@ public class CreateInformationFragment extends Fragment implements Events {
     /** Displays the image uploaded by the user */
     private ImageView eventImage;
 
+    private String start_stamp, end_stamp;
+
     /** Text views with on click listeners */
-    private TextView date_time, upload;
+    private TextView start_date, end_date, upload;
 
     /** Information to be changed by the user */
-    private EditText name, location, description;
+    private EditText name, description, lnumber, lstreet, lcity;
 
     /** Containers to update with data */
-    private RelativeLayout imageContainer, uploadContainer;
+    private RelativeLayout uploadContainer;
 
     /** Date and Time selected by the user */
     private int year, month, day, hour, min;
@@ -87,7 +94,12 @@ public class CreateInformationFragment extends Fragment implements Events {
         navigationListener(mNext, new CreateInviteFragment(),"fragment/EventInvite", true);
 
         uploadImageListener(uploadContainer);
-        uploadImageListener(imageContainer);
+
+        hideKeyboardListener(name);
+        hideKeyboardListener(lnumber);
+        hideKeyboardListener(lstreet);
+        hideKeyboardListener(lcity);
+        hideKeyboardListener(description);
 
         dateTimeListener();
 
@@ -106,17 +118,18 @@ public class CreateInformationFragment extends Fragment implements Events {
 
         mNext = view.findViewById(R.id.frag_create_info_next);
         mBack = view.findViewById(R.id.frag_create_info_back);
-        date_time = view.findViewById(R.id.frag_create_date_time);
         name = view.findViewById(R.id.frag_create_name);
-        location = view.findViewById(R.id.frag_create_location);
-        description = view.findViewById(R.id.frag_create_description);
+        start_date = view.findViewById(R.id.frag_create_start_date_time);
+        end_date = view.findViewById(R.id.frag_create_end_date_time);
+        lnumber = view.findViewById(R.id.frag_create_location_number);
+        lstreet = view.findViewById(R.id.frag_create_location_street);
+        lcity = view.findViewById(R.id.frag_create_location_city);
+        description = view.findViewById(R.id.frag_create_description_text);
         uploadContainer = view.findViewById(R.id.frag_create_upload_photo);
         upload = view.findViewById(R.id.frag_create_upload_text);
-        eventImage = view.findViewById(R.id.frag_create_image2);
-        imageContainer = view.findViewById(R.id.frag_create_image);
+        eventImage = view.findViewById(R.id.frag_create_image);
         progress = view.findViewById(R.id.frag_create_upload_progress);
 
-        eventImage.setVisibility(View.INVISIBLE);
         progress.setVisibility(View.INVISIBLE);
 
         year = cal.get(Calendar.YEAR);
@@ -131,28 +144,48 @@ public class CreateInformationFragment extends Fragment implements Events {
      * Updates the data if the user has already added information.
      */
     private void updateData() {
+        // event name
         String name = act.getItem("name");
-        String location = act.getItem("location");
+        if (name != null) this.name.setText(name);
+
+        // event location
+        String number = act.getItem("number");
+        String street = act.getItem("street");
+        String city = act.getItem("city");
+        if (street != null) this.lstreet.setText(street);
+        if (number != null) this.lnumber.setText(number);
+        if (city != null) this.lcity.setText(city);
+
+        // event start date and time
+        String start_time = act.getItem("start_time");
+        String start_date = act.getItem("start_date");
+        System.out.println("update " + start_time + ":" + start_date);
+        if (start_time != null && start_date != null) {
+            setDate(Integer.parseInt(start_date.substring(0,2)),
+                Integer.parseInt(start_date.substring(3,5)), Integer.parseInt(start_date.substring(6,10)),
+                Integer.parseInt(start_time.substring(0,2)), Integer.parseInt(start_time.substring(3,5)), this.start_date);
+        } else {
+            setDate(day,month,year,hour,min,this.start_date);
+        }
+
+        // event end date and time
+        String end_time = act.getItem("end_time");
+        String end_date = act.getItem("end_date");
+        System.out.println("update " + end_time + ":" + end_date);
+        if (end_time != null && end_date != null) {
+            setDate(Integer.parseInt(end_date.substring(0,2)),
+                Integer.parseInt(end_date.substring(3,5)), Integer.parseInt(end_date.substring(6,10)),
+                Integer.parseInt(end_time.substring(0,2)), Integer.parseInt(end_time.substring(3,5)), this.end_date);
+        } else {
+            setDate(day,month,year,(hour+INTERVAL < 24 ? hour+INTERVAL : hour-(24-INTERVAL)),min,this.end_date);
+        }
+
+        // event description
         String description = act.getItem("description");
-        String date_time = act.getItem("time");
+        if (description != null) this.description.setText(description);
+
+        // event date stamp
         String date_stamp = act.getItem("date_stamp");
-
-        if (name != null) {
-          this.name.setText(name);
-        }
-
-        if (location != null) {
-          this.location.setText(location);
-        }
-
-        if (description != null) {
-          this.description.setText(description);
-        }
-
-        if (date_time != null) {
-          this.date_time.setText(date_time);
-        }
-
         if (date_stamp != null) {
             this.year = Integer.parseInt(date_stamp.substring(0, 4));
             this.month = Integer.parseInt(date_stamp.substring(4, 6));
@@ -161,6 +194,7 @@ public class CreateInformationFragment extends Fragment implements Events {
             this.min = Integer.parseInt(date_stamp.substring(10, 12));
         }
 
+        // event image
         setEventImage();
     }
 
@@ -176,7 +210,7 @@ public class CreateInformationFragment extends Fragment implements Events {
         layout.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            CropImage.activity().setAspectRatio(1280,720).
+            CropImage.activity().setAspectRatio(2200,1000).
                 setCropShape(CropImageView.CropShape.RECTANGLE).start(getActivity());
           }
         });
@@ -198,44 +232,80 @@ public class CreateInformationFragment extends Fragment implements Events {
                   return;
               }
 
-              final String n = name.getText().toString();
-              final String l = location.getText().toString();
+              final String _name = name.getText().toString();
+              final String _number = lnumber.getText().toString();
+              final String _street = lstreet.getText().toString();
+              final String _city = lcity.getText().toString();
 
-              if (n.isEmpty() && next) {
-                  act.showMessage("Title is missing");
-                  return;
+              if (next) {
+                  if (_name.isEmpty()) {
+                      act.showMessage("Title is missing");
+                      return;
+                  }
+
+                  if (!getDateOrder()) {
+                      act.showMessage("End date is invalid");
+                      return;
+                  }
+
+                  if (_number.isEmpty() || _street.isEmpty() || _city.isEmpty()) {
+                      act.showMessage("Invalid address");
+                      return;
+                  }
               }
 
-              if (l.isEmpty() && next) {
-                  act.showMessage("Location is missing");
-                  return;
-              }
-
-              String m = String.valueOf(month);
-              String d = String.valueOf(day);
-              String h = String.valueOf(hour);
-              String minute = String.valueOf(min);
-
-              if (day < 10) d = "0"+day;
-              if (month < 10) m = "0"+month;
-              if (hour < 10) h = "0"+hour;
-              if (min == 0) minute = "00";
-              else if (min < 10) minute = "0" + min;
-
-              String date_stamp = year+m+d+h+minute;
-              String date = d + "/" + m + "/" + year;
-              String time = h + ":" + minute;
-
-              act.addItem("date",date);
-              act.addItem("time",time);
-              act.addItem("date_stamp",date_stamp);
-              act.addItem("name", n);
-              act.addItem("location", l);
+              act.addItem("name", _name);
+              act.addItem("number", _number);
+              act.addItem("street", _street);
+              act.addItem("city", _city);
               act.addItem("description", description.getText().toString());
+
+              String start_time = act.getItem("start_time");
+              String start_date = act.getItem("start_date");
+              System.out.println("update " + start_time + ":" + start_date);
+
+              // event end date and time
+              String end_time = act.getItem("end_time");
+              String end_date = act.getItem("end_date");
+              System.out.println("update " + end_time + ":" + end_date);
 
               act.updateFragment(frag,TAG);
           }
         });
+    }
+
+    private boolean getDateOrder() {
+        String start_time = act.getItem("start_time");
+        String start_date = act.getItem("start_date");
+
+        String end_time = act.getItem("end_time");
+        String end_date = act.getItem("end_date");
+
+        // year
+        if (Integer.parseInt(start_date.substring(6,10)) > Integer.parseInt(end_date.substring(6,10))) return false;
+
+        // month
+        if (Integer.parseInt(start_date.substring(6,10)) <= Integer.parseInt(end_date.substring(6,10))
+                && Integer.parseInt(start_date.substring(3,5)) > Integer.parseInt(end_date.substring(3,5))) return false;
+
+        // day
+        if (Integer.parseInt(start_date.substring(6,10)) <= Integer.parseInt(end_date.substring(6,10))
+                && Integer.parseInt(start_date.substring(3,5)) <= Integer.parseInt(end_date.substring(3,5))
+                && Integer.parseInt(start_date.substring(0,2)) > Integer.parseInt(end_date.substring(0,2))) return false;
+
+        if (Integer.parseInt(start_date.substring(6,10)) <= Integer.parseInt(end_date.substring(6,10))
+            && Integer.parseInt(start_date.substring(3,5)) <= Integer.parseInt(end_date.substring(3,5))
+            && Integer.parseInt(start_date.substring(0,2)) == Integer.parseInt(end_date.substring(0,2))
+            && Integer.parseInt(start_time.substring(0,2)) > Integer.parseInt(end_time.substring(0,2))) return false;
+
+        // minute
+        if (Integer.parseInt(start_date.substring(6,10)) <= Integer.parseInt(end_date.substring(6,10))
+            && Integer.parseInt(start_date.substring(3,5)) <= Integer.parseInt(end_date.substring(3,5))
+            && Integer.parseInt(start_date.substring(0,2)) == Integer.parseInt(end_date.substring(0,2))
+            && Integer.parseInt(start_time.substring(0,2)) == Integer.parseInt(end_time.substring(0,2))
+            && Integer.parseInt(start_time.substring(3,5)) > Integer.parseInt(end_time.substring(3,5))) return false;
+
+        return true;
     }
 
     /**
@@ -251,14 +321,16 @@ public class CreateInformationFragment extends Fragment implements Events {
     }
 
     /**
-     * date_time text view listener that opens a date and time dialog.
+     * start_date text view listener that opens a date and time dialog.
      */
     private void dateTimeListener() {
-        setDate();
+        final TextView[] type = new TextView[1];
 
-        date_time.setOnClickListener(new View.OnClickListener() {
+        start_date.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+            type[0] = start_date;
+
             DatePickerDialog dialogDate = new DatePickerDialog(
                     getActivity(),
                     AlertDialog.THEME_HOLO_LIGHT,
@@ -271,18 +343,35 @@ public class CreateInformationFragment extends Fragment implements Events {
           }
         });
 
+        end_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type[0] = end_date;
+
+                DatePickerDialog dialogDate = new DatePickerDialog(
+                    getActivity(),
+                    AlertDialog.THEME_HOLO_LIGHT,
+                    mDateSetListener, year, month, day);
+
+                Objects.requireNonNull(dialogDate.getWindow()).setBackgroundDrawable(
+                    new ColorDrawable(Color.TRANSPARENT));
+
+                dialogDate.show();
+            }
+        });
+
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
           @Override
           public void onDateSet(DatePicker view, int year, int month, int day) {
-                setDay(day);
-                setMonth(month);
-                setYear(year);
-                setDate();
+              setDay(day);
+              setMonth(month);
+              setYear(year);
+              setDate(day,month,year,hour,min, type[0]);
 
-                TimePickerDialog dialogTime = new TimePickerDialog(
+              TimePickerDialog dialogTime = new TimePickerDialog(
                     getActivity(),
                     AlertDialog.THEME_HOLO_LIGHT,
-                    mTimeSetListener,hour,min,true);
+                    mTimeSetListener,displayTime(hour,type[0]),min,true);
 
                 Objects.requireNonNull(dialogTime.getWindow()).setBackgroundDrawable(
                     new ColorDrawable(Color.TRANSPARENT));
@@ -293,23 +382,82 @@ public class CreateInformationFragment extends Fragment implements Events {
         mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
           @Override
           public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            setHour(hourOfDay);
-            setMin(minute);
-            setDate();
+            setDate(day,month,year,hourOfDay,minute, type[0]);
           }
         };
     }
 
+    private int displayTime(int hour, TextView type) {
+        if (type == end_date) {
+            if ((hour + INTERVAL <= 24)) {
+                return hour + INTERVAL;
+            } else {
+                return hour - (24 - INTERVAL);
+            }
+        } else {
+            return hour;
+        }
+    }
+
+    public void setDate (int d, int m, int y, int h, int min, TextView type) {
+        String day = String.valueOf(d);
+        String month = String.valueOf(m);
+        String year = String.valueOf(y);
+        String minute = String.valueOf(min);
+        String hour = String.valueOf(h);
+
+        if (d < 10) day = "0"+d;
+        if (m < 10) month = "0"+m;
+        if (h < 10) hour = "0"+h;
+        if (min < 10) minute = "0"+min;
+
+        String date = day + "/" + month + "/" + year;
+        String time = hour + ":" + minute;
+
+        System.out.println("set date " + date + "|" + time);
+
+        if (type.equals(start_date)) {
+            String date_stamp = year+month+day+hour+minute;
+            act.addItem("start_date",date);
+            act.addItem("start_time",time);
+            act.addItem("date_stamp",date_stamp);
+            start_date.setText(getDate(day,m,minute,hour));
+            end_date.setText(String.format("End: %s", getDate(day, m, minute, hour)));
+        } else {
+            act.addItem("end_date",date);
+            act.addItem("end_time",time);
+            end_date.setText(String.format("End: %s", getDate(day, m, minute, hour)));
+        }
+    }
+
     /**
-     * Display the date in the date_time Text View.
+     * Display the date in the start_date Text View.
      */
-    public void setDate() {
-        String minute = String.valueOf(this.min);
+    public String getDate(String day, int month, String min, String hour) {
+        return day + " " + getMonth(month) + ", at " + hour + ":" + min;
+    }
 
-        if (this.min < 10) minute = "0" + this.min;
+    /**
+     * Calls @hideKeyboard when the users touches outside the edit text.
+     */
+    private void hideKeyboardListener(EditText editText) {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+    }
 
-        String date = this.day + " " + getMonth(this.month) + ", at " + this.hour + ":" + minute;
-        date_time.setText(date);
+    /**
+     * Hides an open keyboard.
+     * @param view of the activity
+     */
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     /**

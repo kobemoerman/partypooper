@@ -79,7 +79,6 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/black_light"
-        android:layout_below="@id/edit_profile_app_bar"
         />
 
     <ScrollView
@@ -89,6 +88,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <LinearLayout
@@ -153,7 +155,11 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="30dp"
+                        android:inputType="textPersonName"
+                        android:imeOptions="actionDone"
                         android:hint="Username"
+                        android:maxLines="1"
+                        android:maxLength="45"
                         android:background="@android:color/transparent"
                         />
 
@@ -186,8 +192,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:inputType="textMultiLine"
+                        android:scrollHorizontally="false"
                         android:layout_marginStart="30dp"
                         android:maxLength="150"
+                        android:imeOptions="actionDone"
                         android:hint="Status"
                         android:background="@android:color/transparent"
                         />

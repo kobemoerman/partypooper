@@ -119,7 +119,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) saveUserInformation(username, age);
 
-                else showMessage(Objects.requireNonNull(task.getException()).getMessage(), true);
+                else showMessage(Objects.requireNonNull(task.getException()).getMessage());
             }
         });
     }
@@ -149,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task task) {
                 if (task.isSuccessful()) updateUI();
 
-                else showMessage(Objects.requireNonNull(task.getException()).getMessage(), true);
+                else showMessage(Objects.requireNonNull(task.getException()).getMessage());
             }
         });
     }
@@ -180,31 +180,31 @@ public class RegisterActivity extends AppCompatActivity {
 
         String username = userUsername.getText().toString();
         if (username.isEmpty()) {
-            showMessage("Enter username", true);
+            showMessage("Enter username");
             return;
         }
 
         String age = userDate.getText().toString();
         if (!checkAge(age)) {
-            showMessage("Enter valid age", true);
+            showMessage("Enter valid age");
             return;
         }
 
         String email = userMail.getText().toString();
         if (!checkEmail(email)) {
-            showMessage("Enter valid e-mail", true);
+            showMessage("Enter valid e-mail");
             return;
         }
 
         String password = userPassword.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            showMessage("Enter password", true);
+            showMessage("Enter password");
             return;
         }
 
         String confirm = passwordConfirmation.getText().toString();
         if (!password.equals(confirm) || TextUtils.isEmpty(confirm)) {
-            showMessage("Passwords don't match", true);
+            showMessage("Passwords don't match");
             return;
         }
 
@@ -294,13 +294,10 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * Displays a toast on the screen.
      * @param s text to display
-     * @param failed resets progress bar
      */
-    private void showMessage(String s, boolean failed) {
+    private void showMessage(String s) {
         Toast.makeText(this,s, Toast.LENGTH_LONG).show();
-        if (failed) {
-            registerButton.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.INVISIBLE);
-        }
+        registerButton.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 }
