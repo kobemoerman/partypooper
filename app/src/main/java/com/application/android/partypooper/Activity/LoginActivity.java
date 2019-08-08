@@ -1,5 +1,6 @@
 package com.application.android.partypooper.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -64,6 +66,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initView();
+        hideKeyboardListener(userMail);
+        hideKeyboardListener(userPassword);
     }
 
     /**
@@ -137,12 +141,35 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
+     * Calls @hideKeyboard when the users touches outside the edit text.
+     */
+    private void hideKeyboardListener(EditText editText) {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+    }
+
+    /**
      * Launches the Home Activity and kills the current one.
      */
     private void updateActivity() {
         Intent homeIntent = new Intent(getApplicationContext(),HomeActivity.class);
         startActivity(homeIntent);
         finish();
+    }
+
+    /**
+     * Hides an open keyboard.
+     * @param view of the activity
+     */
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     /**

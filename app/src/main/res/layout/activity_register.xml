@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/background_white"
+    android:focusable="true"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
     tools:context=".Activity.RegisterActivity">
 
     <ImageView
@@ -50,6 +53,7 @@
                 android:padding="5dp"
                 android:background="@drawable/border_light"
                 android:inputType="textPersonName"
+                android:imeOptions="actionDone"
                 android:hint="@string/usernameRegister"
                 android:textSize="16sp"
                 android:maxLength="30"
@@ -77,6 +81,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/border_light"
                 android:inputType="textEmailAddress"
+                android:imeOptions="actionDone"
                 android:hint="@string/mailRegister"
                 android:textSize="16sp"
             />
@@ -90,6 +95,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/border_light"
                 android:inputType="textPassword"
+                android:imeOptions="actionDone"
                 android:hint="@string/keyRegister"
                 android:textSize="16sp"
             />
@@ -103,6 +109,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/border_light"
                 android:inputType="textPassword"
+                android:imeOptions="actionDone"
                 android:hint="@string/confirmRegister"
                 android:textSize="16sp"
             />

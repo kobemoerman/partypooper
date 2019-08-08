@@ -1,5 +1,6 @@
 package com.application.android.partypooper.Activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -49,6 +51,12 @@ public class RegisterActivity extends AppCompatActivity {
     /** View edit text items */
     private EditText userUsername, userPassword, passwordConfirmation, userMail;
 
+    /** Calendar instance */
+    private Calendar cal;
+
+    /** Current date */
+    private int year, month, day;
+
     /** Firebase authentication */
     private FirebaseAuth mAuth;
 
@@ -66,6 +74,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         initView();
         onClickRegisterBirthday();
+        hideKeyboardListener(userMail);
+        hideKeyboardListener(userUsername);
+        hideKeyboardListener(userPassword);
+        hideKeyboardListener(passwordConfirmation);
     }
 
     /**
@@ -82,6 +94,11 @@ public class RegisterActivity extends AppCompatActivity {
         userPassword = findViewById(R.id.register_password);
         passwordConfirmation = findViewById(R.id.register_confirmation);
         progressBar = findViewById(R.id.register_progress_bar);
+
+        cal = Calendar.getInstance();
+        year = cal.get(Calendar.YEAR);
+        month = cal.get(Calendar.MONTH);
+        day = cal.get(Calendar.DAY_OF_MONTH);
 
         progressBar.setVisibility(View.INVISIBLE);
 
@@ -138,6 +155,20 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
+     * Calls @hideKeyboard when the users touches outside the edit text.
+     */
+    private void hideKeyboardListener(EditText editText) {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+    }
+
+    /**
      * On click listener for the sign up button.
      * Launches the Home Activity if successful and kills the current one.
      *
@@ -146,6 +177,18 @@ public class RegisterActivity extends AppCompatActivity {
     public void onClickRegisterSignUp(View view) {
         registerButton.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
+
+        String username = userUsername.getText().toString();
+        if (username.isEmpty()) {
+            showMessage("Enter username", true);
+            return;
+        }
+
+        String age = userDate.getText().toString();
+        if (!checkAge(age)) {
+            showMessage("Enter valid age", true);
+            return;
+        }
 
         String email = userMail.getText().toString();
         if (!checkEmail(email)) {
@@ -165,9 +208,6 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        String age = userDate.getText().toString();
-        String username = userUsername.getText().toString();
-
         createUserAccount(email, password, username, age);
     }
 
@@ -179,12 +219,6 @@ public class RegisterActivity extends AppCompatActivity {
         userDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar cal = Calendar.getInstance();
-
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-
                 DatePickerDialog dialog = new DatePickerDialog(
                         RegisterActivity.this,
                         AlertDialog.THEME_HOLO_LIGHT,
@@ -215,6 +249,15 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
+     * Hides an open keyboard.
+     * @param view of the activity
+     */
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    /**
      * Launches the Home Activity and kills the current one.
      */
     private void updateUI() {
@@ -230,6 +273,22 @@ public class RegisterActivity extends AppCompatActivity {
      */
     public static boolean checkEmail(CharSequence email) {
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+    }
+
+    public boolean checkAge(String age) {
+        int d = Integer.parseInt(age.substring(0,2));
+        int m = Integer.parseInt(age.substring(3,5));
+        int y = Integer.parseInt(age.substring(6,10));
+
+        System.out.println(d + ":" + day + " " + m + ":" + (month+1) + " " + y + ":" + year);
+
+        if (y > year) return false;
+
+        if (y == year && m > (month+1)) return false;
+
+        if (y == year && m == (month+1) && d > day) return false;
+
+        return true;
     }
 
     /**
