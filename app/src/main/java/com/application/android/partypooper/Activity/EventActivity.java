@@ -270,11 +270,13 @@ public class EventActivity extends AppCompatActivity {
     }
 
     public void onClickEventEdit(View view) {
-
+        Intent activity = new Intent(getApplicationContext(), EditEventActivity.class);
+        activity.putExtra("id",event.getTime_stamp()+"?"+event.getHost());
+        startActivity(activity);
     }
 
     public void onClickEventInvite(View view) {
-        Intent activity = new Intent(getApplicationContext(), EditEventActivity.class);
+        Intent activity = new Intent(getApplicationContext(), InviteEventActivity.class);
         activity.putExtra("id",event.getTime_stamp()+"?"+event.getHost());
         startActivity(activity);
     }

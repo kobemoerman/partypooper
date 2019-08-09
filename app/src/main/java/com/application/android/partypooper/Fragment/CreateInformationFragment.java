@@ -58,8 +58,6 @@ public class CreateInformationFragment extends Fragment implements Events {
     /** Displays the image uploaded by the user */
     private ImageView eventImage;
 
-    private String start_stamp, end_stamp;
-
     /** Text views with on click listeners */
     private TextView start_date, end_date, upload;
 
@@ -274,23 +272,16 @@ public class CreateInformationFragment extends Fragment implements Events {
         if (Integer.parseInt(start_date.substring(6,10)) > Integer.parseInt(end_date.substring(6,10))) return false;
 
         // month
-        if (Integer.parseInt(start_date.substring(6,10)) <= Integer.parseInt(end_date.substring(6,10))
-                && Integer.parseInt(start_date.substring(3,5)) > Integer.parseInt(end_date.substring(3,5))) return false;
+        if (Integer.parseInt(start_date.substring(3,5)) > Integer.parseInt(end_date.substring(3,5))) return false;
 
         // day
-        if (Integer.parseInt(start_date.substring(6,10)) <= Integer.parseInt(end_date.substring(6,10))
-                && Integer.parseInt(start_date.substring(3,5)) <= Integer.parseInt(end_date.substring(3,5))
-                && Integer.parseInt(start_date.substring(0,2)) > Integer.parseInt(end_date.substring(0,2))) return false;
+        if (Integer.parseInt(start_date.substring(0,2)) > Integer.parseInt(end_date.substring(0,2))) return false;
 
-        if (Integer.parseInt(start_date.substring(6,10)) <= Integer.parseInt(end_date.substring(6,10))
-            && Integer.parseInt(start_date.substring(3,5)) <= Integer.parseInt(end_date.substring(3,5))
-            && Integer.parseInt(start_date.substring(0,2)) == Integer.parseInt(end_date.substring(0,2))
+        if (Integer.parseInt(start_date.substring(0,2)) == Integer.parseInt(end_date.substring(0,2))
             && Integer.parseInt(start_time.substring(0,2)) > Integer.parseInt(end_time.substring(0,2))) return false;
 
         // minute
-        if (Integer.parseInt(start_date.substring(6,10)) <= Integer.parseInt(end_date.substring(6,10))
-            && Integer.parseInt(start_date.substring(3,5)) <= Integer.parseInt(end_date.substring(3,5))
-            && Integer.parseInt(start_date.substring(0,2)) == Integer.parseInt(end_date.substring(0,2))
+        if (Integer.parseInt(start_date.substring(0,2)) == Integer.parseInt(end_date.substring(0,2))
             && Integer.parseInt(start_time.substring(0,2)) == Integer.parseInt(end_time.substring(0,2))
             && Integer.parseInt(start_time.substring(3,5)) > Integer.parseInt(end_time.substring(3,5))) return false;
 
@@ -388,7 +379,7 @@ public class CreateInformationFragment extends Fragment implements Events {
         }
     }
 
-    public void setDate (int d, int m, int y, int h, int min, TextView type) {
+    private void setDate (int d, int m, int y, int h, int min, TextView type) {
         String day = String.valueOf(d);
         String month = String.valueOf(m);
         String year = String.valueOf(y);
