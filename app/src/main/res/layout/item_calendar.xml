@@ -84,6 +84,7 @@
                 android:id="@+id/item_calendar_host"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:text="By Username"
                 android:textSize="16sp"
                 />

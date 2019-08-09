@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.CalendarActivity"></activity>
+        <activity android:name=".Activity.InviteEventActivity"></activity>
+        <activity android:name=".Activity.EditEventActivity" />
+        <activity android:name=".Activity.CalendarActivity" />
         <activity android:name=".Activity.FriendsActivity" />
         <activity android:name=".Activity.EventActivity" />
         <activity android:name=".Activity.PlacesAutoCompleteActivity" />

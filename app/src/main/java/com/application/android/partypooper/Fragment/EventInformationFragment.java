@@ -125,13 +125,13 @@ public class EventInformationFragment extends Fragment {
      * Populate the layout with the event data.
      */
     private void loadEventData() {
-        mEvent.addValueEventListener(new ValueEventListener() {
+        mEvent.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Event event = dataSnapshot.getValue(Event.class);
 
                 desc.setText(event.getDescription());
-                location.setText(event.getLocation());
+                location.setText(event.getNumber() + " " + event.getStreet() + ",\n" + event.getCity());
             }
 
             @Override
@@ -145,7 +145,7 @@ public class EventInformationFragment extends Fragment {
      * Creates a query to retrieve all users invited to the event.
      */
     private void queryInvitedUsers() {
-        mMembers.addListenerForSingleValueEvent(new ValueEventListener() {
+        mMembers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 invited.clear();
@@ -154,7 +154,11 @@ public class EventInformationFragment extends Fragment {
                     invited.add(snp.getKey());
                 }
 
-                amount.setText(String.format("%d people have been invited", invited.size()));
+                if (invited.size() == 1) {
+                    amount.setText(String.format("%d person has been invited", invited.size()));
+                } else {
+                    amount.setText(String.format("%d people have been invited", invited.size()));
+                }
                 showUsers();
             }
 

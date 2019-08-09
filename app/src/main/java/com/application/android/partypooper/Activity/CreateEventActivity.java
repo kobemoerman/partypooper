@@ -254,7 +254,6 @@ public class CreateEventActivity extends AppCompatActivity {
      * Adds the event to the invited users from the Firebase.
      */
     public void updateInvitedDataBase() {
-        mMembers.child(mUser.getUid()).setValue(false);
         refInvited.child(mUser.getUid()).child(eventID).setValue(false);
 
         mMembers.addListenerForSingleValueEvent(new ValueEventListener() {

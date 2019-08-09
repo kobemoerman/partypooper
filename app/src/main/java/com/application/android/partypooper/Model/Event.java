@@ -2,25 +2,35 @@ package com.application.android.partypooper.Model;
 
 public class Event {
 
-  private String date;
+  private String start_date;
+  private String end_date;
+  private String start_time;
+  private String end_time;
   private String description;
   private String host;
   private String host_username;
   private String imageURL;
-  private String location;
+  private String number;
+  private String street;
+  private String city;
   private String name;
   private String theme;
   private String time;
   private String time_stamp;
   private String date_stamp;
 
-  public Event(String date, String description, String host, String host_username, String imageURL, String location, String name, String theme, String time, String time_stamp, String date_stamp) {
-    this.date = date;
+  public Event(String start_date, String end_date, String start_time, String end_time, String description, String host, String host_username, String imageURL, String number, String street, String city, String name, String theme, String time, String time_stamp, String date_stamp) {
+    this.start_date = start_date;
+    this.end_date = end_date;
+    this.start_time = start_time;
+    this.end_time = end_time;
     this.description = description;
     this.host = host;
     this.host_username = host_username;
     this.imageURL = imageURL;
-    this.location = location;
+    this.number = number;
+    this.street = street;
+    this.city = city;
     this.name = name;
     this.theme = theme;
     this.time = time;
@@ -30,12 +40,36 @@ public class Event {
 
   public Event () {}
 
-  public String getDate() {
-    return date;
+  public String getStart_date() {
+    return start_date;
   }
 
-  public void setDate(String date) {
-    this.date = date;
+  public void setStart_date(String start_date) {
+    this.start_date = start_date;
+  }
+
+  public String getEnd_date() {
+    return end_date;
+  }
+
+  public void setEnd_date(String end_date) {
+    this.end_date = end_date;
+  }
+
+  public String getStart_time() {
+    return start_time;
+  }
+
+  public void setStart_time(String start_time) {
+    this.start_time = start_time;
+  }
+
+  public String getEnd_time() {
+    return end_time;
+  }
+
+  public void setEnd_time(String end_time) {
+    this.end_time = end_time;
   }
 
   public String getDescription() {
@@ -70,12 +104,28 @@ public class Event {
     this.imageURL = imageURL;
   }
 
-  public String getLocation() {
-    return location;
+  public String getNumber() {
+    return number;
   }
 
-  public void setLocation(String location) {
-    this.location = location;
+  public void setNumber(String number) {
+    this.number = number;
+  }
+
+  public String getStreet() {
+    return street;
+  }
+
+  public void setStreet(String street) {
+    this.street = street;
+  }
+
+  public String getCity() {
+    return city;
+  }
+
+  public void setCity(String city) {
+    this.city = city;
   }
 
   public String getName() {
@@ -116,9 +166,5 @@ public class Event {
 
   public void setDate_stamp(String date_stamp) {
     this.date_stamp = date_stamp;
-  }
-
-  public void debug() {
-    System.out.println("\""+date+"\", \""+host+"\", \""+location+"\", \""+name+"\", \""+ host_username +"\", \""+name+"\", \""+time+"\", \""+time_stamp+"\", \""+date_stamp+"\"");
   }
 }

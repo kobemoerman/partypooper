@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +21,8 @@ import com.application.android.partypooper.Fragment.EventInformationFragment;
 import com.application.android.partypooper.Model.Event;
 import com.application.android.partypooper.R;
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,7 +44,10 @@ public class EventActivity extends AppCompatActivity {
     private ImageView image;
 
     /** TextView to display event data */
-    private TextView name, date, host;
+    private TextView name, start_date, end_date, host;
+
+    /** These buttons are only visible by the event owner */
+    private Button edit, invite;
 
     /** Responsible for the tab layout */
     private TabLayout mTabLayout;
@@ -49,8 +55,26 @@ public class EventActivity extends AppCompatActivity {
     /** Wraps the height of the Pager to the highest child */
     private HeightWrappingViewPager mPager;
 
+    /** Firebase authentication */
+    private FirebaseAuth mAuth;
+
+    /** Firebase user */
+    private FirebaseUser mUser;
+
     /** Reference to the current event in Events */
     private DatabaseReference mEvent;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mUser = mAuth.getCurrentUser();
+
+        if (!mUser.getUid().equals(ID.substring(ID.lastIndexOf("?") + 1))) {
+            edit.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+            invite.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+        }
+    }
 
     /**
      * On create method of the activity.
@@ -73,14 +97,19 @@ public class EventActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         ID = Objects.requireNonNull(b).getString("id");
 
+        mAuth = FirebaseAuth.getInstance();
+
         mEvent = FirebaseDatabase.getInstance().getReference("Events").child(Objects.requireNonNull(ID));
 
         mPager = findViewById(R.id.event_view_pager);
         mTabLayout = findViewById(R.id.event_tab_layout);
         name = findViewById(R.id.event_name);
-        date = findViewById(R.id.event_date_time);
+        start_date = findViewById(R.id.event_start_date);
+        end_date = findViewById(R.id.event_end_date);
         host = findViewById(R.id.event_host);
         image = findViewById(R.id.event_image);
+        edit = findViewById(R.id.event_edit);
+        invite = findViewById(R.id.event_invite);
     }
 
     /**
@@ -91,18 +120,48 @@ public class EventActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 event = dataSnapshot.getValue(Event.class);
+                int month;
+                String year, day, hour, min, date;
 
-                String date_stamp = Objects.requireNonNull(event).getDate_stamp();
-                String year = date_stamp.substring(0, 4);
-                int month = Integer.parseInt(date_stamp.substring(4, 6));
-                String day = date_stamp.substring(6, 8);
-                String hour = date_stamp.substring(8, 10);
-                String min = date_stamp.substring(10, 12);
-                String date_str = day+" "+getMonth(month)+" "+year+", "+hour+":"+min;
+                String sdate = Objects.requireNonNull(event).getStart_date();
+                String stime = Objects.requireNonNull(event).getStart_time();
+
+                // date of the form dd/mm/yyyy
+                day = sdate.substring(0,2);
+                month = Integer.parseInt(sdate.substring(3,5));
+                year = sdate.substring(6,10);
+
+                // time of the form hh:mm
+                hour = stime.substring(0,2);
+                min = stime.substring(3,5);
+
+                // date of the form "dd mm yyyy, hh:mm"
+                date = day+" "+getMonth(month)+", "+hour+":"+min;
+                start_date.setText(date);
+
+                String edate = Objects.requireNonNull(event).getEnd_date();
+                String etime = Objects.requireNonNull(event).getEnd_time();
+
+                // date of the form dd/mm/yyyy
+                day = edate.substring(0,2);
+                month = Integer.parseInt(edate.substring(3,5));
+                year = edate.substring(6,10);
+
+                // time of the form hh:mm
+                hour = etime.substring(0,2);
+                min = etime.substring(3,5);
+
+                // date of the form "to dd mm yyyy, hh:mm"
+                date = "to " + day+" "+getMonth(month)+", "+hour+":"+min;
+                end_date.setText(date);
+
+                if (mUser.getUid().equals(event.getHost())) {
+                    host.setText(String.format("Hosting event", event.getHost_username()));
+                } else {
+                    host.setText(String.format("Invited by %s", event.getHost_username()));
+                }
 
                 name.setText(event.getName());
-                date.setText(date_str);
-                host.setText(String.format("Invited by %s", event.getHost_username()));
 
                 if (event.getImageURL() != null) Glide.with(getApplicationContext()).load(event.getImageURL()).into(image);
                 else Glide.with(getApplicationContext()).load(R.drawable.default_banner).into(image);
@@ -181,7 +240,7 @@ public class EventActivity extends AppCompatActivity {
      * @return All " " are replaced with "+", all "," are replaced with "%2C"
      */
     private String getLocationUri() {
-        String loc = event.getLocation().replaceAll(" ","+");
+        String loc = event.getNumber()+"+"+event.getStreet()+"+"+event.getCity();
 
         return loc.replaceAll(",","%2C");
     }
@@ -208,5 +267,15 @@ public class EventActivity extends AppCompatActivity {
      */
     public String getID() {
         return ID;
+    }
+
+    public void onClickEventEdit(View view) {
+
+    }
+
+    public void onClickEventInvite(View view) {
+        Intent activity = new Intent(getApplicationContext(), EditEventActivity.class);
+        activity.putExtra("id",event.getTime_stamp()+"?"+event.getHost());
+        startActivity(activity);
     }
 }
