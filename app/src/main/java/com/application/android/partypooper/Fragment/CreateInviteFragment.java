@@ -1,5 +1,6 @@
 package com.application.android.partypooper.Fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -71,6 +73,8 @@ public class CreateInviteFragment extends Fragment {
 
         navigationListener(back, new CreateInformationFragment(),"fragment/CreateInformation");
         navigationListener(next, new CreateRecommendationFragment(), "fragment/CreateInformation");
+
+        hideKeyboardListener(searchBar);
 
     	return view;
   	}
@@ -205,6 +209,29 @@ public class CreateInviteFragment extends Fragment {
 			public void onCancelled(@NonNull DatabaseError databaseError) {
 			}
 		});
+	}
+
+	/**
+	 * Calls @hideKeyboard when the users touches outside the edit text.
+	 */
+	private void hideKeyboardListener(EditText editText) {
+		editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (!hasFocus) {
+					hideKeyboard(v);
+				}
+			}
+		});
+	}
+
+	/**
+	 * Hides an open keyboard.
+	 * @param view of the activity
+	 */
+	public void hideKeyboard(View view) {
+		InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
 
 	/**

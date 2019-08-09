@@ -2,7 +2,10 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:clickable="true"
+    android:focusableInTouchMode="true">
 
     <TextView
         android:id="@+id/frag_create_recommendation"
@@ -57,6 +60,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:inputType="number"
+                    android:imeOptions="actionDone"
                     android:background="@android:color/transparent"
                     android:hint="0"
                     android:textSize="18sp"
@@ -66,23 +71,27 @@
 
             </RelativeLayout>
 
-            <EditText
-                android:id="@+id/frag_create_recommendation_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_gravity="center_vertical"
-                android:hint="What do you need?"
-                android:textSize="18sp"
-                android:maxLines="1"
-                android:background="@android:color/transparent"
-                />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="25dp">
+
+                <EditText
+                    android:id="@+id/frag_create_recommendation_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toStartOf="@+id/frag_create_recommendation_add"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
+                    android:hint="What do you need?"
+                    android:textSize="18sp"
+                    android:maxLines="1"
+                    android:maxLength="45"
+                    android:background="@android:color/transparent"
+                    />
 
                 <ImageView
                     android:id="@+id/frag_create_recommendation_add"

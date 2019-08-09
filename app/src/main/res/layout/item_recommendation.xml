@@ -27,6 +27,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:inputType="number"
+                android:imeOptions="actionDone"
                 android:hint="0"
                 android:textSize="18sp"
                 android:background="@android:color/transparent"

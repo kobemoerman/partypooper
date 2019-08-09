@@ -159,7 +159,6 @@ public class CreateInformationFragment extends Fragment implements Events {
         // event start date and time
         String start_time = act.getItem("start_time");
         String start_date = act.getItem("start_date");
-        System.out.println("update " + start_time + ":" + start_date);
         if (start_time != null && start_date != null) {
             setDate(Integer.parseInt(start_date.substring(0,2)),
                 Integer.parseInt(start_date.substring(3,5)), Integer.parseInt(start_date.substring(6,10)),
@@ -171,7 +170,6 @@ public class CreateInformationFragment extends Fragment implements Events {
         // event end date and time
         String end_time = act.getItem("end_time");
         String end_date = act.getItem("end_date");
-        System.out.println("update " + end_time + ":" + end_date);
         if (end_time != null && end_date != null) {
             setDate(Integer.parseInt(end_date.substring(0,2)),
                 Integer.parseInt(end_date.substring(3,5)), Integer.parseInt(end_date.substring(6,10)),
@@ -259,15 +257,6 @@ public class CreateInformationFragment extends Fragment implements Events {
               act.addItem("street", _street);
               act.addItem("city", _city);
               act.addItem("description", description.getText().toString());
-
-              String start_time = act.getItem("start_time");
-              String start_date = act.getItem("start_date");
-              System.out.println("update " + start_time + ":" + start_date);
-
-              // event end date and time
-              String end_time = act.getItem("end_time");
-              String end_date = act.getItem("end_date");
-              System.out.println("update " + end_time + ":" + end_date);
 
               act.updateFragment(frag,TAG);
           }
@@ -413,8 +402,6 @@ public class CreateInformationFragment extends Fragment implements Events {
 
         String date = day + "/" + month + "/" + year;
         String time = hour + ":" + minute;
-
-        System.out.println("set date " + date + "|" + time);
 
         if (type.equals(start_date)) {
             String date_stamp = year+month+day+hour+minute;

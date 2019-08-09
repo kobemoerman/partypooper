@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:inputType="textPersonName"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionSearch"
                 android:hint="Search"
                 android:background="@android:color/transparent"
                 />
