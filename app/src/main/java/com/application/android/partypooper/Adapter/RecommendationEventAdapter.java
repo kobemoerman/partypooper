@@ -136,7 +136,8 @@ public class RecommendationEventAdapter extends ListViewAdapter {
     private void removeItemListener(final String item, final int total, final TextView amountView) {
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { updateEventAmount(item,total,amountView,false);
+            public void onClick(View v) {
+                updateUserRecommendation(item,total,amountView,false);
             }
         });
     }
@@ -144,38 +145,13 @@ public class RecommendationEventAdapter extends ListViewAdapter {
     private void addItemListener(final String item, final int total, final TextView amountView) {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { updateEventAmount(item,total,amountView,true);
+            public void onClick(View v) {
+                updateUserRecommendation(item,total,amountView,true);
             }
         });
     }
 
-    private void updateEventAmount(final String item, final int total, final TextView amountView, final boolean add) {
-        refRecommendation.child(item).child("brought").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int amount = ((Long) dataSnapshot.getValue()).intValue();
-
-                updateUserAmount(item,total-amount,amountView,add);
-
-                if (amount < total && add) {
-                    amount++;
-                }
-
-                if (amount > 0 && !add) {
-                    amount--;
-                }
-
-                refRecommendation.child(item).child("brought").setValue(amount);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void updateUserAmount(final String item, final int total, final TextView amountView, final boolean add) {
+    private void updateUserRecommendation(final String item, final int total, final TextView amountView, final boolean add) {
         refBringing.child(item).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -185,16 +161,37 @@ public class RecommendationEventAdapter extends ListViewAdapter {
                     amount = ((Long) dataSnapshot.getValue()).intValue();
                 }
 
-                if (total > 0 && add) {
+                updateEventRecommendation(item,amount,total,amountView,add);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void updateEventRecommendation(final String item, final int itemAmount, final int total, final TextView amountView, final boolean add) {
+        refRecommendation.child(item).child("brought").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int amount = ((Long) dataSnapshot.getValue()).intValue();
+
+                System.out.println("Brought " + amount + " User amount " + itemAmount + " Total " + total);
+
+                if (amount < total && add) {
                     amount++;
+                    refBringing.child(item).setValue(itemAmount+1);
+                    refRecommendation.child(item).child("brought").setValue(amount);
+                    amountView.setText(String.valueOf(itemAmount+1));
                 }
 
-                if (amount > 0 && !add) {
+                if (amount > 0 && !add && itemAmount != 0) {
                     amount--;
+                    refBringing.child(item).setValue(itemAmount-1);
+                    refRecommendation.child(item).child("brought").setValue(amount);
+                    amountView.setText(String.valueOf(itemAmount-1));
                 }
-
-                refBringing.child(item).setValue(amount);
-                amountView.setText(String.valueOf(amount));
             }
 
             @Override

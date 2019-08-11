@@ -178,7 +178,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             else owner = "by " + e.getHost_username();
 
             host.setText(owner);
-            time.setText(e.getTime());
+            time.setText(e.getStart_time());
 
             if (e.getImageURL() != null) {
                 Glide.with(image.getContext()).load(e.getImageURL()).into(image);
