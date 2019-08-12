@@ -2,10 +2,12 @@ package com.application.android.partypooper.Adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.application.android.partypooper.Model.Recommendation;
@@ -25,10 +27,10 @@ public class RecommendationEventAdapter extends ListViewAdapter {
     private TextView itemView;
 
     /** Displays the amount Recommendation */
-    private TextView amountView;
+    private TextView userAmount, totalAmount;
 
     /** Turns green when the total of items has been reached */
-    private ImageView circle;
+    private LinearLayout layout;
 
     /** Icons responsible to add or remove a Recommendation */
     private ImageView remove, add;
@@ -76,23 +78,26 @@ public class RecommendationEventAdapter extends ListViewAdapter {
         // retrieve the display items
         add = view.findViewById(R.id.recommendation_event_add);
         remove = view.findViewById(R.id.recommendation_event_remove);
-        circle = view.findViewById(R.id.recommendation_event_circle);
+        userAmount = view.findViewById(R.id.recommendation_event_bring);
+        totalAmount = view.findViewById(R.id.recommendation_event_total);
         itemView = view.findViewById(R.id.recommendation_event_item);
-        amountView = view.findViewById(R.id.recommendation_event_amount);
+        layout = view.findViewById(R.id.recommendation_event_amount);
+
 
         // set the values for the view
         itemView.setText(item);
-        updateAmountDisplay(item,amount,amountView);
+        updateUserAmount(item,userAmount);
+        updateTotalAmount(item,totalAmount);
+        updateLayoutDisplay(item,userAmount);
 
         // listeners
-        addItemListener(item,amount,amountView);
-        removeItemListener(item,amount,amountView);
-        updateCircleDisplay(item, circle);
+        addItemListener(item,amount,userAmount);
+        removeItemListener(item,amount,userAmount);
 
         return view;
     }
 
-    private void updateCircleDisplay(String item, final ImageView c) {
+    private void updateLayoutDisplay(String item, final TextView c) {
         refRecommendation.child(item).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -100,9 +105,10 @@ public class RecommendationEventAdapter extends ListViewAdapter {
                 int total = ((Long) dataSnapshot.child("total").getValue()).intValue();
 
                 if (amount == total) {
-                    c.setImageResource(R.drawable.ic_circle_green);
+                    System.out.println("THEY'RE EQUAL YO LOOK " +amount + ":"+total);
+                    c.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
                 } else if (amount < total) {
-                    c.setImageResource(R.drawable.ic_circle_grey);
+                    c.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
                 }
             }
 
@@ -113,8 +119,24 @@ public class RecommendationEventAdapter extends ListViewAdapter {
         });
     }
 
-    private void updateAmountDisplay(final String item, final int total, final TextView amountView) {
-        refBringing.child(item).addListenerForSingleValueEvent(new ValueEventListener() {
+    private void updateTotalAmount(final String item, final TextView amountView) {
+        refRecommendation.child(item).child("total").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int amount = ((Long) Objects.requireNonNull(dataSnapshot.getValue())).intValue();
+
+                amountView.setText(String.valueOf(amount));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void updateUserAmount(final String item, final TextView amountView) {
+        refBringing.child(item).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int amount = 0;

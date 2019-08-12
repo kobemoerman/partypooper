@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,30 +10,51 @@
         android:layout_height="60dp"
         android:orientation="horizontal">
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
+            app:cardCornerRadius="5dp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="15dp">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center_vertical">
 
-            <ImageView
-                android:id="@+id/recommendation_event_circle"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_circle_grey"
-                android:layout_centerInParent="true"
-                />
-
-            <TextView
+            <LinearLayout
                 android:id="@+id/recommendation_event_amount"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="0"
-                android:textSize="18sp"
-                android:textColor="@color/white"
-                />
+                android:padding="7dp"
+                android:gravity="center"
+                android:background="@drawable/border_light"
+                android:orientation="horizontal">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/recommendation_event_bring"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="18sp"
+                    android:textColor="@color/green"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" / "
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    />
+
+                <TextView
+                    android:id="@+id/recommendation_event_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
 
         <TextView
             android:id="@+id/recommendation_event_item"
