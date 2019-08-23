@@ -1,13 +1,19 @@
 package com.application.android.partypooper.Activity;
 
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +22,7 @@ import android.widget.Toast;
 
 import com.application.android.partypooper.Adapter.HeightWrappingViewPager;
 import com.application.android.partypooper.Adapter.TabPageAdapter;
+import com.application.android.partypooper.Dialog.EditEventDialog;
 import com.application.android.partypooper.Fragment.EventRecommendationFragment;
 import com.application.android.partypooper.Fragment.EventInformationFragment;
 import com.application.android.partypooper.Model.Event;
@@ -46,8 +53,8 @@ public class EventActivity extends AppCompatActivity {
     /** TextView to display event data */
     private TextView name, start_date, end_date, host;
 
-    /** These buttons are only visible by the event owner */
-    private Button edit, invite;
+    /** View responsible to edit event information */
+    private ImageView edit;
 
     /** Responsible for the tab layout */
     private TabLayout mTabLayout;
@@ -71,8 +78,7 @@ public class EventActivity extends AppCompatActivity {
         mUser = mAuth.getCurrentUser();
 
         if (!mUser.getUid().equals(ID.substring(ID.lastIndexOf("?") + 1))) {
-            edit.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
-            invite.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+            edit.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -109,7 +115,6 @@ public class EventActivity extends AppCompatActivity {
         host = findViewById(R.id.event_host);
         image = findViewById(R.id.event_image);
         edit = findViewById(R.id.event_edit);
-        invite = findViewById(R.id.event_invite);
     }
 
     /**
@@ -269,15 +274,18 @@ public class EventActivity extends AppCompatActivity {
         return ID;
     }
 
-    public void onClickEventEdit(View view) {
-        Intent activity = new Intent(getApplicationContext(), EditEventActivity.class);
-        activity.putExtra("id",event.getTime_stamp()+"?"+event.getHost());
-        startActivity(activity);
-    }
+    public void onClickEditEvent(View view) {
+        Dialog d = new EditEventDialog(EventActivity.this, event);
+        d.setContentView(R.layout.dialog_edit_event);
+        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-    public void onClickEventInvite(View view) {
-        Intent activity = new Intent(getApplicationContext(), InviteEventActivity.class);
-        activity.putExtra("id",event.getTime_stamp()+"?"+event.getHost());
-        startActivity(activity);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.gravity = Gravity.TOP;
+
+        d.getWindow().setAttributes(lp);
+
+        if (!d.isShowing()) d.show();
     }
 }
