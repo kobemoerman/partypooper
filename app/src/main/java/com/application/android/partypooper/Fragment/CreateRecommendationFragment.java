@@ -77,7 +77,7 @@ public class CreateRecommendationFragment extends Fragment {
         amount = view.findViewById(R.id.frag_create_recommendation_amount);
 
         mAdapter = new RecommendationAdapter(getContext(),
-            R.layout.item_recommendation, act.getmRecommendations());
+            R.layout.item_recommendation, act.getmRecommendations(),act.getEventID(),false);
 
         list.setAdapter(mAdapter);
     }
@@ -94,7 +94,7 @@ public class CreateRecommendationFragment extends Fragment {
                 int a = Integer.parseInt(amount.getText().toString());
                 String i = item.getText().toString();
 
-                mAdapter.add(new Recommendation(a,i));
+                mAdapter.add(new Recommendation(0,a,i));
 
                 item.getText().clear();
                 amount.getText().clear();

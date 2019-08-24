@@ -1,6 +1,7 @@
 package com.application.android.partypooper.Adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -13,20 +14,37 @@ import android.widget.TextView;
 
 import com.application.android.partypooper.Model.Recommendation;
 import com.application.android.partypooper.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class RecommendationAdapter extends ListViewAdapter {
 
+    /** Determines if the owner is editing the event */
+    private boolean edit;
+
+    /** Reference to the event */
+    private String evendID;
+
     /** Displays the item Recommendation */
     private TextView itemView;
 
     /** Displays the amount Recommendation */
-    private EditText amountView;
+    private TextView amountView;
 
     /** Icon responsible to remove a Recommendation */
     private ImageView remove;
+
+    /** Firebase reference to all event recommendations */
+    private DatabaseReference refRecommendation;
+
+    /** Firebase reference to what all users bring */
+    private DatabaseReference refBring;
 
     /**
      * Base constructor.
@@ -35,8 +53,13 @@ public class RecommendationAdapter extends ListViewAdapter {
      * @param resource layout to be displayed inside the list view
      * @param items    list of items to be displayed
      */
-    public RecommendationAdapter(Context context, int resource, ArrayList<Recommendation> items) {
+    public RecommendationAdapter(Context context, int resource, ArrayList<Recommendation> items, String eventID, boolean edit) {
         super(context, resource, items);
+        this.edit = edit;
+        this.evendID = eventID;
+
+        refRecommendation = FirebaseDatabase.getInstance().getReference().child("Recommendation").child(eventID);
+        refBring = FirebaseDatabase.getInstance().getReference().child("Bringing");
     }
 
     /**
@@ -108,6 +131,28 @@ public class RecommendationAdapter extends ListViewAdapter {
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (edit) {
+                    final String item = getItem(position).getItem();
+
+                    refRecommendation.child(item).removeValue();
+
+                    refBring.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot sp : dataSnapshot.getChildren()) {
+                                String userID = String.valueOf(sp.getKey());
+
+                                refBring.child(userID).child(evendID).child(item).removeValue();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
                 remove(position);
             }
         });

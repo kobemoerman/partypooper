@@ -16,14 +16,17 @@ import com.application.android.partypooper.Model.Recommendation;
 import com.application.android.partypooper.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.FormatFlagsConversionMismatchException;
+import java.util.Map;
 
 public class EventRecommendationFragment extends Fragment {
 
@@ -41,9 +44,6 @@ public class EventRecommendationFragment extends Fragment {
 
     /** Adapter to display items in the list view */
     private RecommendationEventAdapter mAdapter;
-
-    /** Firebase reference to all event recommendations */
-    private DatabaseReference refRecommendation;
 
     /** Firebase authentication */
     private FirebaseAuth mAuth;
@@ -64,6 +64,8 @@ public class EventRecommendationFragment extends Fragment {
 
         initView(view);
 
+        queryRecommendationList();
+
         return view;
     }
 
@@ -79,9 +81,6 @@ public class EventRecommendationFragment extends Fragment {
         eventID = act.getID();
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-        refRecommendation = FirebaseDatabase.getInstance().getReference().child("Recommendation").child(eventID);
-
-        queryRecommendationList();
 
         list = view.findViewById(R.id.frag_event_recommendation_list_view);
         empty = view.findViewById(R.id.frag_event_recommendation_text);
@@ -94,17 +93,53 @@ public class EventRecommendationFragment extends Fragment {
      * Starts a query to retrieve all event recommendations.
      */
     private void queryRecommendationList() {
-        refRecommendation.addListenerForSingleValueEvent(new ValueEventListener() {
+        final DatabaseReference refRecom = FirebaseDatabase.getInstance().getReference().child("Recommendation").child(eventID);
+        final DatabaseReference refBring = FirebaseDatabase.getInstance().getReference().child("Bringing").child(mUser.getUid()).child(eventID);
+
+        refRecom.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot sp : dataSnapshot.getChildren()) {
-                    String item = sp.getKey();
-                    int amount = ((Long) sp.child("total").getValue()).intValue();
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                final String item = dataSnapshot.getKey();
+                Map<String, Object> amount = (Map<String, Object>) dataSnapshot.getValue();
 
-                    mAdapter.add(new Recommendation(amount,item));
-                }
+                final int total = ((Long) amount.get("total")).intValue();
 
-                isRecommendationsEmpty();
+                refBring.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        int brought = 0;
+
+                        if (dataSnapshot.child(item).exists()) {
+                            brought = ((Long) dataSnapshot.child(item).getValue()).intValue();
+                        } else {
+                            refBring.child(item).setValue(brought);
+                        }
+
+                        mAdapter.add(new Recommendation(brought,total,item));
+                        isRecommendationsEmpty();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                final String item = dataSnapshot.getKey();
+                mAdapter.removeItem(item);
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
             }
 
             @Override

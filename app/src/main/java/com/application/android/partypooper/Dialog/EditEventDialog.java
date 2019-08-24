@@ -5,12 +5,12 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.application.android.partypooper.Activity.EditEventActivity;
-import com.application.android.partypooper.Activity.InviteEventActivity;
+import com.application.android.partypooper.Activity.EditInviteActivity;
+import com.application.android.partypooper.Activity.EditRecommendationActivity;
 import com.application.android.partypooper.Model.Event;
 import com.application.android.partypooper.R;
 
@@ -82,12 +82,15 @@ public class EditEventDialog extends Dialog implements View.OnClickListener {
 
     private void openInviteFriends() {
         dismiss();
-        Intent activity = new Intent(c.getApplicationContext(), InviteEventActivity.class);
+        Intent activity = new Intent(c.getApplicationContext(), EditInviteActivity.class);
         activity.putExtra("id",event.getTime_stamp()+"?"+event.getHost());
         c.startActivity(activity);
     }
 
     private void openEditRecommendations() {
-
+        dismiss();
+        Intent activity = new Intent(c.getApplicationContext(), EditRecommendationActivity.class);
+        activity.putExtra("id",event.getTime_stamp()+"?"+event.getHost());
+        c.startActivity(activity);
     }
 }

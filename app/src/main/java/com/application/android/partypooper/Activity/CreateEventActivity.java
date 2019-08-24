@@ -277,7 +277,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private void updateRecommendationDatabase() {
         for (Recommendation r : mRecommendations) {
             refRecommendation.child(r.getItem()).child("total").setValue(r.getAmount());
-            refRecommendation.child(r.getItem()).child("brought").setValue(0);
+            refRecommendation.child(r.getItem()).child("brought").setValue(r.getBrought());
         }
     }
 
@@ -466,5 +466,13 @@ public class CreateEventActivity extends AppCompatActivity {
      */
     public void setUploading(boolean uploading) {
         this.uploading = uploading;
+    }
+
+    /**
+     * Returns the unique ID of the current event
+     * @return eventID
+     */
+    public String getEventID() {
+        return eventID;
     }
 }

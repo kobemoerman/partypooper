@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class InviteEventActivity extends AppCompatActivity {
+public class EditInviteActivity extends AppCompatActivity {
 
     /** ID of the event */
     private String eventID;

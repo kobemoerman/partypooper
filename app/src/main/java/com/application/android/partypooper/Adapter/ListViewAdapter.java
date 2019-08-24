@@ -68,6 +68,7 @@ public abstract class ListViewAdapter extends ArrayAdapter<Recommendation> {
             throw new IllegalArgumentException("Position is not valid");
         }
         mItems.remove(position);
+
         notifyDataSetChanged();
     }
 
@@ -84,5 +85,19 @@ public abstract class ListViewAdapter extends ArrayAdapter<Recommendation> {
         }
         mItems.add(item);
         notifyDataSetChanged();
+    }
+
+    public void removeItem(String item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Item to remove from the ListView is null");
+        }
+
+        for (Recommendation r : mItems) {
+            if (r.getItem().equals(item)) {
+                mItems.remove(getPosition(r));
+                notifyDataSetChanged();
+                return;
+            }
+        }
     }
 }

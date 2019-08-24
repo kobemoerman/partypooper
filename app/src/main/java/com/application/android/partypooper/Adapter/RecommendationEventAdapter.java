@@ -2,6 +2,7 @@ package com.application.android.partypooper.Adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.application.android.partypooper.Model.Recommendation;
 import com.application.android.partypooper.R;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -69,6 +71,7 @@ public class RecommendationEventAdapter extends ListViewAdapter {
     @Override
     public View getView(int pos, View view, ViewGroup parent) {
         final int amount = Objects.requireNonNull(getItem(pos)).getAmount();
+        final int brought = Objects.requireNonNull(getItem(pos)).getBrought();
         final String item = Objects.requireNonNull(getItem(pos)).getItem();
 
         // inflate the view
@@ -86,8 +89,8 @@ public class RecommendationEventAdapter extends ListViewAdapter {
 
         // set the values for the view
         itemView.setText(item);
-        updateUserAmount(item,userAmount);
-        updateTotalAmount(item,totalAmount);
+        totalAmount.setText(String.valueOf(amount));
+        userAmount.setText(String.valueOf(brought));
         updateLayoutDisplay(item,userAmount);
 
         // listeners
@@ -97,55 +100,20 @@ public class RecommendationEventAdapter extends ListViewAdapter {
         return view;
     }
 
-    private void updateLayoutDisplay(String item, final TextView c) {
+    private void updateLayoutDisplay(final String item, final TextView c) {
         refRecommendation.child(item).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int amount = ((Long) dataSnapshot.child("brought").getValue()).intValue();
+                if (dataSnapshot.child("brought").getValue() == null || dataSnapshot.child("total").getValue() == null) return;
+
+                int brought = ((Long) dataSnapshot.child("brought").getValue()).intValue();
                 int total = ((Long) dataSnapshot.child("total").getValue()).intValue();
 
-                if (amount == total) {
-                    System.out.println("THEY'RE EQUAL YO LOOK " +amount + ":"+total);
+                if (brought == total) {
                     c.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-                } else if (amount < total) {
+                } else if (brought < total) {
                     c.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void updateTotalAmount(final String item, final TextView amountView) {
-        refRecommendation.child(item).child("total").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int amount = ((Long) Objects.requireNonNull(dataSnapshot.getValue())).intValue();
-
-                amountView.setText(String.valueOf(amount));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void updateUserAmount(final String item, final TextView amountView) {
-        refBringing.child(item).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int amount = 0;
-
-                if (dataSnapshot.getValue() != null) {
-                    amount = ((Long) dataSnapshot.getValue()).intValue();
-                }
-
-                amountView.setText(String.valueOf(amount));
             }
 
             @Override
@@ -198,8 +166,6 @@ public class RecommendationEventAdapter extends ListViewAdapter {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int amount = ((Long) dataSnapshot.getValue()).intValue();
-
-                System.out.println("Brought " + amount + " User amount " + itemAmount + " Total " + total);
 
                 if (amount < total && add) {
                     amount++;
