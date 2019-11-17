@@ -34,7 +34,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends PortraitActivity {
 
     /** View button to register */
     private Button registerButton;

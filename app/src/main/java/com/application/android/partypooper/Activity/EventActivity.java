@@ -39,7 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DateFormatSymbols;
 import java.util.Objects;
 
-public class EventActivity extends AppCompatActivity {
+public class EventActivity extends PortraitActivity {
 
     /** ID of the event */
     private String ID;

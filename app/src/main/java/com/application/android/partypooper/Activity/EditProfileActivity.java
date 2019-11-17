@@ -45,7 +45,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class EditProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class EditProfileActivity extends PortraitActivity implements AdapterView.OnItemSelectedListener {
 
     /** Strings representing the username, status, and gender of the user */
     private String u, g, s;

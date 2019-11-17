@@ -49,7 +49,7 @@ import java.text.DateFormatSymbols;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class EditEventActivity extends AppCompatActivity {
+public class EditEventActivity extends PortraitActivity {
 
     /** ID of the event */
     private String eventID;

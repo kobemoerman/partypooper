@@ -35,7 +35,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class CreateEventActivity extends AppCompatActivity {
+public class CreateEventActivity extends PortraitActivity {
 
     /** Format used for the time stamp */
     private static final String FORMAT = "yyyy:MM:dd:hh:mm:ss";

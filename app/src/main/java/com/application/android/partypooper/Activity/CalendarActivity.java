@@ -27,7 +27,7 @@ import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalendarActivity extends AppCompatActivity implements CalendarAdapter.ItemClickListener {
+public class CalendarActivity extends PortraitActivity implements CalendarAdapter.ItemClickListener {
 
     private List<Section> mEvent;
 

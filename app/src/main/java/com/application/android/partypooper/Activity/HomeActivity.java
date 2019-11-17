@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.application.android.partypooper.Fragment.CalendarFragment;
 import com.application.android.partypooper.Fragment.CalendarTabFragment;
 import com.application.android.partypooper.Fragment.SearchFragment;
 import com.application.android.partypooper.Fragment.HomeFragment;
@@ -21,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends PortraitActivity {
 
     /** TAG of the current fragment */
     private String TAG = "home_frag";

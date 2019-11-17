@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class EditRecommendationActivity extends AppCompatActivity {
+public class EditRecommendationActivity extends PortraitActivity {
 
     /** Reference to the event */
     private String eventID;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.application.android.partypooper">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,13 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.EditRecommendationActivity"></activity>
+
+        <activity android:name=".Activity.EditRecommendationActivity" />
         <activity android:name=".Activity.EditEventActivity" />
         <activity android:name=".Activity.EditInviteActivity" />
         <activity android:name=".Activity.CalendarActivity" />
         <activity android:name=".Activity.FriendsActivity" />
         <activity android:name=".Activity.EventActivity" />
-        <activity android:name=".Activity.PlacesAutoCompleteActivity" />
         <activity android:name=".Activity.CreateEventActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
