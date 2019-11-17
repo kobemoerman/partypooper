@@ -115,12 +115,12 @@ public class HomeFragment extends Fragment {
         String text;
 
         switch (value) {
-            default: text="Thank you for rating PartyPooper 0 stars " +getEmojiByUnicode(0x1F62D); break;
             case 1: text="Thank you for rating PartyPooper 1 stars " +getEmojiByUnicode(0x1F628); break;
             case 2: text="Thank you for rating PartyPooper 2 stars " +getEmojiByUnicode(0x1F633); break;
             case 3: text="Thank you for rating PartyPooper 3 stars " +getEmojiByUnicode(0x1F60A); break;
             case 4: text="Thank you for rating PartyPooper 4 stars " +getEmojiByUnicode(0x1F60D); break;
             case 5: text="Thank you for rating PartyPooper 5 stars " +getEmojiByUnicode(0x1F496); break;
+            default: text="Thank you for rating PartyPooper 0 stars " +getEmojiByUnicode(0x1F62D); break;
         }
 
         return text;

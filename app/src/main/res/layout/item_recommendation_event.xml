@@ -60,13 +60,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="25dp">
+            android:layout_marginEnd="15dp">
 
             <TextView
                 android:id="@+id/recommendation_event_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@+id/recommendation_event_remove"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:text="Red Wine"
                 android:textColor="@color/black"
                 android:textSize="18sp"

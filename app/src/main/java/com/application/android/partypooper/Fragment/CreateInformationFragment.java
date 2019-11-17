@@ -235,7 +235,7 @@ public class CreateInformationFragment extends Fragment implements Events {
 
               if (next) {
                   if (_name.isEmpty()) {
-                      act.showMessage("Title is missing");
+                      act.showMessage("Please give your event a name");
                       return;
                   }
 
@@ -245,7 +245,7 @@ public class CreateInformationFragment extends Fragment implements Events {
                   }
 
                   if (_number.isEmpty() || _street.isEmpty() || _city.isEmpty()) {
-                      act.showMessage("Invalid address");
+                      act.showMessage("Your address is invalid");
                       return;
                   }
               }

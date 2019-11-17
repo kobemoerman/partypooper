@@ -33,7 +33,7 @@
         android:id="@+id/frag_create_separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:elevation="3dp"
+        android:elevation="1dp"
         android:layout_marginTop="25dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
