@@ -47,52 +47,53 @@
         android:layout_below="@id/friends_app_bar"
         />
 
-    <LinearLayout
-        android:id="@+id/friends_search_layout"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/friends_app_bar"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/button_background_light"
-        android:focusableInTouchMode="true"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_search"
-            android:alpha="0.6"
-            />
-
-        <EditText
-            android:id="@+id/friends_search_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/transparent"
-            android:hint="Search"
-            />
-
-    </LinearLayout>
-
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/friends_search_layout">
+        android:layout_below="@id/friends_app_bar">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true">
+
+            <LinearLayout
+                android:id="@+id/friends_search_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/button_background_light"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_search"
+                    android:alpha="0.6"
+                    />
+
+                <EditText
+                    android:id="@+id/friends_search_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:imeOptions="actionSearch"
+                    android:hint="Search"
+                    />
+
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/friends_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/friends_search_layout"
                 />
 
             <TextView

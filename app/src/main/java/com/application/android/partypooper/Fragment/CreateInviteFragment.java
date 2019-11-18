@@ -153,7 +153,7 @@ public class CreateInviteFragment extends Fragment {
 
 			@Override
 			public void onTextChanged(CharSequence string, int start, int before, int count) {
-				String s = string.toString().toLowerCase();
+				String s = string.toString();
 				Query custom = refFriends.orderByValue().startAt(s).endAt(s+"\uf8ff");
 				displayFriends(custom);
 			}

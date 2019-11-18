@@ -37,7 +37,7 @@ public class InvitedViewHolder extends RecyclerAdapter.ViewHolder {
         if (u.getImgURL() != null) {
             Glide.with(icon.getContext()).load(u.getImgURL()).into(icon);
         } else {
-            Glide.with(icon.getContext()).load(R.drawable.logo).into(icon);
+            Glide.with(icon.getContext()).load(R.drawable.default_logo).into(icon);
         }
     }
 }
