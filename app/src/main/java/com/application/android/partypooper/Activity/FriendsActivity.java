@@ -1,5 +1,6 @@
 package com.application.android.partypooper.Activity;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -67,6 +69,7 @@ public class FriendsActivity extends PortraitActivity {
 
         initView();
         friendUsersQueryDatabase();
+        hideKeyboardListener(searchBar);
     }
 
     /**
@@ -171,5 +174,28 @@ public class FriendsActivity extends PortraitActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    /**
+     * Calls @hideKeyboard when the users touches outside the edit text.
+     */
+    private void hideKeyboardListener(EditText editText) {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+    }
+
+    /**
+     * Hides an open keyboard.
+     * @param view of the activity
+     */
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/frag_search_search_layout"
+        android:id="@+id/frag_search_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp">
 
@@ -44,11 +44,11 @@
         </android.support.design.widget.AppBarLayout>
     </RelativeLayout>
 
-    <ImageView
+    <View
         android:id="@+id/frag_search_separator"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_below="@+id/frag_search_search_layout"
+        android:layout_below="@+id/frag_search_layout"
         android:background="@color/black_light"
     />
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -55,6 +56,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:clickable="true"
             android:focusableInTouchMode="true">
 
             <LinearLayout
@@ -82,9 +85,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@android:color/transparent"
+                    android:inputType="textPersonName"
                     android:imeOptions="actionSearch"
                     android:hint="Search"
+                    android:background="@android:color/transparent"
                     />
 
             </LinearLayout>

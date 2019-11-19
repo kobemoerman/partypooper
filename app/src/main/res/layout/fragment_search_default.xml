@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/frag_search_default_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/frag_search_default_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/windowBackground"
+            android:padding="10dp">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/frag_search_default_tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/button_background_light">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_search"
+                    android:alpha="0.5"
+                    />
+
+                <EditText
+                    android:id="@+id/frag_search_default_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:inputType="textPersonName"
+                    android:imeOptions="actionSearch"
+                    android:hint="Search"
+                    android:background="@android:color/transparent"
+                    />
+
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/frag_search_default_separator"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/frag_search_default_layout"
+        android:background="@color/black_light"
+        />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/frag_search_default_user_image"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="30dp"
+        android:layout_below="@id/frag_search_default_separator"
+        android:src="@drawable/ic_account_circle"
+        />
+
+    <LinearLayout
+        android:id="@+id/frag_search_default_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/frag_search_default_user_image"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="Search for friends using PartyPooper"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:text="and expand your parties"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/frag_search_default_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/frag_search_default_text"
+        android:orientation="horizontal">
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_share"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Share PartyPooper!"
+            android:textColor="@color/black_dark"
+            android:textSize="15sp"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

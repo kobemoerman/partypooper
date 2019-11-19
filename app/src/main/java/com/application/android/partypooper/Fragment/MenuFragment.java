@@ -84,7 +84,7 @@ public class MenuFragment extends Fragment {
         bSettings = view.findViewById(R.id.frag_menu_settings);
         bLogOut = view.findViewById(R.id.frag_menu_log_out);
 
-        Glide.with(act.getApplicationContext()).load(R.drawable.logo).into(logo);
+        Glide.with(act.getApplicationContext()).load(R.drawable.default_logo).into(logo);
     }
 
     /**

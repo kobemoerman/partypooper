@@ -92,6 +92,7 @@ public class SearchFragment extends Fragment {
 
         available = view.findViewById(R.id.frag_search_no_users);
         searchBar = view.findViewById(R.id.frag_search_search_bar);
+        searchBar.requestFocus();
 
         mAdapter = new SearchAdapter(getContext(),new ArrayList<User>());
         recyclerView.setAdapter(mAdapter);

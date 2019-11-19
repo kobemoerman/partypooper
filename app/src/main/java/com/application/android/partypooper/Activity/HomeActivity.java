@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.application.android.partypooper.Fragment.CalendarTabFragment;
+import com.application.android.partypooper.Fragment.SearchDefaultFragment;
 import com.application.android.partypooper.Fragment.SearchFragment;
 import com.application.android.partypooper.Fragment.HomeFragment;
 import com.application.android.partypooper.Fragment.MenuFragment;
@@ -93,7 +94,7 @@ public class HomeActivity extends PortraitActivity {
                         break;
                     case R.id.nav_search:
                         if (!TAG.equals("search_frag")) {
-                            updateFragment(new SearchFragment());
+                            updateFragment(new SearchDefaultFragment());
                             TAG = "search_frag";
                         }
                         break;
@@ -193,7 +194,7 @@ public class HomeActivity extends PortraitActivity {
      * Replace the current fragment with the one to be displayed.
      * @param selected fragment to be displayed
      */
-    private void updateFragment(Fragment selected) {
+    public void updateFragment(Fragment selected) {
         getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, selected).commit();
     }
 
