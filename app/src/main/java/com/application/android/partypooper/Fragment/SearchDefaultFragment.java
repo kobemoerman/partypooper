@@ -1,5 +1,6 @@
 package com.application.android.partypooper.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.application.android.partypooper.Activity.HomeActivity;
 import com.application.android.partypooper.Adapter.InvitedAdapter;
@@ -39,8 +42,11 @@ public class SearchDefaultFragment extends Fragment {
     /** Edit Text to search users */
     private EditText searchBar;
 
-    /** Image view for the user profile picture and logo*/
+    /** Image view for the user profile picture and logo */
     private ImageView userImage;
+
+    /** Share the application */
+    private LinearLayout shareLayout;
 
     /** Recycler View to display friends */
     private RecyclerView recyclerView;
@@ -76,6 +82,7 @@ public class SearchDefaultFragment extends Fragment {
         displayFriends();
         updateUserData();
         searchBarListener();
+        shareLayoutListener();
 
         return view;
     }
@@ -95,6 +102,7 @@ public class SearchDefaultFragment extends Fragment {
 
         userImage = view.findViewById(R.id.frag_search_default_user_image);
         searchBar = view.findViewById(R.id.frag_search_default_bar);
+        shareLayout = view.findViewById(R.id.frag_search_default_share);
 
         recyclerView = view.findViewById(R.id.frag_search_default_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -112,6 +120,21 @@ public class SearchDefaultFragment extends Fragment {
                 if (hasFocus) {
                     act.updateFragment(new SearchFragment());
                 }
+            }
+        });
+    }
+
+    private void shareLayoutListener() {
+        shareLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "PartyPooper Application");
+                String message = "\nLet me recommend you this application *Your app link* \n\n";
+
+                i.putExtra(Intent.EXTRA_TEXT, message);
+                startActivity(Intent.createChooser(i, "Share with:"));
             }
         });
     }

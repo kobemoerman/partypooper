@@ -255,7 +255,13 @@ public class EventActivity extends PortraitActivity {
      * @param view fragment_event_information
      */
     public void onClickShareEvent(View view) {
-        showMessage("You shared PartyPooper!");
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_SUBJECT, "PartyPooper Application");
+        String message = "\nLet me recommend you this application *Your app link* \n\n";
+
+        i.putExtra(Intent.EXTRA_TEXT, message);
+        startActivity(Intent.createChooser(i, "Share with:"));
     }
 
     /**
