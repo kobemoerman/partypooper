@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_white">
 
     <RelativeLayout
         android:id="@+id/frag_search_default_layout"
@@ -52,30 +53,72 @@
         android:background="@color/black_light"
         />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/frag_search_default_user_image"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+    <RelativeLayout
+        android:id="@+id/frag_search_default_image_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="30dp"
-        android:layout_below="@id/frag_search_default_separator"
-        android:src="@drawable/ic_account_circle"
-        />
+        android:layout_below="@id/frag_search_default_separator">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/frag_search_default_user_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_account_circle"
+            />
+
+        <ImageView
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/circle_red"
+            />
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/circle_orange"
+            />
+
+        <ImageView
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/circle_yellow"
+            />
+
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/circle_green"
+            />
+
+        <ImageView
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/circle_blue"
+            />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/frag_search_default_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/frag_search_default_user_image"
+        android:layout_below="@id/frag_search_default_image_layout"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
             android:text="Search for friends using PartyPooper"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -86,7 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
-            android:text="and expand your parties"
+            android:text="to expand your parties"
             android:textColor="@color/black"
             android:textSize="18sp"
             />
