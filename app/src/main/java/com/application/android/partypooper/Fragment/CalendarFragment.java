@@ -1,5 +1,9 @@
 package com.application.android.partypooper.Fragment;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -166,6 +170,9 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.ItemCl
                                 mEvent.add(new Section(event,1));
                                 index++;
                             }
+                            if (type) {
+                                createNotification(event.getName(), event.getDate_stamp());
+                            }
                         }
                     }
                 }
@@ -187,6 +194,31 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.ItemCl
         String item = event.getDate_stamp().substring(0,8);
 
         return !header.equals(item);
+    }
+
+    private void createNotification (String name, String date) {
+        System.out.println("Creating a notification for " + name);
+        int year = Integer.parseInt(date.substring(0,4));
+        int month = Integer.parseInt(date.substring(4,6));
+        int day = Integer.parseInt(date.substring(6,8));
+        int hour = Integer.parseInt(date.substring(8,10));
+        int min = Integer.parseInt(date.substring(10,12));
+
+        System.out.println(day + " " + month + " " + year + " at " + hour + ":" + min);
+
+        AlarmManager mAlarm = (AlarmManager) act.getSystemService(Context.ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year,month,day,hour,min,0);
+        calendar.add(Calendar.HOUR_OF_DAY, -4);
+
+        System.out.println("Notification at time: " + calendar.getTime() + " / " + calendar.getTimeInMillis());
+
+        Intent intent = new Intent("partypooper.DISPLAY_NOTIFICATION");
+        intent.putExtra("eventName", name);
+        intent.putExtra("eventDate", hour+":"+min);
+        PendingIntent broadcast = PendingIntent.getBroadcast(getContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        mAlarm.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), broadcast);
     }
 
     /**
