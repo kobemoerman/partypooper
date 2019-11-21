@@ -37,13 +37,7 @@
             </intent-filter>
         </activity>
         
-        <receiver android:name=".Notification.NotificationReceiver">
-            <intent-filter>
-                <action android:name="partypooper.DISPLAY_NOTIFICATION"/>
-                <action android:name="partypooper.eventName"/>
-                <action android:name="partypooper.eventTime"/>
-            </intent-filter>
-        </receiver>
+        <receiver android:name=".Notification.NotificationReceiver" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

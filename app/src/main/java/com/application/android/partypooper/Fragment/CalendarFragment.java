@@ -20,6 +20,7 @@ import com.application.android.partypooper.Adapter.CalendarAdapter;
 import com.application.android.partypooper.Adapter.CalendarDecoration;
 import com.application.android.partypooper.Model.Section;
 import com.application.android.partypooper.Model.Event;
+import com.application.android.partypooper.Notification.NotificationReceiver;
 import com.application.android.partypooper.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -171,7 +172,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.ItemCl
                                 index++;
                             }
                             if (type) {
-                                createNotification(event.getName(), event.getDate_stamp());
+                                createNotification(event.getName(), event.getDate_stamp(), index);
                             }
                         }
                     }
@@ -196,29 +197,27 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.ItemCl
         return !header.equals(item);
     }
 
-    private void createNotification (String name, String date) {
-        System.out.println("Creating a notification for " + name);
+    private void createNotification (String name, String date, int ID) {
         int year = Integer.parseInt(date.substring(0,4));
         int month = Integer.parseInt(date.substring(4,6));
         int day = Integer.parseInt(date.substring(6,8));
         int hour = Integer.parseInt(date.substring(8,10));
         int min = Integer.parseInt(date.substring(10,12));
 
-        System.out.println(day + " " + month + " " + year + " at " + hour + ":" + min);
-
-        AlarmManager mAlarm = (AlarmManager) act.getSystemService(Context.ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.set(year,month,day,hour,min,0);
         calendar.add(Calendar.HOUR_OF_DAY, -4);
 
         System.out.println("Notification at time: " + calendar.getTime() + " / " + calendar.getTimeInMillis());
 
-        Intent intent = new Intent("partypooper.DISPLAY_NOTIFICATION");
+        AlarmManager mAlarm = (AlarmManager) act.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getContext(),NotificationReceiver.class);
         intent.putExtra("eventName", name);
-        intent.putExtra("eventDate", hour+":"+min);
-        PendingIntent broadcast = PendingIntent.getBroadcast(getContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        intent.putExtra("eventDate", hour+":"+ (min<10?"0"+min:min));
+        intent.putExtra("ID", ID);
+        PendingIntent pending = PendingIntent.getBroadcast(getContext(), ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        mAlarm.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), broadcast);
+        mAlarm.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
     }
 
     /**
