@@ -29,6 +29,9 @@ import java.util.List;
 
 public class CalendarActivity extends PortraitActivity implements CalendarAdapter.ItemClickListener {
 
+    /** Number of items to be displayed inside the recycler view */
+    private int LIMIT = 20;
+
     private List<Section> mEvent;
 
     private List<String> mMember;
@@ -51,6 +54,7 @@ public class CalendarActivity extends PortraitActivity implements CalendarAdapte
         setContentView(R.layout.activity_calendar);
 
         initView();
+        recyclerScrollListener();
         queryEvents();
     }
 
@@ -86,6 +90,23 @@ public class CalendarActivity extends PortraitActivity implements CalendarAdapte
     }
 
     /**
+     * Increases the value of LIMIT once the bottom of the view has been reached.
+     */
+    private void recyclerScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                // The user cannot scroll down anymore
+                if (!recyclerView.canScrollVertically(1)) {
+                    LIMIT+=20;
+                }
+            }
+        });
+    }
+
+    /**
      * Creates a query to retrieve all events of the user.
      */
     private void queryEvents() {
@@ -111,7 +132,7 @@ public class CalendarActivity extends PortraitActivity implements CalendarAdapte
      */
     private void showEvents() {
         Query events = FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("date_stamp");
-        events.addListenerForSingleValueEvent(new ValueEventListener() {
+        events.limitToFirst(LIMIT).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int index = 0;

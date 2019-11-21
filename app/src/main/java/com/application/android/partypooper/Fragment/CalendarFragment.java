@@ -37,6 +37,9 @@ import java.util.List;
 
 public class CalendarFragment extends Fragment implements CalendarAdapter.ItemClickListener {
 
+    /** Number of items to be displayed inside the recycler view */
+    private int LIMIT = 20;
+
     /** Reference to the Home Activity */
     private HomeActivity act;
 
@@ -74,6 +77,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.ItemCl
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
         initView(view);
+        recyclerScrollListener();
         queryEvents();
 
         return view;
@@ -117,6 +121,22 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.ItemCl
         act.onClickLaunchEvent(id);
     }
 
+    /**
+     * Increases the value of LIMIT once the bottom of the view has been reached.
+     */
+    private void recyclerScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                // The user cannot scroll down anymore
+                if (!recyclerView.canScrollVertically(1)) {
+                    LIMIT+=20;
+                }
+            }
+        });
+    }
 
     /**
      * Creates a query to retrieve all events of the user.
@@ -152,7 +172,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.ItemCl
             users = users.endAt(date_stamp);
         }
 
-        users.addValueEventListener(new ValueEventListener() {
+        users.limitToFirst(LIMIT).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int index = 0;
@@ -208,13 +228,13 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.ItemCl
         calendar.set(year,month,day,hour,min,0);
         calendar.add(Calendar.HOUR_OF_DAY, -4);
 
-        System.out.println("Notification at time: " + calendar.getTime() + " / " + calendar.getTimeInMillis());
-
         AlarmManager mAlarm = (AlarmManager) act.getSystemService(Context.ALARM_SERVICE);
+
         Intent intent = new Intent(getContext(),NotificationReceiver.class);
         intent.putExtra("eventName", name);
         intent.putExtra("eventDate", hour+":"+ (min<10?"0"+min:min));
         intent.putExtra("ID", ID);
+
         PendingIntent pending = PendingIntent.getBroadcast(getContext(), ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         mAlarm.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);

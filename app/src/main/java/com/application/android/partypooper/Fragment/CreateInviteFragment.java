@@ -26,6 +26,9 @@ import java.util.List;
 
 public class CreateInviteFragment extends Fragment {
 
+	/** Number of items to be displayed in the recycler view */
+	private int LIMIT = 20;
+
 	/** TAG reference of this fragment */
 	private final static String TAG = "fragment/CreateInvite";
 
@@ -68,6 +71,7 @@ public class CreateInviteFragment extends Fragment {
     	View view = inflater.inflate(R.layout.fragment_create_invite, container, false);
 
     	initView(view);
+    	recyclerScrollListener();
         inviteUsersQueryDatabase();
         itemClickListener();
 
@@ -117,6 +121,23 @@ public class CreateInviteFragment extends Fragment {
         }
       });
     }
+
+	/**
+	 * Increases the value of LIMIT once the bottom of the view has been reached.
+	 */
+	private void recyclerScrollListener() {
+		recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+				super.onScrollStateChanged(recyclerView, newState);
+
+				// The user cannot scroll down anymore
+				if (!recyclerView.canScrollVertically(1)) {
+					LIMIT+=20;
+				}
+			}
+		});
+	}
 
 	/**
 	 * Update the data in the Members DataBaseReference.
@@ -169,7 +190,7 @@ public class CreateInviteFragment extends Fragment {
    * @param ref query to retrieve the list of friends
    */
 	private void displayFriends(Query ref) {
-		ref.addListenerForSingleValueEvent(new ValueEventListener() {
+		ref.limitToFirst(LIMIT).addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				mFriends.clear();

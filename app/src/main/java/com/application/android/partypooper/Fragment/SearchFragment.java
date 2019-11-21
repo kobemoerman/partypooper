@@ -32,7 +32,7 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
 
-    /** Number of users to be displayed in the recycler view */
+    /** Number of items to be displayed in the recycler view */
     private int LIMIT = 20;
 
     /** Reference to the Home Activity */

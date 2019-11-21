@@ -30,6 +30,9 @@ import java.util.Objects;
 
 public class EditInviteActivity extends PortraitActivity {
 
+    /** Number of items to be displayed in the recycler view */
+    private int LIMIT = 20;
+
     /** ID of the event */
     private String eventID;
 
@@ -68,6 +71,7 @@ public class EditInviteActivity extends PortraitActivity {
         initView();
 
         inviteUsersQueryDatabase();
+        recyclerScrollListener();
         itemClickListener();
         hideKeyboardListener(searchBar);
     }
@@ -130,6 +134,23 @@ public class EditInviteActivity extends PortraitActivity {
     }
 
     /**
+     * Increases the value of LIMIT once the bottom of the view has been reached.
+     */
+    private void recyclerScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                // The user cannot scroll down anymore
+                if (!recyclerView.canScrollVertically(1)) {
+                    LIMIT+=20;
+                }
+            }
+        });
+    }
+
+    /**
      * Populate the Recycler View depending on the query.
      */
     private void inviteUsersQueryDatabase() {
@@ -179,7 +200,7 @@ public class EditInviteActivity extends PortraitActivity {
      */
     private void showUsers() {
         Query users = refUsers.orderByChild("username");
-        users.addListenerForSingleValueEvent(new ValueEventListener() {
+        users.limitToFirst(LIMIT).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mAdapter.clear();

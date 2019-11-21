@@ -31,6 +31,9 @@ import java.util.List;
 
 public class FriendsActivity extends PortraitActivity {
 
+    /** Number of items to be displayed in the recycler view */
+    private int LIMIT = 20;
+
     /** List of all the user's friends */
     private List<String> mFriends;
 
@@ -68,6 +71,7 @@ public class FriendsActivity extends PortraitActivity {
         setContentView(R.layout.activity_friends);
 
         initView();
+        recyclerScrollListener();
         friendUsersQueryDatabase();
         hideKeyboardListener(searchBar);
     }
@@ -103,6 +107,23 @@ public class FriendsActivity extends PortraitActivity {
     }
 
     /**
+     * Increases the value of LIMIT once the bottom of the view has been reached.
+     */
+    private void recyclerScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                // The user cannot scroll down anymore
+                if (!recyclerView.canScrollVertically(1)) {
+                    LIMIT+=20;
+                }
+            }
+        });
+    }
+
+    /**
      * Populate the Recycler View depending on the query.
      */
     private void friendUsersQueryDatabase() {
@@ -131,7 +152,7 @@ public class FriendsActivity extends PortraitActivity {
      * @param ref query to retrieve the list of friends
      */
     private void displayFriends(Query ref) {
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.limitToFirst(LIMIT).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 long friends = dataSnapshot.getChildrenCount();
