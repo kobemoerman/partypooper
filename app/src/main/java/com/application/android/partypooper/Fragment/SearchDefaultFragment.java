@@ -139,7 +139,7 @@ public class SearchDefaultFragment extends Fragment {
     }
 
     private void updateUserData() {
-        refUserInfo.addValueEventListener(new ValueEventListener() {
+        refUserInfo.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
